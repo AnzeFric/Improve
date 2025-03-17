@@ -20,7 +20,7 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome Back!</Text>
+      <Text style={styles.title}>Welcome back!</Text>
       <Text style={styles.subtitle}>Log in to continue your journey.</Text>
 
       <View style={styles.contentContainer}>

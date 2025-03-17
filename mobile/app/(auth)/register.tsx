@@ -22,7 +22,9 @@ export default function LoginScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Improve!</Text>
+      <Text style={styles.title}>
+        Welcome to <Text style={{ color: "#4a90e2" }}>Improve</Text>!
+      </Text>
       <Text style={styles.subtitle}>Embark on a new chapter in your life.</Text>
 
       <View style={styles.contentContainer}>

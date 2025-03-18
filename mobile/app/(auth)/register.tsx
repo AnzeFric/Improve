@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   View,
   Text,
@@ -8,39 +7,22 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { API_DEVELOPMENT_IP } from "@env";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function RegisterScreen() {
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [secureText, setSecureText] = useState<boolean>(true);
-
-  const handleRegisterPress = async () => {
-    try {
-      const response = await fetch(
-        `http://${API_DEVELOPMENT_IP}:8080/api/auth/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username,
-            email: email,
-            password: password,
-          }),
-        }
-      );
-
-      if (response.ok) {
-        router.push("/(auth)/login");
-      }
-    } catch (error) {
-      console.error("Register error:", error);
-    }
-  };
+  const {
+    username,
+    email,
+    password,
+    confirmPassword,
+    secureText,
+    setUsername,
+    setEmail,
+    setPassword,
+    setConfirmPassword,
+    setSecureText,
+    handleRegister,
+  } = useAuth();
 
   return (
     <View style={styles.container}>
@@ -98,7 +80,7 @@ export default function RegisterScreen() {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleRegisterPress}>
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 

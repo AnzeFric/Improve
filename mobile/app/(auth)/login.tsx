@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   View,
   Text,
@@ -8,35 +7,18 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { API_DEVELOPMENT_IP } from "@env";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginScreen() {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [secureText, setSecureText] = useState<boolean>(true);
-
-  const handleLoginPress = async () => {
-    try {
-      const response = await fetch(
-        `http://${API_DEVELOPMENT_IP}:8080/api/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-          }),
-        }
-      );
-      if (response.ok) {
-        router.push("/(tabs)");
-      }
-    } catch (error) {
-      console.error("Login error:", error);
-    }
-  };
+  const {
+    email,
+    password,
+    secureText,
+    setEmail,
+    setPassword,
+    setSecureText,
+    handleLogin,
+  } = useAuth();
 
   return (
     <View style={styles.container}>
@@ -73,7 +55,7 @@ export default function LoginScreen() {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleLoginPress}>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
 

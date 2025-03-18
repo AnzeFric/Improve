@@ -8,16 +8,38 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { API_DEVELOPMENT_IP } from "@env";
 
-export default function LoginScreen() {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [securePassword, setSecurePassword] = useState(true);
+export default function RegisterScreen() {
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [secureText, setSecureText] = useState<boolean>(true);
 
-  const handlePress = () => {
-    console.log("Register pressed");
+  const handleRegisterPress = async () => {
+    try {
+      const response = await fetch(
+        `http://${API_DEVELOPMENT_IP}:8080/api/auth/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        router.push("/(auth)/login");
+      }
+    } catch (error) {
+      console.error("Register error:", error);
+    }
   };
 
   return (
@@ -53,12 +75,12 @@ export default function LoginScreen() {
             placeholder="Password"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry={securePassword}
+            secureTextEntry={secureText}
             autoCapitalize="none"
           />
-          <TouchableOpacity onPress={() => setSecurePassword(!securePassword)}>
+          <TouchableOpacity onPress={() => setSecureText(!secureText)}>
             <Ionicons
-              name={securePassword ? "eye-off" : "eye"}
+              name={secureText ? "eye-off" : "eye"}
               size={20}
               color="#888"
             />
@@ -76,7 +98,7 @@ export default function LoginScreen() {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handlePress}>
+      <TouchableOpacity style={styles.button} onPress={handleRegisterPress}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
 

@@ -1,4 +1,4 @@
-package com.example.anzefric.improve.improve;
+package com.example.anzefric.improve;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

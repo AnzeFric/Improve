@@ -1,4 +1,4 @@
-package com.example.anzefric.improve.improve;
+package com.example.anzefric.improve;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

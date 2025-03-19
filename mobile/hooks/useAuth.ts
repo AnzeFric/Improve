@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
-import { API_DEVELOPMENT_IP } from "@env";
+import { API_DEVELOPMENT_IP, API_PORT } from "@env";
 
 export function useAuth() {
   const [username, setUsername] = useState("");
@@ -24,7 +24,7 @@ export function useAuth() {
   const handleRegister = async () => {
     try {
       const response = await fetch(
-        `http://${API_DEVELOPMENT_IP}:8080/api/auth/register`,
+        `http://${API_DEVELOPMENT_IP}:${API_PORT}/api/auth/register`,
         {
           method: "POST",
           headers: {

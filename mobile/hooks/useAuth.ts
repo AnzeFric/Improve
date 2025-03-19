@@ -1,8 +1,10 @@
 import { useState, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
 import { API_DEVELOPMENT_IP, API_PORT } from "@env";
+import useAuthStore from "@/stores/useAuthStore";
 
 export function useAuth() {
+  const { setIsLoggined } = useAuthStore();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -62,6 +64,7 @@ export function useAuth() {
         }
       );
       if (response.ok) {
+        setIsLoggined(true);
         router.push("/(tabs)");
       }
     } catch (error) {

@@ -1,5 +1,12 @@
 import { Redirect } from "expo-router";
+import useAuthStore from "@/stores/useAuthStore";
 
 export default function EntryScreen() {
-  return <Redirect href={"/(auth)/login"} />;
+  const { isLoggined } = useAuthStore();
+
+  return isLoggined ? (
+    <Redirect href={"/(tabs)"} />
+  ) : (
+    <Redirect href={"/(auth)/login"} />
+  );
 }

@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
 import { API_DEVELOPMENT_IP } from "@env";
 
-function useAuth() {
+export function useAuth() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -84,5 +84,3 @@ function useAuth() {
     handleLogin,
   };
 }
-
-export { useAuth };

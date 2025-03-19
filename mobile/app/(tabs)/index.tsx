@@ -1,7 +1,8 @@
-import { Text, View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView } from "react-native";
 import TitleRow from "@/components/TitleRow";
-import { Colors } from "@/constants/Colors";
 import StartNewWorkout from "@/components/home/StartNewWorkout";
+import DailyStreak from "@/components/home/DailyStreak";
+import MostRecentWorkout from "@/components/home/MostRecentWorkout";
 
 export default function HomeScreen() {
   return (
@@ -12,8 +13,12 @@ export default function HomeScreen() {
           <View style={styles.itemContainer}>
             <StartNewWorkout recommendText={"We recommend push day!"} />
           </View>
-          <Text>Day streak</Text>
-          <Text>Most recent workout</Text>
+          <View style={styles.itemContainer}>
+            <DailyStreak numStreak={5} />
+          </View>
+          <View style={styles.itemContainer}>
+            <MostRecentWorkout />
+          </View>
         </View>
       </ScrollView>
     </View>
@@ -24,7 +29,7 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-    gap: 10,
+    gap: 15,
   },
   itemContainer: {
     borderRadius: 12,

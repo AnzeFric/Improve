@@ -2,22 +2,22 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import TitleRow from "@/components/TitleRow";
 import StartNewWorkout from "@/components/home/StartNewWorkout";
 import DailyStreak from "@/components/home/DailyStreak";
-import MostRecentWorkout from "@/components/home/MostRecentWorkout";
+import MostRecentWorkout from "@/components/home/MostRecentWorkout/MostRecentWorkout";
 
 export default function HomeScreen() {
   return (
     <View>
-      <TitleRow title={"Home"} hasBackButton={false} />
       <ScrollView>
-        <View style={styles.container}>
+        <TitleRow title={"Home"} hasBackButton={false} />
+        <View style={styles.contentContainer}>
           <View style={styles.itemContainer}>
-            <StartNewWorkout recommendText={"We recommend push day!"} />
+            <MostRecentWorkout />
+          </View>
+          <View style={styles.itemContainer}>
+            <StartNewWorkout recommendWorkout={"Push day"} />
           </View>
           <View style={styles.itemContainer}>
             <DailyStreak numStreak={5} />
-          </View>
-          <View style={styles.itemContainer}>
-            <MostRecentWorkout />
           </View>
         </View>
       </ScrollView>
@@ -26,9 +26,9 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  contentContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 20,
     gap: 15,
   },
   itemContainer: {

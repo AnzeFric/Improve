@@ -2,6 +2,8 @@ import { Text, View, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Colors } from "@/constants/Colors";
+import { LinearGradient } from "expo-linear-gradient";
+
 interface Props {
   title: string;
   hasBackButton: boolean;
@@ -10,7 +12,13 @@ interface Props {
 
 export default function TitleRow({ title, hasBackButton, menuButton }: Props) {
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      colors={["#4A90E2", "#3e78c3", "#315ea0", "#2c4869"]}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 0 }}
+      locations={[0.4, 0.59, 0.78, 1]} // Match stops from CSS
+      style={styles.container}
+    >
       {hasBackButton && (
         <Ionicons
           name={"arrow-back"}
@@ -25,17 +33,16 @@ export default function TitleRow({ title, hasBackButton, menuButton }: Props) {
         {title}
       </Text>
       {menuButton && <View>{menuButton}</View>}
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     flexDirection: "row",
     backgroundColor: Colors.light.specialBlue,
     paddingHorizontal: 20,
-    paddingVertical: 8,
+    paddingVertical: 10,
   },
   backArrow: {
     alignSelf: "center",

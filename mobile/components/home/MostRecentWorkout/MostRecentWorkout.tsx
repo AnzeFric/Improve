@@ -1,0 +1,147 @@
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
+import { Colors } from "@/constants/Colors";
+import { Workout } from "@/interfaces/workout";
+import WorkoutDisplay from "./WorkoutDisplay";
+import { Ionicons } from "@expo/vector-icons";
+import { formatDate } from "@/constants/Utils";
+
+const fakeWorkout: Workout = {
+  name: "Pull day",
+  date: new Date(),
+  exercises: [
+    {
+      name: "Biceps curl",
+      numSets: 3,
+      sets: [
+        {
+          rep: 2,
+          weight: 14,
+        },
+        {
+          rep: 5,
+          weight: 18,
+        },
+        {
+          rep: 3,
+          weight: 20,
+        },
+      ],
+    },
+    {
+      name: "Lat pulldown",
+      numSets: 5,
+      sets: [
+        {
+          rep: 2,
+          weight: 20,
+        },
+        {
+          rep: 2,
+          weight: 40,
+        },
+        {
+          rep: 3,
+          weight: 60,
+        },
+        {
+          rep: 5,
+          weight: 60,
+        },
+        {
+          rep: 8,
+          weight: 50,
+        },
+      ],
+    },
+  ],
+};
+
+export default function MostRecentWorkout() {
+  const [recentWorkout, setRecentWorkout] = useState(fakeWorkout);
+
+  useEffect(() => {
+    // Load recent workout from api
+  }, []);
+
+  const handlePress = () => {
+    console.log("Redo recent workout click");
+  };
+
+  return (
+    <View>
+      <View style={styles.headerContainer}>
+        <Ionicons style={styles.icon} name={"barbell"} size={24} />
+
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Most Recent Workout</Text>
+
+          <View style={styles.workoutTitleContainer}>
+            <Text style={styles.workoutName}>{recentWorkout.name}</Text>
+            <Text style={styles.workoutDate}>
+              {formatDate(recentWorkout.date)}
+            </Text>
+          </View>
+        </View>
+      </View>
+
+      <WorkoutDisplay workout={recentWorkout} />
+
+      <TouchableOpacity style={styles.button} onPress={handlePress}>
+        <Text style={styles.buttonText}>Redo workout</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  headerContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
+  },
+  icon: {
+    borderRadius: 32,
+    backgroundColor: Colors.light.underlayOrange,
+    padding: 12,
+  },
+  titleContainer: {
+    flex: 1,
+  },
+  title: {
+    fontSize: 20,
+    color: "#4b5462",
+  },
+  workoutTitleContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  workoutName: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#333333",
+  },
+  workoutDate: {
+    fontSize: 14,
+    backgroundColor: Colors.light.underlayOrange,
+    color: "#333333",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  button: {
+    backgroundColor: Colors.light.specialBlue,
+    borderRadius: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+  },
+  buttonText: {
+    fontSize: 17,
+    color: "#ffffff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+});

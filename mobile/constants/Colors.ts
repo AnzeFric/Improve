@@ -11,6 +11,7 @@ export const Colors = {
     specialBlue: "#4a90e2",
     underlayOrange: "#ffecd4",
     inactiveIcon: "#C0C0C0",
+    destructiveRed: "#E24A4A",
 
     text: "#11181C",
     background: "#fff",

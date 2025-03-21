@@ -72,6 +72,11 @@ export function useAuth() {
     }
   };
 
+  const handleLogout = () => {
+    setIsLoggined(false);
+    router.replace("/(auth)/login");
+  };
+
   return {
     username,
     setUsername,
@@ -85,5 +90,6 @@ export function useAuth() {
     setSecureText,
     handleRegister,
     handleLogin,
+    handleLogout,
   };
 }

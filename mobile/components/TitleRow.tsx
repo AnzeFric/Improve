@@ -25,7 +25,7 @@ export default function TitleRow({ title, hasBackButton, menuButton }: Props) {
           size={28}
           style={styles.backArrow}
           onPress={() => {
-            router.back;
+            router.back();
           }}
         />
       )}

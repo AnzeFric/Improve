@@ -1,12 +1,22 @@
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { useState } from "react";
 import TitleRow from "@/components/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
+import { User } from "@/interfaces/user";
+
+const fakeUser: User = {
+  firstName: "Anže",
+  lastName: "Fric",
+  age: 22,
+  weight: 96,
+};
 
 export default function SettingsScreen() {
   const { handleLogout, handleDelete } = useAuth();
+  const [user, setUser] = useState<User>(fakeUser);
 
   return (
     <View style={styles.container}>
@@ -19,8 +29,12 @@ export default function SettingsScreen() {
             size={64}
             color={Colors.light.specialBlue}
           />
-          <Text style={styles.profileName}>Anže Fric</Text>
-          <Text style={styles.profileDetails}>96 kg · 22 years old</Text>
+          <Text style={styles.profileName}>
+            {user.firstName} {user.lastName}
+          </Text>
+          <Text style={styles.profileDetails}>
+            {user.weight} kg · {user.age} years old
+          </Text>
           <View style={styles.bmiContainer}>
             <Text style={styles.bmiText}>28.5kg/m² (Overweight)</Text>
             <Text style={styles.bmiNote}>

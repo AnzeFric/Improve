@@ -2,7 +2,6 @@ package com.anzefric.improve.model;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -10,20 +9,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Profile {
     @Id
     private String id;
 
     @NonNull
-    private String firstName;
+    private String userId;
 
-    @NonNull
-    private String lastName;
+    private int age;
 
-    @NonNull
-    @Indexed(unique = true)
-    private String email;
-
-    @NonNull
-    private String password;
+    private double weight;
 }

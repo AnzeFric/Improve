@@ -29,27 +29,28 @@ export default function LoginScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder={"Email"}
             value={email}
             onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
+            keyboardType={"email-address"}
+            autoCapitalize={"none"}
           />
         </View>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Password"
+            placeholder={"Password"}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={secureText}
-            autoCapitalize="none"
+            autoCapitalize={"none"}
+            autoComplete={"off"}
           />
           <TouchableOpacity onPress={() => setSecureText(!secureText)}>
             <Ionicons
               name={secureText ? "eye-off" : "eye"}
               size={20}
-              color="#888"
+              color={"#888"}
             />
           </TouchableOpacity>
         </View>

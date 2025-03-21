@@ -8,6 +8,7 @@ import {
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
+import { Colors } from "@/constants/Colors";
 
 export default function RegisterScreen() {
   const {
@@ -29,7 +30,7 @@ export default function RegisterScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>
-        Welcome to <Text style={{ color: "#4a90e2" }}>Improve</Text>!
+        Welcome to <Text style={styles.colorText}>Improve</Text>!
       </Text>
       <Text style={styles.subtitle}>Embark on a new chapter in your life.</Text>
 
@@ -37,7 +38,7 @@ export default function RegisterScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="First name"
+            placeholder={"First name"}
             value={firstName}
             onChangeText={setFirstName}
             autoCapitalize={"words"}
@@ -46,7 +47,7 @@ export default function RegisterScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Last name"
+            placeholder={"Last name"}
             value={lastName}
             onChangeText={setLastName}
             autoCapitalize={"words"}
@@ -55,38 +56,40 @@ export default function RegisterScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Email"
+            placeholder={"Email"}
             value={email}
             onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
+            keyboardType={"email-address"}
+            autoCapitalize={"none"}
           />
         </View>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Password"
+            placeholder={"Password"}
             value={password}
             onChangeText={setPassword}
             secureTextEntry={secureText}
-            autoCapitalize="none"
+            autoCapitalize={"none"}
+            autoComplete={"off"}
           />
           <TouchableOpacity onPress={() => setSecureText(!secureText)}>
             <Ionicons
               name={secureText ? "eye-off" : "eye"}
               size={20}
-              color="#888"
+              color={"#888"}
             />
           </TouchableOpacity>
         </View>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Confirm password"
+            placeholder={"Confirm password"}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             secureTextEntry={true}
-            autoCapitalize="none"
+            autoCapitalize={"none"}
+            autoComplete={"off"}
           />
         </View>
       </View>
@@ -114,6 +117,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     marginBottom: 10,
+  },
+  colorText: {
+    color: Colors.light.specialBlue,
   },
   subtitle: {
     fontSize: 16,

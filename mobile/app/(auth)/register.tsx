@@ -11,12 +11,14 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function RegisterScreen() {
   const {
-    username,
+    firstName,
+    lastName,
     email,
     password,
     confirmPassword,
     secureText,
-    setUsername,
+    setFirstName,
+    setLastName,
     setEmail,
     setPassword,
     setConfirmPassword,
@@ -35,9 +37,18 @@ export default function RegisterScreen() {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Username"
-            value={username}
-            onChangeText={setUsername}
+            placeholder="First name"
+            value={firstName}
+            onChangeText={setFirstName}
+            autoCapitalize={"words"}
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Last name"
+            value={lastName}
+            onChangeText={setLastName}
             autoCapitalize={"words"}
           />
         </View>

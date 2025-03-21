@@ -5,7 +5,8 @@ import useAuthStore from "@/stores/useAuthStore";
 
 export function useAuth() {
   const { setIsLoggined } = useAuthStore();
-  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -14,7 +15,8 @@ export function useAuth() {
   useFocusEffect(
     useCallback(() => {
       return () => {
-        setUsername("");
+        setFirstName("");
+        setLastName("");
         setEmail("");
         setPassword("");
         setConfirmPassword("");
@@ -33,7 +35,8 @@ export function useAuth() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            username: username,
+            firstName: firstName,
+            lastName: lastName,
             email: email,
             password: password,
           }),
@@ -83,8 +86,10 @@ export function useAuth() {
   };
 
   return {
-    username,
-    setUsername,
+    firstName,
+    setFirstName,
+    lastName,
+    setLastName,
     email,
     setEmail,
     password,

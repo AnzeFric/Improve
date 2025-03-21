@@ -16,7 +16,7 @@ export default function TitleRow({ title, hasBackButton, menuButton }: Props) {
       colors={["#4A90E2", "#3e78c3", "#315ea0", "#2c4869"]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
-      locations={[0.4, 0.59, 0.78, 1]} // Match stops from CSS
+      locations={[0.4, 0.59, 0.78, 1]} // Color stops
       style={styles.container}
     >
       {hasBackButton && (
@@ -32,7 +32,7 @@ export default function TitleRow({ title, hasBackButton, menuButton }: Props) {
       <Text style={[styles.titleText, hasBackButton && { paddingLeft: 40 }]}>
         {title}
       </Text>
-      {menuButton && <View>{menuButton}</View>}
+      {menuButton && <View style={styles.menuIcon}>{menuButton}</View>}
     </LinearGradient>
   );
 }
@@ -53,5 +53,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     flex: 1,
     color: "#FFFFFF",
+  },
+  menuIcon: {
+    justifyContent: "center",
   },
 });

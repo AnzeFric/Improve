@@ -1,5 +1,4 @@
-import { View } from "react-native";
-import { Tabs } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import React from "react";
 import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,6 +6,8 @@ import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
 export default function TabLayout() {
+  const pathName = usePathname();
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Tabs
@@ -35,7 +36,15 @@ export default function TabLayout() {
           options={{
             title: "Home",
             tabBarIcon: ({ color }) => (
-              <Ionicons name={"home"} size={28} color={color} />
+              <Ionicons
+                name={"home"}
+                size={28}
+                color={
+                  pathName.startsWith("/settings")
+                    ? Colors.light.specialBlue
+                    : color
+                }
+              />
             ),
           }}
         />
@@ -55,6 +64,13 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => (
               <Ionicons name={"chatbubbles"} size={28} color={color} />
             ),
+          }}
+        />
+        <Tabs.Screen
+          name="settings"
+          options={{
+            title: "Settings",
+            href: null,
           }}
         />
       </Tabs>

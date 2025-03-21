@@ -3,9 +3,10 @@ import TitleRow from "@/components/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
+import { router } from "expo-router";
 
 export default function SettingsScreen() {
-  const { handleLogout } = useAuth();
+  const { handleLogout, handleDelete } = useAuth();
 
   return (
     <View style={styles.container}>
@@ -32,12 +33,20 @@ export default function SettingsScreen() {
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <Text style={styles.logoutText}>Logout</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              router.push("/(tabs)/settings/terms");
+            }}
+          >
             <Text style={styles.buttonText}>Terms & Conditions</Text>
           </TouchableOpacity>
 
           <View style={styles.deleteButtonContainer}>
-            <TouchableOpacity style={styles.deleteButton}>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={handleDelete}
+            >
               <Text style={styles.buttonText}>Delete Account</Text>
             </TouchableOpacity>
           </View>

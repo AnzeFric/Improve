@@ -74,7 +74,12 @@ export function useAuth() {
 
   const handleLogout = () => {
     setIsLoggined(false);
-    router.replace("/(auth)/login");
+    router.replace("/(auth)/login"); // Using replace to prevent returning with hardware back button
+  };
+
+  // Function to delete current user account
+  const handleDelete = () => {
+    console.log("Account delete clicked");
   };
 
   return {
@@ -91,5 +96,6 @@ export function useAuth() {
     handleRegister,
     handleLogin,
     handleLogout,
+    handleDelete,
   };
 }

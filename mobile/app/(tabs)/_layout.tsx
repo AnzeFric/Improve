@@ -67,9 +67,23 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="settings"
+          name="settings/index"
           options={{
             title: "Settings",
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="settings/terms/index"
+          options={{
+            title: "TermsAndConditions",
+            href: null,
+          }}
+        />
+        <Tabs.Screen
+          name="settings/terms/detail/[id]"
+          options={{
+            title: "TermsAndConditionsDetail",
             href: null,
           }}
         />

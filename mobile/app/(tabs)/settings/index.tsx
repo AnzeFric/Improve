@@ -1,22 +1,39 @@
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TitleRow from "@/components/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
-import { User } from "@/interfaces/user";
+import { User, Profile } from "@/interfaces/user";
+import ProfileDisplay from "@/components/settings/ProfileDisplay";
+import ProfileCreate from "@/components/settings/ProfileCreate";
+import useProfileStore from "@/stores/useProfileStore";
 
 const fakeUser: User = {
+  id: "123f1d21d12d",
   firstName: "Anže",
   lastName: "Fric",
   age: 22,
   weight: 96,
 };
 
+const fakeProfile: Profile = {
+  userId: "21312412dsadad",
+  age: 22,
+  weight: 96,
+  height: 183.5,
+};
+
 export default function SettingsScreen() {
   const { handleLogout, handleDelete } = useAuth();
   const [user, setUser] = useState<User>(fakeUser);
+  const { profile, setProfile } = useProfileStore();
+
+  useEffect(() => {
+    // Get user
+    // Get profile with user id
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -32,15 +49,12 @@ export default function SettingsScreen() {
           <Text style={styles.profileName}>
             {user.firstName} {user.lastName}
           </Text>
-          <Text style={styles.profileDetails}>
-            {user.weight} kg · {user.age} years old
-          </Text>
-          <View style={styles.bmiContainer}>
-            <Text style={styles.bmiText}>28.5kg/m² (Overweight)</Text>
-            <Text style={styles.bmiNote}>
-              Note: BMI is not always accurate, especially for athletes.
-            </Text>
-          </View>
+
+          {profile ? (
+            <ProfileDisplay profile={profile} />
+          ) : (
+            <ProfileCreate userId={user.id} setProfile={setProfile} />
+          )}
         </View>
 
         <View style={styles.buttonsContainer}>
@@ -96,29 +110,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     marginTop: 10,
-  },
-  profileDetails: {
-    fontSize: 16,
-    color: "#666",
-    marginBottom: 8,
-  },
-  bmiContainer: {
-    backgroundColor: "#f1f6ff",
-    borderRadius: 10,
-    padding: 12,
-    marginTop: 10,
-    alignItems: "center",
-  },
-  bmiText: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: Colors.light.specialBlue,
-  },
-  bmiNote: {
-    fontSize: 13,
-    color: "#666",
-    textAlign: "center",
-    marginTop: 5,
   },
   buttonsContainer: {
     gap: 15,

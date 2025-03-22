@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
-import { API_DEVELOPMENT_IP, API_PORT } from "@env";
 import useAuthStore from "@/stores/useAuthStore";
+import Config from "react-native-config";
 
 export function useAuth() {
   const { setIsLoggined } = useAuthStore();
@@ -28,7 +28,7 @@ export function useAuth() {
   const handleRegister = async () => {
     try {
       const response = await fetch(
-        `http://${API_DEVELOPMENT_IP}:${API_PORT}/api/auth/register`,
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/auth/register`,
         {
           method: "POST",
           headers: {
@@ -54,7 +54,7 @@ export function useAuth() {
   const handleLogin = async () => {
     try {
       const response = await fetch(
-        `http://${API_DEVELOPMENT_IP}:8080/api/auth/login`,
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/auth/login`,
         {
           method: "POST",
           headers: {

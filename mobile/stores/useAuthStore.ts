@@ -3,6 +3,9 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import EncryptedStorage from "react-native-encrypted-storage";
 
 interface AuthStore {
+  userId: string | null;
+  setUserId: (userId: string) => void;
+
   jwtKey: string | null;
   setJwtKey: (jwtKey: string | null) => void; // For later implementation, also add logout to set jwt to null
 
@@ -13,8 +16,12 @@ interface AuthStore {
 const useAuthStore = create(
   persist<AuthStore>(
     (set) => ({
+      userId: null,
       jwtKey: null,
       isLoggined: false,
+      setUserId: async (userId: string) => {
+        set({ userId: userId });
+      },
       setJwtKey: async (jwtKey: string | null) => {
         set({ jwtKey: jwtKey });
       },

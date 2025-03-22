@@ -7,34 +7,26 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { Profile } from "@/interfaces/user";
 import { Colors } from "@/constants/Colors";
+import { useProfile } from "@/hooks/useProfile";
 
 interface Props {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
-  userId: string;
-  setProfile: (profile: Profile) => void;
 }
 
-export default function ModalProfileCreate({
-  isVisible,
-  setIsVisible,
-  userId,
-  setProfile,
-}: Props) {
+export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
+  const { saveProfile } = useProfile();
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
 
   const handleSave = () => {
-    const newProfile: Profile = {
-      userId: userId,
-      age: age ? parseInt(age) : undefined,
-      weight: weight ? parseFloat(weight) : undefined,
-      height: height ? parseFloat(height) : undefined,
-    };
-    setProfile(newProfile);
+    const intAge = parseInt(age);
+    const intWeight = parseFloat(weight);
+    const intHeight = parseFloat(height);
+
+    saveProfile(intAge, intWeight, intHeight);
     setIsVisible(false);
   };
 

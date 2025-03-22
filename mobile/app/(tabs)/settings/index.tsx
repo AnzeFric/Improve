@@ -5,7 +5,7 @@ import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
-import { User, Profile } from "@/interfaces/user";
+import { User } from "@/interfaces/user";
 import ProfileDisplay from "@/components/settings/ProfileDisplay";
 import ProfileCreate from "@/components/settings/ProfileCreate";
 import useProfileStore from "@/stores/useProfileStore";
@@ -18,17 +18,10 @@ const fakeUser: User = {
   weight: 96,
 };
 
-const fakeProfile: Profile = {
-  userId: "21312412dsadad",
-  age: 22,
-  weight: 96,
-  height: 183.5,
-};
-
 export default function SettingsScreen() {
   const { handleLogout, handleDelete } = useAuth();
   const [user, setUser] = useState<User>(fakeUser);
-  const { profile, setProfile } = useProfileStore();
+  const { profile } = useProfileStore();
 
   useEffect(() => {
     // Get user
@@ -50,11 +43,7 @@ export default function SettingsScreen() {
             {user.firstName} {user.lastName}
           </Text>
 
-          {profile ? (
-            <ProfileDisplay profile={profile} />
-          ) : (
-            <ProfileCreate userId={user.id} setProfile={setProfile} />
-          )}
+          {profile ? <ProfileDisplay profile={profile} /> : <ProfileCreate />}
         </View>
 
         <View style={styles.buttonsContainer}>

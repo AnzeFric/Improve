@@ -1,12 +1,18 @@
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
-import { useState, useEffect } from "react";
+import {
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
+import { useState } from "react";
 import TitleRow from "@/components/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
 import { User } from "@/interfaces/user";
-import ProfileDisplay from "@/components/settings/ProfileDisplay";
+import ProfileDisplay from "@/components/settings/profile/ProfileDisplay";
 import ProfileCreate from "@/components/settings/ProfileCreate";
 import useProfileStore from "@/stores/useProfileStore";
 
@@ -23,13 +29,8 @@ export default function SettingsScreen() {
   const [user, setUser] = useState<User>(fakeUser);
   const { profile } = useProfileStore();
 
-  useEffect(() => {
-    // Get user
-    // Get profile with user id
-  }, []);
-
   return (
-    <View style={styles.container}>
+    <ScrollView>
       <TitleRow title="Settings" hasBackButton={true} />
 
       <View style={styles.contentContainer}>
@@ -69,18 +70,14 @@ export default function SettingsScreen() {
           </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   contentContainer: {
     paddingHorizontal: 20,
     paddingTop: 15,
-    flex: 1,
   },
   profileCard: {
     backgroundColor: "#fff",
@@ -102,7 +99,6 @@ const styles = StyleSheet.create({
   },
   buttonsContainer: {
     gap: 15,
-    flex: 1,
   },
   button: {
     backgroundColor: Colors.light.specialBlue,
@@ -125,7 +121,6 @@ const styles = StyleSheet.create({
     color: Colors.light.destructiveRed,
   },
   deleteButtonContainer: {
-    flex: 1,
     justifyContent: "flex-end",
     paddingBottom: 20,
   },

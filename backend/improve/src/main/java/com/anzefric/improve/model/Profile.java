@@ -21,4 +21,6 @@ public class Profile {
     private int age;
 
     private double weight;
+
+    private double height;
 }

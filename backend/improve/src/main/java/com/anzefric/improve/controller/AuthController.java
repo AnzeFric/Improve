@@ -28,17 +28,22 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> credentials) {
         try {
             String email = credentials.get("email");
             String password = credentials.get("password");
-            
+
             if (email == null || password == null) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email and password are required");
             }
-            
+
             User user = authService.login(email, password);
-            return ResponseEntity.ok(user);
+
+            Map<String, Object> response = Map.of(
+                "userId", user.getId()
+            );
+
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }

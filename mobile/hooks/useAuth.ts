@@ -4,7 +4,7 @@ import useAuthStore from "@/stores/useAuthStore";
 import Config from "react-native-config";
 
 export function useAuth() {
-  const { setIsLoggined } = useAuthStore();
+  const { setIsLoggined, setUserId } = useAuthStore();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -66,7 +66,10 @@ export function useAuth() {
           }),
         }
       );
+
       if (response.ok) {
+        const data = await response.json();
+        setUserId(data.userId);
         setIsLoggined(true);
         router.push("/(tabs)");
       }
@@ -76,6 +79,7 @@ export function useAuth() {
   };
 
   const handleLogout = () => {
+    setUserId("");
     setIsLoggined(false);
     router.replace("/(auth)/login"); // Using replace to prevent returning with hardware back button
   };

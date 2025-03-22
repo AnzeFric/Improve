@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Modal,
   View,
@@ -7,6 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import { useState, useCallback } from "react";
+import { useFocusEffect } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { useProfile } from "@/hooks/useProfile";
 
@@ -16,18 +17,32 @@ interface Props {
 }
 
 export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
-  const { saveProfile } = useProfile();
+  const { handleSaveProfile } = useProfile();
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState("");
   const [height, setHeight] = useState("");
+
+  // Clear input after unfocus
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setAge("");
+        setWeight("");
+        setHeight("");
+      };
+    }, [])
+  );
 
   const handleSave = () => {
     const intAge = parseInt(age);
     const intWeight = parseFloat(weight);
     const intHeight = parseFloat(height);
 
-    saveProfile(intAge, intWeight, intHeight);
-    setIsVisible(false);
+    handleSaveProfile(intAge, intWeight, intHeight).then((response) => {
+      if (response) {
+        setIsVisible(false);
+      }
+    });
   };
 
   return (

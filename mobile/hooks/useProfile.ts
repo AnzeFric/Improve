@@ -41,7 +41,34 @@ export function useProfile() {
     }
   };
 
+  const handleGetProfile = async () => {
+    try {
+      const response = await fetch(
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/profile/${userId}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const profile = await response.json();
+        setProfile(profile);
+        return profile;
+      } else {
+        console.log("Failed to fetch profile:", response.status);
+        return null;
+      }
+    } catch (error) {
+      console.error("Error while fetching profile:", error);
+      return null;
+    }
+  };
+
   return {
     handleSaveProfile,
+    handleGetProfile,
   };
 }

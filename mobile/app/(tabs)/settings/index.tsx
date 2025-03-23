@@ -5,7 +5,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TitleRow from "@/components/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,6 +15,7 @@ import { User } from "@/interfaces/user";
 import ProfileDisplay from "@/components/settings/profile/ProfileDisplay";
 import ProfileCreate from "@/components/settings/ProfileCreate";
 import useProfileStore from "@/stores/useProfileStore";
+import { useProfile } from "@/hooks/useProfile";
 
 const fakeUser: User = {
   id: "123f1d21d12d",
@@ -28,6 +29,13 @@ export default function SettingsScreen() {
   const { handleLogout, handleDelete } = useAuth();
   const [user, setUser] = useState<User>(fakeUser);
   const { profile } = useProfileStore();
+  const { handleGetProfile } = useProfile();
+
+  useEffect(() => {
+    if (!profile) {
+      handleGetProfile();
+    }
+  }, [profile]);
 
   return (
     <ScrollView>

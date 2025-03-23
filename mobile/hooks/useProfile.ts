@@ -34,6 +34,8 @@ export function useProfile() {
       if (response.ok) {
         setProfile(newProfile);
         return true;
+      } else {
+        return false;
       }
     } catch (error) {
       console.error("Error while saving profile:", error);
@@ -67,8 +69,34 @@ export function useProfile() {
     }
   };
 
+  const handleDeleteProfile = async () => {
+    try {
+      const response = await fetch(
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/profile/delete/${userId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        setProfile(null);
+        return true;
+      } else {
+        console.log("Failed to delete profile:", response.status);
+        return false;
+      }
+    } catch (error) {
+      console.error("Error while deleting profile: ", error);
+      return false;
+    }
+  };
+
   return {
     handleSaveProfile,
     handleGetProfile,
+    handleDeleteProfile,
   };
 }

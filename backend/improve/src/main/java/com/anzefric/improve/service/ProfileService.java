@@ -22,11 +22,20 @@ public class ProfileService {
     }
 
     public Profile getProfileByUserId(String userId) {
-        // Check if the user already has a profile
+        // Check if the user has a profile
         Optional<Profile> profile = profileRepository.findByUserId(userId);
         if (!profile.isPresent()) {
             throw new RuntimeException("Profile for this user does not exist!");
         }
         return profile.get();
-    }    
+    }  
+    
+    public void deleteProfile(String userId) {
+        // Check if the user has a profile
+        Optional<Profile> profile = profileRepository.findByUserId(userId);
+        if(!profile.isPresent()) {
+            throw new RuntimeException("Profile for this user does not exist!");
+        }
+        profileRepository.delete(profile.get());
+    }
 }

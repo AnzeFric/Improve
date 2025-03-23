@@ -5,14 +5,14 @@ import { Profile } from "@/interfaces/user";
 
 interface ProfileStore {
   profile: Profile | null;
-  setProfile: (profile: Profile) => void;
+  setProfile: (profile: Profile | null) => void;
 }
 
 const useProfileStore = create(
   persist<ProfileStore>(
     (set) => ({
       profile: null,
-      setProfile: async (profile: Profile) => {
+      setProfile: async (profile: Profile | null) => {
         set({
           profile: profile,
         });

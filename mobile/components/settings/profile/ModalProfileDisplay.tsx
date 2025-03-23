@@ -1,6 +1,7 @@
 import { Text, View, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
+import { useProfile } from "@/hooks/useProfile";
 
 interface Props {
   isVisible: boolean;
@@ -11,6 +12,7 @@ export default function ModalProfileDisplay({
   isVisible,
   setIsVisible,
 }: Props) {
+  const { handleDeleteProfile } = useProfile();
   return (
     <Modal
       animationType="slide"
@@ -37,7 +39,10 @@ export default function ModalProfileDisplay({
               <Text style={styles.editText}>Edit Profile</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.modalButton}>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleDeleteProfile}
+            >
               <Ionicons
                 name="trash-outline"
                 size={20}

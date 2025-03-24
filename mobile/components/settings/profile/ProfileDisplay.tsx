@@ -35,7 +35,8 @@ export default function ProfileDisplay({ profile }: Props) {
       </View>
 
       <View style={styles.statContainer}>
-        {profile.age && (
+        {/* When using conditional rendering it gives an error (&&) */}
+        {profile.age ? (
           <>
             <View style={styles.statItem}>
               <Text style={styles.statValue}>{profile.age}</Text>
@@ -43,6 +44,8 @@ export default function ProfileDisplay({ profile }: Props) {
             </View>
             <View style={styles.divider} />
           </>
+        ) : (
+          <></>
         )}
         <View style={styles.statItem}>
           <Text style={styles.statValue}>{profile.height}</Text>

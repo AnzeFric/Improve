@@ -13,9 +13,13 @@ export function useProfile() {
     height: number
   ) => {
     try {
+      if (!weight || !height) {
+        return false;
+      }
+
       const newProfile: Profile = {
         userId: userId,
-        age: age,
+        age: age | 0,
         weight: weight,
         height: height,
       };

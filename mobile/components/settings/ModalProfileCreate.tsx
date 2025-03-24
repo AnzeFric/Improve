@@ -19,21 +19,33 @@ interface Props {
 export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
   const { handleSaveProfile } = useProfile();
   const [age, setAge] = useState("");
-  const [weight, setWeight] = useState("");
-  const [height, setHeight] = useState("");
+  const [weight, setWeight] = useState<string>("");
+  const [height, setHeight] = useState<string>("");
+  const [emptyFieldsError, setEmptyFieldsError] = useState(false);
+  const [errorOccured, setErrorOccured] = useState(false);
 
-  // Clear input after unfocus
+  // Clear inputs and errors when modal is closed
   useFocusEffect(
     useCallback(() => {
       return () => {
         setAge("");
         setWeight("");
         setHeight("");
+        setEmptyFieldsError(false);
+        setErrorOccured(false);
       };
     }, [])
   );
 
   const handleSave = () => {
+    setEmptyFieldsError(false);
+    setErrorOccured(false);
+
+    if (!weight || !height) {
+      setEmptyFieldsError(true);
+      return;
+    }
+
     const intAge = parseInt(age);
     const intWeight = parseFloat(weight);
     const intHeight = parseFloat(height);
@@ -41,6 +53,8 @@ export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
     handleSaveProfile(intAge, intWeight, intHeight).then((response) => {
       if (response) {
         setIsVisible(false);
+      } else {
+        setErrorOccured(true);
       }
     });
   };
@@ -60,7 +74,13 @@ export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
                 onChangeText={setAge}
               />
             </View>
-            <View style={styles.inputContainer}>
+
+            <View
+              style={[
+                styles.inputContainer,
+                emptyFieldsError && !weight && styles.inputContainerError,
+              ]}
+            >
               <TextInput
                 style={styles.input}
                 placeholder="Weight (kg)"
@@ -69,7 +89,16 @@ export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
                 onChangeText={setWeight}
               />
             </View>
-            <View style={styles.inputContainer}>
+            {emptyFieldsError && !weight && (
+              <Text style={styles.errorText}>Weight is required</Text>
+            )}
+
+            <View
+              style={[
+                styles.inputContainer,
+                emptyFieldsError && !height && styles.inputContainerError,
+              ]}
+            >
               <TextInput
                 style={styles.input}
                 placeholder="Height (cm)"
@@ -78,6 +107,16 @@ export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
                 onChangeText={setHeight}
               />
             </View>
+            {emptyFieldsError && !height && (
+              <Text style={styles.errorText}>Height is required</Text>
+            )}
+
+            {errorOccured && (
+              <Text style={styles.generalErrorText}>
+                Failed to save profile. Please try again.
+              </Text>
+            )}
+
             <View style={styles.buttonContainer}>
               <TouchableOpacity
                 style={styles.cancelButton}
@@ -130,6 +169,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingRight: 20,
   },
+  inputContainerError: {
+    borderColor: Colors.light.destructiveRed,
+    borderWidth: 1,
+  },
   input: {
     backgroundColor: "#fff",
     padding: 15,
@@ -140,6 +183,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     elevation: 3,
     width: "100%",
+  },
+  errorText: {
+    color: "red",
+    fontSize: 14,
+    alignSelf: "flex-start",
+    marginLeft: 10,
+    marginTop: -5,
+  },
+  generalErrorText: {
+    color: "red",
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 10,
   },
   buttonContainer: {
     flexDirection: "row",

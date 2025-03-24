@@ -10,6 +10,6 @@ export interface User {
 export interface Profile {
   userId: string;
   age?: number;
-  weight?: number;
-  height?: number;
+  weight: number;
+  height: number;
 }

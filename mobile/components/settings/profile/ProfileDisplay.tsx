@@ -1,9 +1,10 @@
-import { Text, View, StyleSheet, TouchableOpacity, Modal } from "react-native";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { Profile } from "@/interfaces/user";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ModalProfileDisplay from "./ModalProfileDisplay";
+import { useBmiCalculator } from "@/hooks/useBmiCalculator";
 
 interface Props {
   profile: Profile;
@@ -11,6 +12,11 @@ interface Props {
 
 export default function ProfileDisplay({ profile }: Props) {
   const [isVisible, setIsVisible] = useState(false);
+  const { getBmiCategory, getBmiColor, calculateBmi } = useBmiCalculator();
+
+  const bmi = useMemo(() => {
+    return calculateBmi(profile.weight, profile.height);
+  }, [profile]);
 
   return (
     <View style={styles.container}>
@@ -29,11 +35,15 @@ export default function ProfileDisplay({ profile }: Props) {
       </View>
 
       <View style={styles.statContainer}>
-        <View style={styles.statItem}>
-          <Text style={styles.statValue}>{profile.age}</Text>
-          <Text style={styles.statLabel}>Age</Text>
-        </View>
-        <View style={styles.divider} />
+        {profile.age && (
+          <>
+            <View style={styles.statItem}>
+              <Text style={styles.statValue}>{profile.age}</Text>
+              <Text style={styles.statLabel}>Age</Text>
+            </View>
+            <View style={styles.divider} />
+          </>
+        )}
         <View style={styles.statItem}>
           <Text style={styles.statValue}>{profile.height}</Text>
           <Text style={styles.statLabel}>cm</Text>
@@ -46,7 +56,11 @@ export default function ProfileDisplay({ profile }: Props) {
       </View>
 
       <View style={styles.bmiContainer}>
-        <Text style={styles.bmiText}>28.5kg/m² (Overweight)</Text>
+        <Text style={styles.bmiText}>
+          {bmi} kg/m² (
+          <Text style={{ color: getBmiColor(bmi) }}>{getBmiCategory(bmi)}</Text>
+          )
+        </Text>
         <Text style={styles.bmiNote}>
           Note: BMI is not always accurate, especially for people in the gym.
         </Text>

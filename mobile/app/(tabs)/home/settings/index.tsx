@@ -62,7 +62,7 @@ export default function SettingsScreen() {
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              router.push("/(tabs)/settings/terms");
+              router.push("/(tabs)/home/settings/terms");
             }}
           >
             <Text style={styles.buttonText}>Terms & Conditions</Text>

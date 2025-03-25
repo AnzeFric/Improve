@@ -5,7 +5,7 @@ export default function EntryScreen() {
   const { isLoggined } = useAuthStore();
 
   return isLoggined ? (
-    <Redirect href={"/(tabs)"} />
+    <Redirect href={"/(tabs)/home"} />
   ) : (
     <Redirect href={"/(auth)/login"} />
   );

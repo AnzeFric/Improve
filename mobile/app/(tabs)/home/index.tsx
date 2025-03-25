@@ -13,7 +13,7 @@ export default function HomeScreen() {
       size={30}
       color={"#FFFFFF"}
       onPress={() => {
-        router.push("/(tabs)/settings");
+        router.push("/(tabs)/home/settings");
       }}
     />
   );

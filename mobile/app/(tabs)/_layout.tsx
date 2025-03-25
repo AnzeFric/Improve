@@ -32,7 +32,7 @@ export default function TabLayout() {
         backBehavior="history"
       >
         <Tabs.Screen
-          name="index"
+          name="home"
           options={{
             title: "Home",
             tabBarIcon: ({ color }) => (
@@ -64,27 +64,6 @@ export default function TabLayout() {
             tabBarIcon: ({ color }) => (
               <Ionicons name={"chatbubbles"} size={28} color={color} />
             ),
-          }}
-        />
-        <Tabs.Screen
-          name="settings/index"
-          options={{
-            title: "Settings",
-            href: null,
-          }}
-        />
-        <Tabs.Screen
-          name="settings/terms/index"
-          options={{
-            title: "TermsAndConditions",
-            href: null,
-          }}
-        />
-        <Tabs.Screen
-          name="settings/terms/detail/[id]"
-          options={{
-            title: "TermsAndConditionsDetail",
-            href: null,
           }}
         />
       </Tabs>

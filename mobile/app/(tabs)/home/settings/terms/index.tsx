@@ -15,7 +15,7 @@ export default function TermsAndConditionsScreen() {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            router.push(`/(tabs)/settings/terms/detail/${0}`);
+            router.push(`/(tabs)/home/settings/terms/detail/${0}`);
           }}
         >
           <Text style={styles.buttonText}>Test redirect to item 0</Text>

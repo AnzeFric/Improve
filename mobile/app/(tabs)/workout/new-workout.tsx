@@ -7,24 +7,24 @@ import {
   StyleSheet,
 } from "react-native";
 import { useState } from "react";
-import TitleRow from "@/components/global/TitleRow";
-import { Colors } from "@/constants/Colors";
-import { Ionicons } from "@expo/vector-icons";
-import ExerciseDisplay from "@/components/home/home/MostRecentWorkout/ExerciseDisplay";
-import ModalBottomAction from "@/components/global/modals/ModalBottomAction";
 import { router, useLocalSearchParams } from "expo-router";
+import TitleRow from "@/components/global/TitleRow";
+import ExerciseDisplay from "@/components/home/home/MostRecentWorkout/ExerciseDisplay";
+import { Ionicons } from "@expo/vector-icons";
+import { Colors } from "@/constants/Colors";
 import { Workout } from "@/interfaces/workout";
+import ModalOptions from "@/components/global/modals/ModalBottomAction";
 import ModalAddSet from "@/components/workout/ModalAddSet";
 
 export default function NewWorkoutScreen() {
   const { workoutTitle } = useLocalSearchParams();
   const [exerciseTitle, setExerciseTitle] = useState("");
+  const [exerciseIndex, setExerciseIndex] = useState(-1);
+
+  const [modalOptions, setModalOptions] = useState(false);
+  const [modalAddSet, setModalAddSet] = useState(false);
 
   const [emptyInputError, setEmptyInputError] = useState(false);
-
-  const [isEditExerciseVisible, setIsEditExerciseVisible] = useState(false);
-  const [isAddSetVisible, setIsAddSetVisible] = useState(false);
-  const [exerciseIndex, setExerciseIndex] = useState(-1);
 
   const [workout, setWorkout] = useState<Workout>({
     name: String(workoutTitle),
@@ -32,9 +32,14 @@ export default function NewWorkoutScreen() {
     exercises: [],
   });
 
-  const addSet = (exerciseIndex: any) => {
+  const openModalAddSet = (exerciseIndex: number) => {
     setExerciseIndex(exerciseIndex);
-    setIsAddSetVisible(true);
+    setModalAddSet(true);
+  };
+
+  const openModalOptions = (exerciseIndex: number) => {
+    setExerciseIndex(exerciseIndex);
+    setModalOptions(true);
   };
 
   const addExercise = () => {
@@ -53,6 +58,11 @@ export default function NewWorkoutScreen() {
     }
   };
 
+  const deleteExercise = () => {
+    workout.exercises.splice(exerciseIndex, 1);
+    setModalOptions(false);
+  };
+
   const finishWorkout = () => {
     // TODO: Send api req to save workout
     router.back();
@@ -65,8 +75,8 @@ export default function NewWorkoutScreen() {
     return false;
   };
 
-  const editButton = (
-    <TouchableOpacity onPress={() => setIsEditExerciseVisible(true)}>
+  const editButton = (index: number) => (
+    <TouchableOpacity onPress={() => openModalOptions(index)}>
       <Ionicons
         name="create-outline"
         size={22}
@@ -82,10 +92,13 @@ export default function NewWorkoutScreen() {
         <View style={styles.contentContainer}>
           {workout.exercises.map((exercise, index) => (
             <View style={styles.itemContainer} key={index}>
-              <ExerciseDisplay exercise={exercise} editButton={editButton} />
+              <ExerciseDisplay
+                exercise={exercise}
+                editButton={editButton(index)}
+              />
               <TouchableOpacity
                 style={styles.buttonRep}
-                onPress={() => addSet(index)}
+                onPress={() => openModalAddSet(index)}
               >
                 <Text style={styles.buttonTextRep}>Add Set</Text>
                 <Ionicons
@@ -130,17 +143,17 @@ export default function NewWorkoutScreen() {
         <Text style={styles.buttonText}>Finish Workout</Text>
       </TouchableOpacity>
 
-      <ModalBottomAction
+      <ModalOptions
         subject={"Exercise"}
-        isVisible={isEditExerciseVisible}
-        setIsVisible={setIsEditExerciseVisible}
+        isVisible={modalOptions}
+        setIsVisible={setModalOptions}
         handleEdit={() => {}}
-        handleDelete={() => {}}
+        handleDelete={deleteExercise}
       />
 
       <ModalAddSet
-        isVisible={isAddSetVisible}
-        setIsVisible={setIsAddSetVisible}
+        isVisible={modalAddSet}
+        setIsVisible={setModalAddSet}
         exerciseIndex={exerciseIndex}
         workout={workout}
         setWorkout={setWorkout}

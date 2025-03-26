@@ -12,18 +12,31 @@ import { router, useFocusEffect } from "expo-router";
 
 export default function WorkoutScreen() {
   const [workoutTitle, setWorkoutTitle] = useState("");
+  const [emptyInputError, setEmptyInputError] = useState(false);
+
+  const isEmpty = (): boolean => {
+    if (!workoutTitle && emptyInputError) {
+      return true;
+    }
+    return false;
+  };
 
   const handlePress = () => {
-    router.push({
-      pathname: "/(tabs)/workout/new-workout",
-      params: { workoutTitle: "Pull day" },
-    });
+    if (workoutTitle.length <= 0) {
+      setEmptyInputError(true);
+    } else {
+      router.push({
+        pathname: "/(tabs)/workout/new-workout",
+        params: { workoutTitle: workoutTitle },
+      });
+    }
   };
 
   useFocusEffect(
     useCallback(() => {
       return () => {
         setWorkoutTitle("");
+        setEmptyInputError(false);
       };
     }, [])
   );
@@ -32,14 +45,28 @@ export default function WorkoutScreen() {
     <View>
       <TitleRow title={"Workout"} hasBackButton={false} />
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder={"Workout title"}
-            value={workoutTitle}
-            onChangeText={setWorkoutTitle}
-          />
+        <View style={styles.contentContainer}>
+          <View
+            style={[
+              styles.inputContainer,
+              isEmpty() && {
+                shadowColor: Colors.light.destructiveRed,
+                elevation: 5,
+              },
+            ]}
+          >
+            <TextInput
+              style={styles.input}
+              placeholder={"Workout title"}
+              value={workoutTitle}
+              onChangeText={setWorkoutTitle}
+            />
+          </View>
+          {emptyInputError && !workoutTitle && (
+            <Text style={styles.errorText}>Workout title is empty!</Text>
+          )}
         </View>
+
         <TouchableOpacity style={styles.button} onPress={handlePress}>
           <Text style={styles.buttonText}>Start new</Text>
         </TouchableOpacity>
@@ -54,27 +81,23 @@ const styles = StyleSheet.create({
     paddingVertical: 25,
     gap: 20,
   },
+  contentContainer: {
+    gap: 10,
+  },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
     borderRadius: 10,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
     elevation: 3,
     justifyContent: "space-between",
     paddingRight: 20,
   },
   input: {
-    backgroundColor: "#fff",
     padding: 15,
     borderRadius: 10,
     fontSize: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    elevation: 3,
     flex: 1,
   },
   button: {
@@ -87,5 +110,9 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontWeight: "bold",
     textAlign: "center",
+  },
+  errorText: {
+    fontSize: 14,
+    color: Colors.light.destructiveRed,
   },
 });

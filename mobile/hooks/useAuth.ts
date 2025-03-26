@@ -71,7 +71,7 @@ export function useAuth() {
         const data = await response.json();
         setUserId(data.userId);
         setIsLoggined(true);
-        router.push("/(tabs)");
+        router.push("/(tabs)/home");
       }
     } catch (error) {
       console.error("Login error:", error);

@@ -3,12 +3,16 @@ import { Exercise } from "@/interfaces/workout";
 
 interface Props {
   exercise: Exercise;
+  editButton?: React.ReactNode;
 }
 
-export default function ExerciseDisplay({ exercise }: Props) {
+export default function ExerciseDisplay({ exercise, editButton }: Props) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{exercise.name}</Text>
+      <View style={styles.titleContainer}>
+        <Text style={styles.title}>{exercise.name}</Text>
+        {editButton && <View>{editButton}</View>}
+      </View>
       {exercise.sets.map((set, index) => (
         <View style={styles.setRow} key={index}>
           <Text style={styles.text}>{set.rep} reps</Text>
@@ -22,13 +26,19 @@ export default function ExerciseDisplay({ exercise }: Props) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
-    padding: 12,
+    paddingVertical: 12,
     borderRadius: 8,
     marginBottom: 8,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.05,
     shadowRadius: 2,
+  },
+  titleContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
   },
   title: {
     fontSize: 16,

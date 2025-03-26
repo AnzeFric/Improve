@@ -11,6 +11,7 @@ import TitleRow from "@/components/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import ExerciseDisplay from "@/components/home/MostRecentWorkout/ExerciseDisplay";
+import ModalBottomAction from "@/components/modals/ModalBottomAction";
 
 export default function NewWorkoutScreen() {
   const [isVisible, setIsVisible] = useState(false);
@@ -97,6 +98,14 @@ export default function NewWorkoutScreen() {
       <TouchableOpacity style={styles.buttonFinish} onPress={finishWorkout}>
         <Text style={styles.buttonText}>Finish Workout</Text>
       </TouchableOpacity>
+
+      <ModalBottomAction
+        subject={"Exercise"}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        handleEdit={() => {}}
+        handleDelete={() => {}}
+      />
     </View>
   );
 }

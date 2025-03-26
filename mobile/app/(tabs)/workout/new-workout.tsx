@@ -5,18 +5,20 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
-  Alert,
 } from "react-native";
 import TitleRow from "@/components/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import ExerciseDisplay from "@/components/home/MostRecentWorkout/ExerciseDisplay";
 import ModalBottomAction from "@/components/modals/ModalBottomAction";
+import { router, useLocalSearchParams } from "expo-router";
 
 export default function NewWorkoutScreen() {
+  const { workoutTitle } = useLocalSearchParams();
+
   const [isVisible, setIsVisible] = useState(false);
   const [workout, setWorkout] = useState({
-    name: "Pull Day",
+    name: String(workoutTitle),
     exercises: [
       {
         name: "Biceps Curl",
@@ -54,7 +56,8 @@ export default function NewWorkoutScreen() {
   };
 
   const finishWorkout = () => {
-    Alert.alert("Workout Completed", "Great job finishing your workout!");
+    // TODO: Send api req to save workout
+    router.back();
   };
 
   const editButton = (

@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Text,
   View,
@@ -7,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
+import { useState, useRef } from "react";
 import TitleRow from "@/components/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,8 +18,9 @@ import { Workout } from "@/interfaces/workout";
 export default function NewWorkoutScreen() {
   const { workoutTitle } = useLocalSearchParams();
   const [exerciseTitle, setExerciseTitle] = useState("");
-
+  const [emptyInputError, setEmptyInputError] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+
   const [workout, setWorkout] = useState<Workout>({
     name: String(workoutTitle),
     date: new Date(),
@@ -33,19 +34,31 @@ export default function NewWorkoutScreen() {
   };
 
   const addExercise = () => {
-    setWorkout({
-      ...workout,
-      exercises: [
-        ...workout.exercises,
-        { name: exerciseTitle, numSets: 0, sets: [] },
-      ],
-    });
-    setExerciseTitle("");
+    if (exerciseTitle.length <= 0) {
+      setEmptyInputError(true);
+    } else {
+      setWorkout({
+        ...workout,
+        exercises: [
+          ...workout.exercises,
+          { name: exerciseTitle, numSets: 0, sets: [] },
+        ],
+      });
+      setExerciseTitle("");
+      setEmptyInputError(false);
+    }
   };
 
   const finishWorkout = () => {
     // TODO: Send api req to save workout
     router.back();
+  };
+
+  const isEmpty = (): boolean => {
+    if (!exerciseTitle && emptyInputError) {
+      return true;
+    }
+    return false;
   };
 
   const editButton = (
@@ -81,13 +94,26 @@ export default function NewWorkoutScreen() {
           ))}
 
           <View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={styles.input}
-                placeholder={"Exercise title"}
-                value={exerciseTitle}
-                onChangeText={setExerciseTitle}
-              />
+            <View style={styles.exerciseAddContainer}>
+              <View
+                style={[
+                  styles.inputContainer,
+                  isEmpty() && {
+                    shadowColor: Colors.light.destructiveRed,
+                    elevation: 5,
+                  },
+                ]}
+              >
+                <TextInput
+                  style={styles.input}
+                  placeholder={"Exercise title"}
+                  value={exerciseTitle}
+                  onChangeText={setExerciseTitle}
+                />
+              </View>
+              {isEmpty() && (
+                <Text style={styles.errorText}>Exercise title is empty!</Text>
+              )}
             </View>
             <TouchableOpacity style={styles.button} onPress={addExercise}>
               <Text style={styles.buttonText}>Add Exercise</Text>
@@ -139,21 +165,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 10,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
     elevation: 3,
-    justifyContent: "space-between",
-    paddingRight: 20,
   },
   input: {
-    backgroundColor: "#fff",
     padding: 15,
     borderRadius: 10,
     fontSize: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    elevation: 3,
     flex: 1,
   },
   button: {
@@ -188,5 +205,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginHorizontal: 20,
     marginVertical: 15,
+  },
+  exerciseAddContainer: {
+    gap: 10,
+    paddingBottom: 10,
+  },
+  errorText: {
+    fontSize: 14,
+    color: Colors.light.destructiveRed,
   },
 });

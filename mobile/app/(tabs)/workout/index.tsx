@@ -91,8 +91,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     shadowColor: "#000",
     elevation: 3,
-    justifyContent: "space-between",
-    paddingRight: 20,
   },
   input: {
     padding: 15,

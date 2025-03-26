@@ -3,8 +3,9 @@ import { Profile } from "@/interfaces/user";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
-import ModalProfileDisplay from "./ModalProfileDisplay";
+import ModalBottomAction from "../modals/ModalBottomAction";
 import { useBmiCalculator } from "@/hooks/useBmiCalculator";
+import { useProfile } from "@/hooks/useProfile";
 
 interface Props {
   profile: Profile;
@@ -13,6 +14,7 @@ interface Props {
 export default function ProfileDisplay({ profile }: Props) {
   const [isVisible, setIsVisible] = useState(false);
   const { getBmiCategory, getBmiColor, calculateBmi } = useBmiCalculator();
+  const { handleDeleteProfile } = useProfile();
 
   const bmi = useMemo(() => {
     return calculateBmi(profile.weight, profile.height);
@@ -69,7 +71,13 @@ export default function ProfileDisplay({ profile }: Props) {
         </Text>
       </View>
 
-      <ModalProfileDisplay isVisible={isVisible} setIsVisible={setIsVisible} />
+      <ModalBottomAction
+        subject={"Profile"}
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        handleDelete={handleDeleteProfile}
+        handleEdit={() => {}}
+      />
     </View>
   );
 }

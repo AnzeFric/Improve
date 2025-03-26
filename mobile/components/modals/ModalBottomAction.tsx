@@ -1,18 +1,22 @@
 import { Text, View, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
-import { useProfile } from "@/hooks/useProfile";
 
 interface Props {
+  subject: string;
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
+  handleEdit: () => void;
+  handleDelete: () => void;
 }
 
-export default function ModalProfileDisplay({
+export default function ModalBottomAction({
+  subject,
   isVisible,
   setIsVisible,
+  handleEdit,
+  handleDelete,
 }: Props) {
-  const { handleDeleteProfile } = useProfile();
   return (
     <Modal
       animationType="slide"
@@ -28,27 +32,24 @@ export default function ModalProfileDisplay({
         <View style={styles.modalContainer}>
           <View style={styles.modalHandle} />
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Profile Options</Text>
+            <Text style={styles.modalTitle}>{subject} Options</Text>
 
-            <TouchableOpacity style={styles.modalButton}>
+            <TouchableOpacity style={styles.modalButton} onPress={handleEdit}>
               <Ionicons
                 name="create-outline"
                 size={20}
                 color={Colors.light.specialBlue}
               />
-              <Text style={styles.editText}>Edit Profile</Text>
+              <Text style={styles.editText}>Edit {subject}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleDeleteProfile}
-            >
+            <TouchableOpacity style={styles.modalButton} onPress={handleDelete}>
               <Ionicons
                 name="trash-outline"
                 size={20}
                 color={Colors.light.destructiveRed}
               />
-              <Text style={styles.deleteText}>Delete Profile</Text>
+              <Text style={styles.deleteText}>Delete {subject}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity

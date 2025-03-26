@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
 import { User } from "@/interfaces/user";
-import ProfileDisplay from "@/components/settings/profile/ProfileDisplay";
+import ProfileDisplay from "@/components/settings/ProfileDisplay";
 import ProfileCreate from "@/components/settings/ProfileCreate";
 import useProfileStore from "@/stores/useProfileStore";
 import { useProfile } from "@/hooks/useProfile";

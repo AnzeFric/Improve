@@ -5,10 +5,10 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import TitleRow from "@/components/TitleRow";
 import { Colors } from "@/constants/Colors";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 
 export default function WorkoutScreen() {
   const [workoutTitle, setWorkoutTitle] = useState("");
@@ -19,6 +19,14 @@ export default function WorkoutScreen() {
       params: { workoutTitle: "Pull day" },
     });
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        setWorkoutTitle("");
+      };
+    }, [])
+  );
 
   return (
     <View>

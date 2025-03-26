@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   Text,
   View,
+  TextInput,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
@@ -12,31 +13,17 @@ import { Ionicons } from "@expo/vector-icons";
 import ExerciseDisplay from "@/components/home/MostRecentWorkout/ExerciseDisplay";
 import ModalBottomAction from "@/components/modals/ModalBottomAction";
 import { router, useLocalSearchParams } from "expo-router";
+import { Workout } from "@/interfaces/workout";
 
 export default function NewWorkoutScreen() {
   const { workoutTitle } = useLocalSearchParams();
+  const [exerciseTitle, setExerciseTitle] = useState("");
 
   const [isVisible, setIsVisible] = useState(false);
-  const [workout, setWorkout] = useState({
+  const [workout, setWorkout] = useState<Workout>({
     name: String(workoutTitle),
-    exercises: [
-      {
-        name: "Biceps Curl",
-        numSets: 2,
-        sets: [
-          { rep: 8, weight: 12 },
-          { rep: 6, weight: 14 },
-        ],
-      },
-      {
-        name: "Lat Pulldown",
-        numSets: 2,
-        sets: [
-          { rep: 10, weight: 40 },
-          { rep: 8, weight: 50 },
-        ],
-      },
-    ],
+    date: new Date(),
+    exercises: [],
   });
 
   const addSet = (exerciseIndex: any) => {
@@ -50,9 +37,10 @@ export default function NewWorkoutScreen() {
       ...workout,
       exercises: [
         ...workout.exercises,
-        { name: "New Exercise", numSets: 0, sets: [] },
+        { name: exerciseTitle, numSets: 0, sets: [] },
       ],
     });
+    setExerciseTitle("");
   };
 
   const finishWorkout = () => {
@@ -92,9 +80,19 @@ export default function NewWorkoutScreen() {
             </View>
           ))}
 
-          <TouchableOpacity style={styles.button} onPress={addExercise}>
-            <Text style={styles.buttonText}>Add Exercise</Text>
-          </TouchableOpacity>
+          <View>
+            <View style={styles.inputContainer}>
+              <TextInput
+                style={styles.input}
+                placeholder={"Exercise title"}
+                value={exerciseTitle}
+                onChangeText={setExerciseTitle}
+              />
+            </View>
+            <TouchableOpacity style={styles.button} onPress={addExercise}>
+              <Text style={styles.buttonText}>Add Exercise</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
 
@@ -134,6 +132,29 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     marginBottom: 10,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    elevation: 3,
+    justifyContent: "space-between",
+    paddingRight: 20,
+  },
+  input: {
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 10,
+    fontSize: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    elevation: 3,
+    flex: 1,
   },
   button: {
     backgroundColor: Colors.light.specialBlue,

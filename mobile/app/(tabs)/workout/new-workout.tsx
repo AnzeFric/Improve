@@ -23,6 +23,7 @@ export default function NewWorkoutScreen() {
 
   const [modalOptions, setModalOptions] = useState(false);
   const [modalAddSet, setModalAddSet] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const [emptyInputError, setEmptyInputError] = useState(false);
 
@@ -58,14 +59,14 @@ export default function NewWorkoutScreen() {
     }
   };
 
+  const editExercise = () => {
+    setModalOptions(false);
+    setIsEditing(true);
+  };
+
   const deleteExercise = () => {
     workout.exercises.splice(exerciseIndex, 1);
     setModalOptions(false);
-  };
-
-  const finishWorkout = () => {
-    // TODO: Send api req to save workout
-    router.back();
   };
 
   const isEmpty = (): boolean => {
@@ -74,6 +75,21 @@ export default function NewWorkoutScreen() {
     }
     return false;
   };
+
+  const finishWorkout = () => {
+    // TODO: Open modal and ask user for verification. "Did you finish your workout?"
+    // TODO: Send api req to save workout
+    router.back();
+  };
+
+  const finishWorkoutButton = (
+    <Ionicons
+      name={"checkmark-circle-outline"}
+      size={28}
+      color={"#fff"}
+      onPress={finishWorkout}
+    />
+  );
 
   const editButton = (index: number) => (
     <TouchableOpacity onPress={() => openModalOptions(index)}>
@@ -88,13 +104,21 @@ export default function NewWorkoutScreen() {
   return (
     <View style={styles.container}>
       <ScrollView>
-        <TitleRow title={workout.name} hasBackButton={true} />
+        <TitleRow
+          title={workout.name}
+          hasBackButton={true}
+          menuButton={finishWorkoutButton}
+        />
         <View style={styles.contentContainer}>
           {workout.exercises.map((exercise, index) => (
             <View style={styles.itemContainer} key={index}>
               <ExerciseDisplay
                 exercise={exercise}
+                exerciseIndex={exerciseIndex}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
                 editButton={editButton(index)}
+                setWorkout={setWorkout}
               />
               <TouchableOpacity
                 style={styles.buttonRep}
@@ -139,15 +163,11 @@ export default function NewWorkoutScreen() {
         </View>
       </ScrollView>
 
-      <TouchableOpacity style={styles.buttonFinish} onPress={finishWorkout}>
-        <Text style={styles.buttonText}>Finish Workout</Text>
-      </TouchableOpacity>
-
       <ModalOptions
         subject={"Exercise"}
         isVisible={modalOptions}
         setIsVisible={setModalOptions}
-        handleEdit={() => {}}
+        handleEdit={editExercise}
         handleDelete={deleteExercise}
       />
 

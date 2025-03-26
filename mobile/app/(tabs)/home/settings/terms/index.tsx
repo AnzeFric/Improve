@@ -1,5 +1,5 @@
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import TitleRow from "@/components/TitleRow";
+import TitleRow from "@/components/global/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { router } from "expo-router";
 

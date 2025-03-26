@@ -1,8 +1,8 @@
 import { View, StyleSheet, ScrollView } from "react-native";
-import TitleRow from "@/components/TitleRow";
-import StartNewWorkout from "@/components/home/StartNewWorkout";
-import DailyStreak from "@/components/home/DailyStreak";
-import MostRecentWorkout from "@/components/home/MostRecentWorkout/MostRecentWorkout";
+import TitleRow from "@/components/global/TitleRow";
+import StartNewWorkout from "@/components/home/home/StartNewWorkout";
+import DailyStreak from "@/components/home/home/DailyStreak";
+import MostRecentWorkout from "@/components/home/home/MostRecentWorkout/MostRecentWorkout";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 

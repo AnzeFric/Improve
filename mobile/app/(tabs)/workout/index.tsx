@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useState, useCallback } from "react";
-import TitleRow from "@/components/TitleRow";
+import TitleRow from "@/components/global/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { router, useFocusEffect } from "expo-router";
 

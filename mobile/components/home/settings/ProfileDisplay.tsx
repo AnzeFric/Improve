@@ -3,7 +3,7 @@ import { Profile } from "@/interfaces/user";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
-import ModalBottomAction from "../modals/ModalBottomAction";
+import ModalBottomAction from "../../global/modals/ModalBottomAction";
 import { useBmiCalculator } from "@/hooks/useBmiCalculator";
 import { useProfile } from "@/hooks/useProfile";
 

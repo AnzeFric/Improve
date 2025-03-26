@@ -6,20 +6,25 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { useState, useRef } from "react";
-import TitleRow from "@/components/TitleRow";
+import { useState } from "react";
+import TitleRow from "@/components/global/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
-import ExerciseDisplay from "@/components/home/MostRecentWorkout/ExerciseDisplay";
-import ModalBottomAction from "@/components/modals/ModalBottomAction";
+import ExerciseDisplay from "@/components/home/home/MostRecentWorkout/ExerciseDisplay";
+import ModalBottomAction from "@/components/global/modals/ModalBottomAction";
 import { router, useLocalSearchParams } from "expo-router";
 import { Workout } from "@/interfaces/workout";
+import ModalAddSet from "@/components/workout/ModalAddSet";
 
 export default function NewWorkoutScreen() {
   const { workoutTitle } = useLocalSearchParams();
   const [exerciseTitle, setExerciseTitle] = useState("");
+
   const [emptyInputError, setEmptyInputError] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+
+  const [isEditExerciseVisible, setIsEditExerciseVisible] = useState(false);
+  const [isAddSetVisible, setIsAddSetVisible] = useState(false);
+  const [exerciseIndex, setExerciseIndex] = useState(-1);
 
   const [workout, setWorkout] = useState<Workout>({
     name: String(workoutTitle),
@@ -28,9 +33,8 @@ export default function NewWorkoutScreen() {
   });
 
   const addSet = (exerciseIndex: any) => {
-    const updatedExercises = [...workout.exercises];
-    updatedExercises[exerciseIndex].sets.push({ rep: 8, weight: 10 });
-    setWorkout({ ...workout, exercises: updatedExercises });
+    setExerciseIndex(exerciseIndex);
+    setIsAddSetVisible(true);
   };
 
   const addExercise = () => {
@@ -62,7 +66,7 @@ export default function NewWorkoutScreen() {
   };
 
   const editButton = (
-    <TouchableOpacity onPress={() => setIsVisible(true)}>
+    <TouchableOpacity onPress={() => setIsEditExerciseVisible(true)}>
       <Ionicons
         name="create-outline"
         size={22}
@@ -128,10 +132,18 @@ export default function NewWorkoutScreen() {
 
       <ModalBottomAction
         subject={"Exercise"}
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
+        isVisible={isEditExerciseVisible}
+        setIsVisible={setIsEditExerciseVisible}
         handleEdit={() => {}}
         handleDelete={() => {}}
+      />
+
+      <ModalAddSet
+        isVisible={isAddSetVisible}
+        setIsVisible={setIsAddSetVisible}
+        exerciseIndex={exerciseIndex}
+        workout={workout}
+        setWorkout={setWorkout}
       />
     </View>
   );

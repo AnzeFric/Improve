@@ -6,14 +6,14 @@ import {
   StyleSheet,
 } from "react-native";
 import { useEffect, useState } from "react";
-import TitleRow from "@/components/TitleRow";
+import TitleRow from "@/components/global/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
 import { User } from "@/interfaces/user";
-import ProfileDisplay from "@/components/settings/ProfileDisplay";
-import ProfileCreate from "@/components/settings/ProfileCreate";
+import ProfileDisplay from "@/components/home/settings/ProfileDisplay";
+import ProfileCreate from "@/components/home/settings/ProfileCreate";
 import useProfileStore from "@/stores/useProfileStore";
 import { useProfile } from "@/hooks/useProfile";
 

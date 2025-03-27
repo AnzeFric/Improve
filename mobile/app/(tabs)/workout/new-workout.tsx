@@ -20,10 +20,10 @@ export default function NewWorkoutScreen() {
   const { workoutTitle } = useLocalSearchParams();
   const [exerciseTitle, setExerciseTitle] = useState("");
   const [exerciseIndex, setExerciseIndex] = useState(-1);
+  const [isEditing, setIsEditing] = useState(false);
 
   const [modalOptions, setModalOptions] = useState(false);
   const [modalAddSet, setModalAddSet] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
 
   const [emptyInputError, setEmptyInputError] = useState(false);
 
@@ -60,8 +60,8 @@ export default function NewWorkoutScreen() {
   };
 
   const editExercise = () => {
-    setModalOptions(false);
     setIsEditing(true);
+    setModalOptions(false);
   };
 
   const deleteExercise = () => {
@@ -115,7 +115,7 @@ export default function NewWorkoutScreen() {
               <ExerciseDisplay
                 exercise={exercise}
                 exerciseIndex={exerciseIndex}
-                isEditing={isEditing}
+                isEditing={isEditing && index === exerciseIndex} // Additional condition ensures only the selected exercise can be edited
                 setIsEditing={setIsEditing}
                 editButton={editButton(index)}
                 setWorkout={setWorkout}

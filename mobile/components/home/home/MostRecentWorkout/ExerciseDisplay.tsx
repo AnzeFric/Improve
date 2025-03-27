@@ -12,8 +12,8 @@ import { Colors } from "@/constants/Colors";
 interface Props {
   exercise: Exercise;
   exerciseIndex?: number;
-  editButton?: React.ReactNode;
   isEditing?: boolean;
+  editButton?: React.ReactNode;
   setIsEditing?: (isEditing: boolean) => void;
   setWorkout?: Dispatch<SetStateAction<Workout>>;
 }
@@ -21,8 +21,8 @@ interface Props {
 export default function ExerciseDisplay({
   exercise,
   exerciseIndex,
-  editButton,
   isEditing,
+  editButton,
   setIsEditing,
   setWorkout,
 }: Props) {

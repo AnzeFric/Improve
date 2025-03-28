@@ -15,6 +15,8 @@ import { Colors } from "@/constants/Colors";
 import { Workout } from "@/interfaces/workout";
 import ModalOptions from "@/components/global/modals/ModalBottomAction";
 import ModalAddSet from "@/components/workout/ModalAddSet";
+import EditButton from "@/components/global/buttons/EditButton";
+import CircleCheckButton from "@/components/global/buttons/CircleCheckButton";
 
 export default function NewWorkoutScreen() {
   const { workoutTitle } = useLocalSearchParams();
@@ -82,32 +84,15 @@ export default function NewWorkoutScreen() {
     router.back();
   };
 
-  const finishWorkoutButton = (
-    <Ionicons
-      name={"checkmark-circle-outline"}
-      size={28}
-      color={"#fff"}
-      onPress={finishWorkout}
-    />
-  );
-
-  const editButton = (index: number) => (
-    <TouchableOpacity onPress={() => openModalOptions(index)}>
-      <Ionicons
-        name="create-outline"
-        size={22}
-        color={Colors.light.specialBlue}
-      />
-    </TouchableOpacity>
-  );
-
   return (
     <View style={styles.container}>
       <ScrollView>
         <TitleRow
           title={workout.name}
           hasBackButton={true}
-          menuButton={finishWorkoutButton}
+          menuButton={
+            <CircleCheckButton color={"#fff"} onPress={finishWorkout} />
+          }
         />
         <View style={styles.contentContainer}>
           {workout.exercises.map((exercise, index) => (
@@ -117,7 +102,12 @@ export default function NewWorkoutScreen() {
                 exerciseIndex={exerciseIndex}
                 isEditing={isEditing && index === exerciseIndex} // Additional condition ensures only the selected exercise can be edited
                 setIsEditing={setIsEditing}
-                editButton={editButton(index)}
+                editButton={
+                  <EditButton
+                    color={Colors.light.specialBlue}
+                    onPress={() => openModalOptions(index)}
+                  />
+                }
                 setWorkout={setWorkout}
               />
               <TouchableOpacity

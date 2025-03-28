@@ -3,25 +3,17 @@ import TitleRow from "@/components/global/TitleRow";
 import StartNewWorkout from "@/components/home/home/StartNewWorkout";
 import DailyStreak from "@/components/home/home/DailyStreak";
 import MostRecentWorkout from "@/components/home/home/MostRecentWorkout/MostRecentWorkout";
-import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import MenuButton from "@/components/global/buttons/MenuButton";
 
 export default function HomeScreen() {
-  const menu = (
-    <Ionicons
-      name={"settings-sharp"}
-      size={30}
-      color={"#FFFFFF"}
-      onPress={() => {
-        router.push("/(tabs)/home/settings");
-      }}
-    />
-  );
-
   return (
     <View>
       <ScrollView>
-        <TitleRow title={"Home"} hasBackButton={false} menuButton={menu} />
+        <TitleRow
+          title={"Home"}
+          hasBackButton={false}
+          menuButton={<MenuButton path={"/(tabs)/home/settings"} />}
+        />
         <View style={styles.contentContainer}>
           <View style={styles.itemContainer}>
             <MostRecentWorkout />

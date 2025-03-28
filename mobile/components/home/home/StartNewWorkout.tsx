@@ -1,6 +1,7 @@
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 interface Props {
   recommendWorkout: string;
@@ -8,11 +9,14 @@ interface Props {
 
 export default function StartNewWorkout({ recommendWorkout }: Props) {
   const handleStart = () => {
-    console.log("Start workout pressed");
+    router.push({
+      pathname: "/(tabs)/workout/new-workout",
+      params: { workoutTitle: recommendWorkout },
+    });
   };
 
   const handleCustomize = () => {
-    console.log("Customize workout pressed");
+    router.push("/(tabs)/workout");
   };
 
   return (

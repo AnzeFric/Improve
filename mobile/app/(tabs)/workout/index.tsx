@@ -14,12 +14,12 @@ export default function WorkoutScreen() {
   const [workoutTitle, setWorkoutTitle] = useState("");
   const [emptyInputError, setEmptyInputError] = useState(false);
 
-  const isEmpty = (): boolean => {
-    if (!workoutTitle && emptyInputError) {
-      return true;
-    }
-    return false;
-  };
+  useFocusEffect(
+    useCallback(() => {
+      setWorkoutTitle("");
+      setEmptyInputError(false);
+    }, [])
+  );
 
   const handlePress = () => {
     if (workoutTitle.length <= 0) {
@@ -32,14 +32,7 @@ export default function WorkoutScreen() {
     }
   };
 
-  useFocusEffect(
-    useCallback(() => {
-      return () => {
-        setWorkoutTitle("");
-        setEmptyInputError(false);
-      };
-    }, [])
-  );
+  const isEmpty = () => !workoutTitle && emptyInputError;
 
   return (
     <View>

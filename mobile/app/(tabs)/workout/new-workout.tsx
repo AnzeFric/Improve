@@ -12,14 +12,16 @@ import TitleRow from "@/components/global/TitleRow";
 import ExerciseDisplay from "@/components/home/home/MostRecentWorkout/ExerciseDisplay";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
-import { Workout } from "@/interfaces/workout";
+import { Exercise } from "@/interfaces/workout";
 import ModalOptions from "@/components/global/modals/ModalBottomAction";
 import ModalAddSet from "@/components/workout/ModalAddSet";
 import EditButton from "@/components/global/buttons/EditButton";
 import CircleCheckButton from "@/components/global/buttons/CircleCheckButton";
+import { useWorkout } from "@/hooks/useWorkout";
 
 export default function NewWorkoutScreen() {
   const { workoutTitle } = useLocalSearchParams();
+  const { handleFinishWorkout } = useWorkout();
   const [exerciseTitle, setExerciseTitle] = useState("");
   const [exerciseIndex, setExerciseIndex] = useState(-1);
   const [isEditing, setIsEditing] = useState(false);
@@ -29,11 +31,7 @@ export default function NewWorkoutScreen() {
 
   const [emptyInputError, setEmptyInputError] = useState(false);
 
-  const [workout, setWorkout] = useState<Workout>({
-    name: String(workoutTitle),
-    date: new Date(),
-    exercises: [],
-  });
+  const [exercises, setExercises] = useState<Array<Exercise>>([]);
 
   const openModalAddSet = (exerciseIndex: number) => {
     setExerciseIndex(exerciseIndex);
@@ -49,13 +47,12 @@ export default function NewWorkoutScreen() {
     if (exerciseTitle.length <= 0) {
       setEmptyInputError(true);
     } else {
-      setWorkout({
-        ...workout,
-        exercises: [
-          ...workout.exercises,
-          { name: exerciseTitle, numSets: 0, sets: [] },
-        ],
-      });
+      const newExercise: Exercise = {
+        name: exerciseTitle,
+        numSets: 0,
+        sets: [],
+      };
+      setExercises([...exercises, newExercise]);
       setExerciseTitle("");
       setEmptyInputError(false);
     }
@@ -67,7 +64,7 @@ export default function NewWorkoutScreen() {
   };
 
   const deleteExercise = () => {
-    workout.exercises.splice(exerciseIndex, 1);
+    exercises.splice(exerciseIndex, 1);
     setModalOptions(false);
   };
 
@@ -79,23 +76,28 @@ export default function NewWorkoutScreen() {
   };
 
   const finishWorkout = () => {
-    // TODO: Open modal and ask user for verification. "Did you finish your workout?"
-    // TODO: Send api req to save workout
-    router.back();
+    const name = String(workoutTitle);
+    const date = new Date();
+
+    handleFinishWorkout(name, date, exercises).then((response) => {
+      if (response) {
+        router.back();
+      }
+    });
   };
 
   return (
     <View style={styles.container}>
       <ScrollView>
         <TitleRow
-          title={workout.name}
+          title={String(workoutTitle)}
           hasBackButton={true}
           menuButton={
             <CircleCheckButton color={"#fff"} onPress={finishWorkout} />
           }
         />
         <View style={styles.contentContainer}>
-          {workout.exercises.map((exercise, index) => (
+          {exercises.map((exercise, index) => (
             <View style={styles.itemContainer} key={index}>
               <ExerciseDisplay
                 exercise={exercise}
@@ -108,7 +110,7 @@ export default function NewWorkoutScreen() {
                     onPress={() => openModalOptions(index)}
                   />
                 }
-                setWorkout={setWorkout}
+                setExercises={setExercises}
               />
               <TouchableOpacity
                 style={styles.buttonRep}
@@ -165,8 +167,8 @@ export default function NewWorkoutScreen() {
         isVisible={modalAddSet}
         setIsVisible={setModalAddSet}
         exerciseIndex={exerciseIndex}
-        workout={workout}
-        setWorkout={setWorkout}
+        exercises={exercises}
+        setExercises={setExercises}
       />
     </View>
   );

@@ -1,6 +1,7 @@
 export interface Workout {
+  userId: string;
   name: string;
-  date: Date;
+  date: string;
   exercises: Array<Exercise>;
 }
 
@@ -11,6 +12,6 @@ export interface Exercise {
 }
 
 export interface Set {
-  rep: number;
+  reps: number;
   weight: number;
 }

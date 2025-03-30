@@ -9,22 +9,22 @@ import {
 import { useState, useCallback } from "react";
 import { useFocusEffect } from "expo-router";
 import { Colors } from "@/constants/Colors";
-import { Workout } from "@/interfaces/workout";
+import { Exercise } from "@/interfaces/workout";
 
 interface Props {
   exerciseIndex: number;
-  workout: Workout;
+  exercises: Array<Exercise>;
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
-  setWorkout: (workout: Workout) => void;
+  setExercises: (exercises: Array<Exercise>) => void;
 }
 
 export default function ModalAddSet({
   exerciseIndex,
-  workout,
+  exercises,
   isVisible,
   setIsVisible,
-  setWorkout,
+  setExercises,
 }: Props) {
   const [reps, setReps] = useState("");
   const [weight, setWeight] = useState("");
@@ -60,14 +60,14 @@ export default function ModalAddSet({
       return;
     }
 
-    const updatedExercises = [...workout.exercises];
+    const updatedExercises = [...exercises];
     updatedExercises[exerciseIndex].sets.push({
-      rep: Number(reps),
+      reps: Number(reps),
       weight: Number(weight),
     });
     updatedExercises[exerciseIndex].numSets++;
 
-    setWorkout({ ...workout, exercises: updatedExercises });
+    setExercises(updatedExercises);
     clearInputsAndClose();
   };
 

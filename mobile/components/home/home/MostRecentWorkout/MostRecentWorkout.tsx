@@ -8,22 +8,23 @@ import { formatDate } from "@/constants/Utils";
 
 const fakeWorkout: Workout = {
   name: "Pull day",
-  date: new Date(),
+  userId: "",
+  date: new Date().toDateString(),
   exercises: [
     {
       name: "Biceps curl",
       numSets: 3,
       sets: [
         {
-          rep: 2,
+          reps: 2,
           weight: 14,
         },
         {
-          rep: 5,
+          reps: 5,
           weight: 18,
         },
         {
-          rep: 3,
+          reps: 3,
           weight: 20,
         },
       ],
@@ -33,23 +34,23 @@ const fakeWorkout: Workout = {
       numSets: 5,
       sets: [
         {
-          rep: 2,
+          reps: 2,
           weight: 20,
         },
         {
-          rep: 2,
+          reps: 2,
           weight: 40,
         },
         {
-          rep: 3,
+          reps: 3,
           weight: 60,
         },
         {
-          rep: 5,
+          reps: 5,
           weight: 60,
         },
         {
-          rep: 8,
+          reps: 8,
           weight: 50,
         },
       ],
@@ -79,7 +80,8 @@ export default function MostRecentWorkout() {
           <View style={styles.workoutTitleContainer}>
             <Text style={styles.workoutName}>{recentWorkout.name}</Text>
             <Text style={styles.workoutDate}>
-              {formatDate(recentWorkout.date)}
+              {/*formatDate(recentWorkout.date)*/}
+              {recentWorkout.date}
             </Text>
           </View>
         </View>

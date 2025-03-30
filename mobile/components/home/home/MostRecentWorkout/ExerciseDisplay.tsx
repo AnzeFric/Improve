@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { useState, Dispatch, SetStateAction } from "react";
-import { Exercise, Workout } from "@/interfaces/workout";
+import { Exercise } from "@/interfaces/workout";
 import { Colors } from "@/constants/Colors";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
   isEditing?: boolean;
   editButton?: React.ReactNode;
   setIsEditing?: (isEditing: boolean) => void;
-  setWorkout?: Dispatch<SetStateAction<Workout>>;
+  setExercises?: Dispatch<SetStateAction<Exercise[]>>;
 }
 
 export default function ExerciseDisplay({
@@ -24,12 +24,12 @@ export default function ExerciseDisplay({
   isEditing,
   editButton,
   setIsEditing,
-  setWorkout,
+  setExercises,
 }: Props) {
   const [updatedSets, setUpdatedSets] = useState(exercise.sets);
 
   const updateSet = (text: string, index: number, key: "rep" | "weight") => {
-    if (!setWorkout || exerciseIndex === undefined) {
+    if (!setExercises || exerciseIndex === undefined) {
       return;
     }
 
@@ -41,13 +41,13 @@ export default function ExerciseDisplay({
 
     setUpdatedSets(newSets);
 
-    setWorkout((prevWorkout) => {
-      const updatedExercises = [...prevWorkout.exercises];
+    setExercises((prevExercises) => {
+      const updatedExercises = [...prevExercises];
       updatedExercises[exerciseIndex] = {
         ...updatedExercises[exerciseIndex],
         sets: newSets,
       };
-      return { ...prevWorkout, exercises: updatedExercises };
+      return { ...prevExercises, exercises: updatedExercises };
     });
   };
 
@@ -63,7 +63,7 @@ export default function ExerciseDisplay({
             <>
               <TextInput
                 style={styles.input}
-                value={String(set.rep)}
+                value={String(set.reps)}
                 keyboardType="numeric"
                 onChangeText={(text) => {
                   updateSet(text, index, "rep");
@@ -80,7 +80,7 @@ export default function ExerciseDisplay({
             </>
           ) : (
             <>
-              <Text style={styles.text}>{set.rep} reps</Text>
+              <Text style={styles.text}>{set.reps} reps</Text>
               <Text style={styles.weight}>{set.weight} kg</Text>
             </>
           )}

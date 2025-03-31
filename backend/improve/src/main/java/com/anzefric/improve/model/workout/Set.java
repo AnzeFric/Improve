@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 @Document(collection = "sets")
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class Set {
     @NonNull

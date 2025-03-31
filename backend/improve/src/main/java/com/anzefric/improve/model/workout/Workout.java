@@ -14,7 +14,7 @@ import java.util.List;
 @Document(collection = "workouts")
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class Workout {
     @Id

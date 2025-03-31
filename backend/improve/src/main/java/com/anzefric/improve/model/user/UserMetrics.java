@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 @Document(collection = "userMetrics")
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserMetrics {
     @Id

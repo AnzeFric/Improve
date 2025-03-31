@@ -11,7 +11,7 @@ import java.util.List;
 @Document(collection = "exercises")
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class Exercise {
     @NonNull

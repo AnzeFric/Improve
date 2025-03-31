@@ -1,17 +1,16 @@
-FROM eclipse-temurin:21-jdk-jammy
-
+FROM eclipse-temurin:21-jdk-jammy AS build
 WORKDIR /app
+COPY mvnw .
+COPY .mvn .mvn
+COPY pom.xml .
+COPY src src
+RUN chmod +x ./mvnw
+RUN ./mvnw dependency:go-offline -B
+RUN ./mvnw install -DskipTests
 
-# Copy Maven wrapper files first
-COPY ./.mvn ./.mvn
-COPY ./mvnw ./mvnw
-COPY ./pom.xml ./
+FROM eclipse-temurin:21-jdk-jammy
+VOLUME /tmp
+COPY --from=build /app/target/*.jar /usr/src/improve/app.jar
+WORKDIR /usr/src/improve
 
-# Copy source code
-COPY ./src ./src
-
-# Expose port
-EXPOSE 8080
-
-# Run Spring Boot directly using Maven wrapper
-CMD ["./mvnw", "spring-boot:run"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=production", "app.jar"]

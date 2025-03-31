@@ -1,13 +1,7 @@
-version: "3.8"
-
 services:
   mongodb:
     image: mongo:latest
     container_name: improve-mongodb
-    ports:
-      - "27017:27017"
-    networks:
-      - be-network
 
   backend:
     build:
@@ -18,9 +12,3 @@ services:
       - "8080:8080"
     depends_on:
       - mongodb
-    networks:
-      - be-network
-
-networks:
-  be-network:
-    driver: bridge

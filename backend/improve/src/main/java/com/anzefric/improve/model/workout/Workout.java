@@ -1,4 +1,4 @@
-package com.anzefric.improve.model;
+package com.anzefric.improve.model.workout;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

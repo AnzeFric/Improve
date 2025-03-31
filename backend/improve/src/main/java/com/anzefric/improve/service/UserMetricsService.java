@@ -14,7 +14,7 @@ public class UserMetricsService {
 
     public UserMetrics create(UserMetrics userMetrics) {
         // Check if the user already has metrics
-        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.findByUserMetricsId(userMetrics.getUserId());
+        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.findByEmail(userMetrics.getEmail());
         if (foundUserMetrics.isPresent()) {
             throw new RuntimeException("Metrics for this user already exists!");
         }
@@ -23,7 +23,7 @@ public class UserMetricsService {
 
     public UserMetrics getUserMetricsByUserId(String userId) {
         // Check if the user has a metrics
-        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.findByUserMetricsId(userId);
+        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.findByEmail(userId);
         if (!foundUserMetrics.isPresent()) {
             throw new RuntimeException("Metrics for this user do not exist!");
         }
@@ -32,7 +32,7 @@ public class UserMetricsService {
     
     public void deleteUserMetrics(String userId) {
         // Check if the user has a metrics
-        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.findByUserMetricsId(userId);
+        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.findByEmail(userId);
         if(!foundUserMetrics.isPresent()) {
             throw new RuntimeException("Metrics for this user do not exist!");
         }

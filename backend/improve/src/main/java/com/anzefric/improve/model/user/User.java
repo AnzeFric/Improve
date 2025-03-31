@@ -17,6 +17,7 @@ import jakarta.validation.constraints.Size;
 @AllArgsConstructor
 public class User {
     @Id
+    @NonNull
     @JsonIgnore
     @Field("uuid")
     private String uuid;
@@ -31,9 +32,9 @@ public class User {
     @Field("lastName")
     private String lastName;
 
-    @NonNull
     @Email
-    @Size(max = 100)
+    @NonNull
+    @Size(min = 1, max = 100)
     @Indexed(unique = true)
     @Field("email")
     private String email;

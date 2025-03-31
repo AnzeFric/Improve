@@ -39,10 +39,10 @@ public class AuthService {
         }
     }
 
-    public void deleteUser(String id) {
-        if (!authRepository.existsById(id)) {
-            throw new RuntimeException("User not found with id: " + id);
+    public void deleteUser(String userId) {
+        if (!authRepository.existsById(userId)) {
+            throw new RuntimeException("User not found with id: " + userId);
         }
-        authRepository.deleteById(id);
+        authRepository.deleteById(userId);
     }
 }

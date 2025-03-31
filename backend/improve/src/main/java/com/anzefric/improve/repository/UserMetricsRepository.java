@@ -7,5 +7,5 @@ import com.anzefric.improve.model.user.UserMetrics;
 import java.util.Optional;
 
 public interface UserMetricsRepository extends MongoRepository<UserMetrics, String> {
-    Optional<UserMetrics> findByEmail(String email);
+    Optional<UserMetrics> getUserMetricsByUserId(String userId);
 }

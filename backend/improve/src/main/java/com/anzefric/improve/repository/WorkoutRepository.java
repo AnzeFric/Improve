@@ -7,5 +7,5 @@ import com.anzefric.improve.model.workout.Workout;
 import java.util.Optional;
 
 public interface WorkoutRepository extends MongoRepository<Workout, String> {
-    Optional<Workout> findByUserId(String userId);
+    Optional<Workout> getUserMetricsByUserId(String userId);
 }

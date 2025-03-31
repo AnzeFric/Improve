@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -15,19 +14,20 @@ import org.springframework.data.mongodb.core.index.Indexed;
 @Document(collection = "userMetrics")
 @Getter
 @Setter
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class UserMetrics {
     @Id
+    @NonNull
     @JsonIgnore
     @Field("uuid")
     private String uuid;
 
     @NonNull
-    @Email
-    @Size(max = 100)
+    @Size(min = 1, max = 1000)
     @Indexed(unique = true)
-    @Field("email")
-    private String email;
+    @Field("userId")
+    private String userId;
 
     @Size(min = 2, max = 3)
     @Field("age")

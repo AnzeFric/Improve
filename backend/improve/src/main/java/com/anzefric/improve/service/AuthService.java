@@ -1,6 +1,6 @@
 package com.anzefric.improve.service;
 
-import com.anzefric.improve.model.User;
+import com.anzefric.improve.model.user.User;
 import com.anzefric.improve.repository.AuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

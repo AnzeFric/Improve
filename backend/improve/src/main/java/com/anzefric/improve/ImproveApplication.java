@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ImproveApplication {
 
     public static void main(String[] args) {
-        System.out.println("Starting Improve backend");
         SpringApplication.run(ImproveApplication.class, args);
         System.out.println("Improve backend started successfully!");
     }

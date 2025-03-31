@@ -1,6 +1,6 @@
 package com.anzefric.improve.controller;
 
-import com.anzefric.improve.model.User;
+import com.anzefric.improve.model.user.User;
 import com.anzefric.improve.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,4 +1,4 @@
-package com.anzefric.improve.model;
+package com.anzefric.improve.model.user;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;

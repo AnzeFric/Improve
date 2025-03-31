@@ -1,4 +1,4 @@
-package com.anzefric.improve.model;
+package com.anzefric.improve.model.user;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Profile {
+public class UserMetrics {
     @Id
     private String id;
 

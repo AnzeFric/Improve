@@ -28,7 +28,7 @@ export default function ExerciseDisplay({
 }: Props) {
   const [updatedSets, setUpdatedSets] = useState(exercise.sets);
 
-  const updateSet = (text: string, index: number, key: "rep" | "weight") => {
+  const updateSet = (text: string, index: number, key: "reps" | "weight") => {
     if (!setExercises || exerciseIndex === undefined) {
       return;
     }
@@ -42,12 +42,10 @@ export default function ExerciseDisplay({
     setUpdatedSets(newSets);
 
     setExercises((prevExercises) => {
-      const updatedExercises = [...prevExercises];
-      updatedExercises[exerciseIndex] = {
-        ...updatedExercises[exerciseIndex],
-        sets: newSets,
-      };
-      return { ...prevExercises, exercises: updatedExercises };
+      let updatedExercises = [...prevExercises];
+      updatedExercises[exerciseIndex].sets = newSets;
+
+      return updatedExercises;
     });
   };
 
@@ -66,7 +64,7 @@ export default function ExerciseDisplay({
                 value={String(set.reps)}
                 keyboardType="numeric"
                 onChangeText={(text) => {
-                  updateSet(text, index, "rep");
+                  updateSet(text, index, "reps");
                 }}
               />
               <TextInput

@@ -5,8 +5,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.validation.constraints.Size;
 
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -19,7 +17,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
 public class UserMetrics {
     @Id
     @NonNull
-    @JsonIgnore
     @Field("uuid")
     private String uuid;
 

@@ -6,8 +6,6 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
@@ -19,7 +17,6 @@ import jakarta.validation.constraints.Size;
 public class User {
     @Id
     @NonNull
-    @JsonIgnore
     @Field("uuid")
     private String uuid;
 
@@ -41,7 +38,7 @@ public class User {
     private String email;
 
     @NonNull
-    @JsonIgnore
+    //@JsonIgnore => Err: Does not save it into db
     @Size(min = 6, max = 60)
     @Field("password")
     private String password;

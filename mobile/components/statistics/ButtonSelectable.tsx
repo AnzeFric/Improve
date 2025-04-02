@@ -1,13 +1,11 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useState } from "react";
 import { Colors } from "@/constants/Colors";
-
-type timeline = "Day" | "Week" | "Month" | "Year";
+import { Timeline } from "@/interfaces/statistics";
 
 interface Props {
-  text: timeline;
-  timeline: timeline;
-  setTimeline: (timeline: timeline) => void;
+  text: Timeline;
+  timeline: Timeline;
+  setTimeline: (timeline: Timeline) => void;
 }
 
 export default function ButtonSelectable({

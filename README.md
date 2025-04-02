@@ -2,11 +2,11 @@
 
 Improve is a health and fitness app made in React native and Java Spring Boot
 
-### Installation
+## Installation
 
 Clone the repository
 
-## FrontEnd
+### FrontEnd
 
 1. Move into directory:
    ```
@@ -26,13 +26,13 @@ Clone the repository
    npx expo run:android
    ```
 
-## BackEnd
+### BackEnd
 
-2. Move into directory:
+1. Move into directory:
    ```
    cd Improve
    ```
-3. Run the backend and MongoDB:
+2. Run the backend and MongoDB:
    ```
    docker compose up --build -d
    ```

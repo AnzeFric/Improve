@@ -4,30 +4,35 @@ Improve is a health and fitness app made in React native and Java Spring Boot
 
 ### Installation
 
-1. Clone the repository
+Clone the repository
+
+## FrontEnd
+
+1. Move into directory:
+   ```
+   cd Improve
+   ```
+2. Move into mobile folder:
+   ```
+   cd mobile
+   ```
+3. Install dependencies:
+   ```
+   npm install
+   ```
+4. Create a `.env` based on `.env.example`
+5. Run mobile app:
+   ```
+   npx expo run:android
+   ```
+
+## BackEnd
+
 2. Move into directory:
    ```
    cd Improve
    ```
-3. move into mobile:
+3. Run the backend and MongoDB:
    ```
-   cd mobile
-   ```
-4. Install dependencies:
-   ```
-   npm install
-   ```
-5. Create a `.env` file based on `.env.example`
-6. Run React-Native app:
-   ```
-   npx expo run:android
-   ```
-7. Move into backend:
-   ```
-   cd backend
-   cd improve
-   ```
-8. Run Spring Boot backend:
-   ```
-   mvn spring-boot:run
+   docker compose up --build -d
    ```

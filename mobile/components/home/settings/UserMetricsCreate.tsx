@@ -1,9 +1,9 @@
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useState } from "react";
 import { Colors } from "@/constants/Colors";
-import ModalProfileCreate from "./ModalProfileCreate";
+import ModalUserMetricsCreate from "./ModalUserMetricsCreate";
 
-export default function ProfileCreate() {
+export default function UserMetricsCreate() {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -14,9 +14,12 @@ export default function ProfileCreate() {
           setIsVisible(true);
         }}
       >
-        <Text style={styles.buttonText}>Create your profile</Text>
+        <Text style={styles.buttonText}>Create your Metrics</Text>
       </TouchableOpacity>
-      <ModalProfileCreate isVisible={isVisible} setIsVisible={setIsVisible} />
+      <ModalUserMetricsCreate
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+      />
     </>
   );
 }

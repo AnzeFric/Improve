@@ -1,13 +1,13 @@
-import useProfileStore from "@/stores/useProfileStore";
+import useUserMetricsStore from "@/stores/useUserMetricsStore";
 import useAuthStore from "@/stores/useAuthStore";
 import Config from "react-native-config";
-import { Profile } from "@/interfaces/user";
+import { UserMetrics } from "@/interfaces/user";
 
-export function useProfile() {
+export function useUserMetrics() {
   const { userId } = useAuthStore();
-  const { setProfile } = useProfileStore();
+  const { userMetrics, setUserMetrics } = useUserMetricsStore();
 
-  const handleSaveProfile = async (
+  const saveUserMetrics = async (
     age: number,
     weight: number,
     height: number
@@ -17,7 +17,7 @@ export function useProfile() {
         return false;
       }
 
-      const newProfile: Profile = {
+      const newUserMetrics: UserMetrics = {
         userId: userId,
         age: age | 0,
         weight: weight,
@@ -25,32 +25,32 @@ export function useProfile() {
       };
 
       const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/profile/create`,
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/create`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(newProfile),
+          body: JSON.stringify(newUserMetrics),
         }
       );
 
       if (response.ok) {
-        setProfile(newProfile);
+        setUserMetrics(newUserMetrics);
         return true;
       } else {
         return false;
       }
     } catch (error) {
-      console.error("Error while saving profile:", error);
+      console.error("Error while saving user metrics: ", error);
       return false;
     }
   };
 
-  const handleGetProfile = async () => {
+  const getUserMetrics = async () => {
     try {
       const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/profile/${userId}`,
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/${userId}`,
         {
           method: "GET",
           headers: {
@@ -60,23 +60,23 @@ export function useProfile() {
       );
 
       if (response.ok) {
-        const profile = await response.json();
-        setProfile(profile);
-        return profile;
+        const userMetrics = await response.json();
+        setUserMetrics(userMetrics);
+        return userMetrics;
       } else {
-        console.log("Failed to fetch profile:", response.status);
+        console.log("Failed to fetch userMetrics: ", response.status);
         return null;
       }
     } catch (error) {
-      console.error("Error while fetching profile:", error);
+      console.error("Error while fetching userMetrics: ", error);
       return null;
     }
   };
 
-  const handleDeleteProfile = async () => {
+  const deleteUserMetrics = async () => {
     try {
       const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/profile/delete/${userId}`,
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/delete/${userId}`,
         {
           method: "DELETE",
           headers: {
@@ -86,21 +86,21 @@ export function useProfile() {
       );
 
       if (response.ok) {
-        setProfile(null);
+        setUserMetrics(null);
         return true;
       } else {
-        console.log("Failed to delete profile:", response.status);
+        console.log("Failed to delete userMetrics: ", response.status);
         return false;
       }
     } catch (error) {
-      console.error("Error while deleting profile: ", error);
+      console.error("Error while deleting userMetrics:  ", error);
       return false;
     }
   };
 
   return {
-    handleSaveProfile,
-    handleGetProfile,
-    handleDeleteProfile,
+    saveUserMetrics,
+    getUserMetrics,
+    deleteUserMetrics,
   };
 }

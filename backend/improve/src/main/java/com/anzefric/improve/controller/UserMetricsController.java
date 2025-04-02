@@ -39,6 +39,7 @@ public class UserMetricsController {
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<String> deleteUserMetricsByUserId(@PathVariable String userId) {
         try {
+            System.out.println("delete: " + userId);
             userMetricsService.deleteUserMetrics(userId);
             return ResponseEntity.ok("User metrics deleted successfully");
         } catch (RuntimeException e) {

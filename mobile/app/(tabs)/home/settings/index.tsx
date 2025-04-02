@@ -12,10 +12,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
 import { User } from "@/interfaces/user";
-import ProfileDisplay from "@/components/home/settings/ProfileDisplay";
-import ProfileCreate from "@/components/home/settings/ProfileCreate";
-import useProfileStore from "@/stores/useProfileStore";
-import { useProfile } from "@/hooks/useProfile";
+import UserMetricsDisplay from "@/components/home/settings/UserMetricsDisplay";
+import UserMetricsCreate from "@/components/home/settings/UserMetricsCreate";
+import useUserMetricsStore from "@/stores/useUserMetricsStore";
+import { useUserMetrics } from "@/hooks/useUserMetrics";
 
 const fakeUser: User = {
   id: "123f1d21d12d",
@@ -28,31 +28,35 @@ const fakeUser: User = {
 export default function SettingsScreen() {
   const { handleLogout, handleDelete } = useAuth();
   const [user, setUser] = useState<User>(fakeUser);
-  const { profile } = useProfileStore();
-  const { handleGetProfile } = useProfile();
+  const { userMetrics } = useUserMetricsStore();
+  const { getUserMetrics } = useUserMetrics();
 
   useEffect(() => {
-    if (!profile) {
-      handleGetProfile();
+    if (!userMetrics) {
+      getUserMetrics();
     }
-  }, [profile]);
+  }, [userMetrics]);
 
   return (
     <ScrollView>
       <TitleRow title="Settings" hasBackButton={true} />
 
       <View style={styles.contentContainer}>
-        <View style={styles.profileCard}>
+        <View style={styles.userMetricsCard}>
           <Ionicons
             name="person-circle"
             size={64}
             color={Colors.light.specialBlue}
           />
-          <Text style={styles.profileName}>
+          <Text style={styles.userMetricsName}>
             {user.firstName} {user.lastName}
           </Text>
 
-          {profile ? <ProfileDisplay profile={profile} /> : <ProfileCreate />}
+          {userMetrics ? (
+            <UserMetricsDisplay userMetrics={userMetrics} />
+          ) : (
+            <UserMetricsCreate />
+          )}
         </View>
 
         <View style={styles.buttonsContainer}>
@@ -87,7 +91,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 15,
   },
-  profileCard: {
+  userMetricsCard: {
     backgroundColor: "#fff",
     borderRadius: 16,
     padding: 20,
@@ -99,7 +103,7 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     marginBottom: 20,
   },
-  profileName: {
+  userMetricsName: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#333",

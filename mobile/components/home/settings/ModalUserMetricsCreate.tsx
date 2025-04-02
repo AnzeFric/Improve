@@ -9,15 +9,18 @@ import {
 import { useState, useCallback } from "react";
 import { useFocusEffect } from "expo-router";
 import { Colors } from "@/constants/Colors";
-import { useProfile } from "@/hooks/useProfile";
+import { useUserMetrics } from "@/hooks/useUserMetrics";
 
 interface Props {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
 }
 
-export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
-  const { handleSaveProfile } = useProfile();
+export default function ModalUserMetricsCreate({
+  isVisible,
+  setIsVisible,
+}: Props) {
+  const { saveUserMetrics } = useUserMetrics();
   const [age, setAge] = useState("");
   const [weight, setWeight] = useState<string>("");
   const [height, setHeight] = useState<string>("");
@@ -50,7 +53,7 @@ export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
     const intWeight = parseFloat(weight);
     const intHeight = parseFloat(height);
 
-    handleSaveProfile(intAge, intWeight, intHeight).then((response) => {
+    saveUserMetrics(intAge, intWeight, intHeight).then((response) => {
       if (response) {
         setIsVisible(false);
       } else {
@@ -63,7 +66,7 @@ export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
     <Modal visible={isVisible} transparent animationType={"fade"}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.title}>Create your profile</Text>
+          <Text style={styles.title}>Create your Metrics</Text>
           <View style={styles.contentContainer}>
             <View style={styles.inputContainer}>
               <TextInput
@@ -113,7 +116,7 @@ export default function ModalProfileCreate({ isVisible, setIsVisible }: Props) {
 
             {errorOccured && (
               <Text style={styles.generalErrorText}>
-                Failed to save profile. Please try again.
+                Failed to save user metrics. Please try again.
               </Text>
             )}
 

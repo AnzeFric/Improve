@@ -1,29 +1,29 @@
 import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { Profile } from "@/interfaces/user";
+import { UserMetrics } from "@/interfaces/user";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
 import ModalBottomAction from "../../global/modals/ModalBottomAction";
 import { useBmiCalculator } from "@/hooks/useBmiCalculator";
-import { useProfile } from "@/hooks/useProfile";
+import { useUserMetrics } from "@/hooks/useUserMetrics";
 
 interface Props {
-  profile: Profile;
+  userMetrics: UserMetrics;
 }
 
-export default function ProfileDisplay({ profile }: Props) {
+export default function UserMetricsDisplay({ userMetrics }: Props) {
   const [isVisible, setIsVisible] = useState(false);
   const { getBmiCategory, getBmiColor, calculateBmi } = useBmiCalculator();
-  const { handleDeleteProfile } = useProfile();
+  const { deleteUserMetrics } = useUserMetrics();
 
   const bmi = useMemo(() => {
-    return calculateBmi(profile.weight, profile.height);
-  }, [profile]);
+    return calculateBmi(userMetrics.weight, userMetrics.height);
+  }, [userMetrics]);
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.sectionTitle}>Profile</Text>
+        <Text style={styles.sectionTitle}>User Metrics</Text>
         <TouchableOpacity
           style={styles.editIconButton}
           onPress={() => setIsVisible(true)}
@@ -37,11 +37,11 @@ export default function ProfileDisplay({ profile }: Props) {
       </View>
 
       <View style={styles.statContainer}>
-        {/* When using conditional rendering it gives an error (&&) */}
-        {profile.age ? (
+        {/* When using conditional rendering(&&) it gives an error */}
+        {userMetrics.age ? (
           <>
             <View style={styles.statItem}>
-              <Text style={styles.statValue}>{profile.age}</Text>
+              <Text style={styles.statValue}>{userMetrics.age}</Text>
               <Text style={styles.statLabel}>Age</Text>
             </View>
             <View style={styles.divider} />
@@ -50,12 +50,12 @@ export default function ProfileDisplay({ profile }: Props) {
           <></>
         )}
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{profile.height}</Text>
+          <Text style={styles.statValue}>{userMetrics.height}</Text>
           <Text style={styles.statLabel}>cm</Text>
         </View>
         <View style={styles.divider} />
         <View style={styles.statItem}>
-          <Text style={styles.statValue}>{profile.weight}</Text>
+          <Text style={styles.statValue}>{userMetrics.weight}</Text>
           <Text style={styles.statLabel}>kg</Text>
         </View>
       </View>
@@ -72,10 +72,10 @@ export default function ProfileDisplay({ profile }: Props) {
       </View>
 
       <ModalBottomAction
-        subject={"Profile"}
+        subject={"Metrics"}
         isVisible={isVisible}
         setIsVisible={setIsVisible}
-        handleDelete={handleDeleteProfile}
+        handleDelete={deleteUserMetrics}
         handleEdit={() => {}}
       />
     </View>

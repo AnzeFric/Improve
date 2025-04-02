@@ -7,7 +7,7 @@ export interface User {
   age?: number;
 }
 
-export interface Profile {
+export interface UserMetrics {
   userId: string;
   age?: number;
   weight: number;

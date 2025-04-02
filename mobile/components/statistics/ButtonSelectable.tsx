@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light.specialBlue,
     borderRadius: 12,
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 8,
     borderWidth: 1,
     borderColor: Colors.light.specialBlue,
   },
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 12,
     paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 8,
   },
   buttonText: {
     color: "#fff",

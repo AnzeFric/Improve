@@ -1,3 +1,4 @@
+import React, { useState, useRef, useEffect } from "react";
 import {
   Text,
   View,
@@ -5,10 +6,11 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  Animated,
 } from "react-native";
-import { useState } from "react";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
+
 interface Props {
   placeholder: string;
   searchOptions: Array<string>;
@@ -17,7 +19,7 @@ interface Props {
   onPress: () => void;
 }
 
-export default function AutoComplete({
+export default function InputDropDown({
   placeholder,
   searchOptions,
   isFocused,
@@ -27,6 +29,27 @@ export default function AutoComplete({
   const [value, setValue] = useState(
     searchOptions[0].length > 0 ? searchOptions[0] : ""
   );
+
+  // Create an Animated Value for rotation
+  const rotationAnim = useRef(new Animated.Value(0)).current;
+
+  // Animate rotation when isFocused changes
+  useEffect(() => {
+    Animated.timing(rotationAnim, {
+      toValue: isFocused ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [isFocused]);
+
+  // Interpolate the animated value to a rotation angle
+  const rotateInterpolate = rotationAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["270deg", "360deg"],
+  });
+
+  // Wrap the Ionicons component with Animated
+  const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons);
 
   const handleOption = (option: string) => {
     setValue(option);
@@ -53,11 +76,13 @@ export default function AutoComplete({
           onPress={onPress}
           style={styles.input}
         />
-        {isFocused ? (
-          <Ionicons name={"caret-down-outline"} size={20} color={"#000"} />
-        ) : (
-          <Ionicons name={"caret-forward-outline"} size={20} color={"#000"} />
-        )}
+        {/* Animated caret icon */}
+        <AnimatedIonicons
+          name="caret-down-outline"
+          size={20}
+          color={"#000"}
+          style={{ transform: [{ rotate: rotateInterpolate }] }}
+        />
       </View>
 
       {isFocused && (
@@ -93,7 +118,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#eee",
     borderRadius: 8,
-    display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

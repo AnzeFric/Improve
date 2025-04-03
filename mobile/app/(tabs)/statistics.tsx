@@ -4,7 +4,7 @@ import TitleRow from "@/components/global/TitleRow";
 import DaySelector from "@/components/statistics/DaySelector";
 import { Timeline } from "@/interfaces/statistics";
 import { Colors } from "@/constants/Colors";
-import AutoComplete from "@/components/global/AutoComplete";
+import InputDropDown from "@/components/global/InputDropDown";
 import { lineDataItem } from "react-native-gifted-charts";
 import Charts from "@/components/statistics/Charts";
 
@@ -94,7 +94,7 @@ export default function StatisticsScreen() {
           <View style={styles.contentContainer}>
             <Text style={styles.title}>Workout</Text>
             <View style={styles.inputContainer}>
-              <AutoComplete
+              <InputDropDown
                 placeholder={"Choose workout"}
                 searchOptions={workoutOptions}
                 isFocused={showWorkout}
@@ -116,7 +116,7 @@ export default function StatisticsScreen() {
           <View style={styles.contentContainer}>
             <Text style={styles.title}>Exercise</Text>
             <View style={styles.inputContainer}>
-              <AutoComplete
+              <InputDropDown
                 placeholder={"Choose exercise"}
                 searchOptions={exerciseOptions}
                 isFocused={showExercise}
@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   title: {
     fontSize: 22,

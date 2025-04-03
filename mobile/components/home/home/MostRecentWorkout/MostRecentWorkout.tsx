@@ -4,7 +4,6 @@ import { Colors } from "@/constants/Colors";
 import { Workout } from "@/interfaces/workout";
 import WorkoutDisplay from "./WorkoutDisplay";
 import { Ionicons } from "@expo/vector-icons";
-import { formatDate } from "@/constants/Utils";
 
 const fakeWorkout: Workout = {
   name: "Pull day",

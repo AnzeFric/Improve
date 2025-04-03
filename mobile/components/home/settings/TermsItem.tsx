@@ -1,4 +1,4 @@
-import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { router } from "expo-router";
 
 interface Props {

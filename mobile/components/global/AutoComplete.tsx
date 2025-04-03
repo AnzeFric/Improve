@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { Colors } from "@/constants/Colors";
-
+import { Ionicons } from "@expo/vector-icons";
 interface Props {
   placeholder: string;
   searchOptions: Array<string>;
@@ -39,14 +39,26 @@ export default function AutoComplete({
 
   return (
     <View>
-      <TextInput
-        placeholder={placeholder}
-        value={value}
-        onChangeText={setValue}
-        onFocus={handleFocus}
-        onPress={onPress}
-        style={[styles.input, isFocused && styles.focusedInput]}
-      />
+      <View
+        style={[
+          styles.inputContainer,
+          isFocused && styles.focusedInputContainer,
+        ]}
+      >
+        <TextInput
+          value={value}
+          placeholder={placeholder}
+          onChangeText={setValue}
+          onFocus={handleFocus}
+          onPress={onPress}
+          style={styles.input}
+        />
+        {isFocused ? (
+          <Ionicons name={"caret-down-outline"} size={20} color={"#000"} />
+        ) : (
+          <Ionicons name={"caret-forward-outline"} size={20} color={"#000"} />
+        )}
+      </View>
 
       {isFocused && (
         <View style={styles.container}>
@@ -77,17 +89,24 @@ export default function AutoComplete({
 }
 
 const styles = StyleSheet.create({
-  input: {
+  inputContainer: {
     borderWidth: 2,
     borderColor: "#eee",
-    marginBottom: 10,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    fontSize: 15,
     borderRadius: 8,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingEnd: 10,
   },
-  focusedInput: {
+  focusedInputContainer: {
     borderColor: Colors.light.specialBlue,
+  },
+  input: {
+    fontSize: 15,
+    flex: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   },
   container: {
     position: "absolute",

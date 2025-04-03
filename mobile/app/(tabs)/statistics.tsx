@@ -5,6 +5,9 @@ import DaySelector from "@/components/statistics/DaySelector";
 import { Timeline } from "@/interfaces/statistics";
 import { Colors } from "@/constants/Colors";
 import AutoComplete from "@/components/global/AutoComplete";
+import { LineChart } from "react-native-gifted-charts";
+
+const data = [{ value: 50 }, { value: 80 }, { value: 90 }, { value: 70 }];
 
 const workoutOptions = [
   "Pull day",
@@ -52,7 +55,9 @@ export default function StatisticsScreen() {
               timeline={overallTimeline}
               setTimeline={setOverallTimeline}
             />
-            <Text>Graph</Text>
+            <View style={styles.chartContainer}>
+              <LineChart data={data} areaChart />
+            </View>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.title}>Workout</Text>
@@ -84,7 +89,9 @@ export default function StatisticsScreen() {
               timeline={exerciseTimeline}
               setTimeline={setExerciseTimeline}
             />
-            <Text>Graph</Text>
+            <View style={styles.chartContainer}>
+              <LineChart data={data} areaChart />
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -103,6 +110,9 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     gap: 10,
+  },
+  chartContainer: {
+    paddingTop: 10,
   },
   input: {
     borderBottomWidth: 1,

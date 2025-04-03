@@ -1,13 +1,28 @@
-import { Text, View, ScrollView, Pressable, StyleSheet } from "react-native";
+import {
+  Text,
+  View,
+  ScrollView,
+  Pressable,
+  Dimensions,
+  StyleSheet,
+} from "react-native";
 import { useState } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import DaySelector from "@/components/statistics/DaySelector";
 import { Timeline } from "@/interfaces/statistics";
 import { Colors } from "@/constants/Colors";
 import AutoComplete from "@/components/global/AutoComplete";
-import { LineChart } from "react-native-gifted-charts";
+import { LineChart, lineDataItem } from "react-native-gifted-charts";
 
-const data = [{ value: 50 }, { value: 80 }, { value: 90 }, { value: 70 }];
+const data: Array<lineDataItem> = [
+  { value: 50, label: "M", secondaryLabel: "h" },
+  { value: 10, label: "T", secondaryLabel: "h" },
+  { value: 50, label: "W", secondaryLabel: "h" },
+  { value: 10, label: "T", secondaryLabel: "h" },
+  { value: 50, label: "F", secondaryLabel: "h" },
+  { value: 50, label: "S", secondaryLabel: "h" },
+  { value: 50, label: "S", secondaryLabel: "h" },
+];
 
 const workoutOptions = [
   "Pull day",
@@ -31,10 +46,12 @@ const exerciseOptions = [
   "Deadlift",
 ];
 
+const windowWidth = Dimensions.get("window").width;
+
 export default function StatisticsScreen() {
-  const [overallTimeline, setOverallTimeline] = useState<Timeline>("Day");
-  const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Day");
-  const [exerciseTimeline, setExerciseTimeline] = useState<Timeline>("Day");
+  const [overallTimeline, setOverallTimeline] = useState<Timeline>("Week");
+  const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Week");
+  const [exerciseTimeline, setExerciseTimeline] = useState<Timeline>("Week");
 
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
@@ -56,7 +73,15 @@ export default function StatisticsScreen() {
               setTimeline={setOverallTimeline}
             />
             <View style={styles.chartContainer}>
-              <LineChart data={data} areaChart />
+              <LineChart
+                data={data}
+                width={windowWidth * 0.815}
+                spacing={windowWidth * 0.125}
+                xAxisLabelTextStyle={{ fontSize: 14 }}
+                xAxisIndicesColor={"transparent"}
+                yAxisIndicesColor={"transparent"}
+                endSpacing={0}
+              />
             </View>
           </View>
           <View style={styles.contentContainer}>
@@ -74,7 +99,17 @@ export default function StatisticsScreen() {
               timeline={workoutTimeline}
               setTimeline={setWorkoutTimeline}
             />
-            <Text>Graph</Text>
+            <View style={styles.chartContainer}>
+              <LineChart
+                data={data}
+                width={windowWidth * 0.815}
+                spacing={windowWidth * 0.125}
+                xAxisLabelTextStyle={{ fontSize: 14 }}
+                xAxisIndicesColor={"transparent"}
+                yAxisIndicesColor={"transparent"}
+                endSpacing={0}
+              />
+            </View>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.title}>Exercise</Text>
@@ -113,6 +148,8 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     paddingTop: 10,
+    width: "100%",
+    paddingRight: 20,
   },
   input: {
     borderBottomWidth: 1,

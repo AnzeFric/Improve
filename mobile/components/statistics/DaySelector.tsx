@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import ButtonSelectable from "./ButtonSelectable";
 import { Timeline } from "@/interfaces/statistics";
 
@@ -9,16 +9,7 @@ interface Props {
 
 export default function DaySelector({ timeline, setTimeline }: Props) {
   return (
-    <ScrollView
-      horizontal={true}
-      contentContainerStyle={styles.buttonContainer}
-      showsHorizontalScrollIndicator={false}
-    >
-      <ButtonSelectable
-        text={"Day"}
-        timeline={timeline}
-        setTimeline={setTimeline}
-      />
+    <View style={styles.buttonContainer}>
       <ButtonSelectable
         text={"Week"}
         timeline={timeline}
@@ -34,12 +25,15 @@ export default function DaySelector({ timeline, setTimeline }: Props) {
         timeline={timeline}
         setTimeline={setTimeline}
       />
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   buttonContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "flex-end",
     gap: 10,
   },
 });

@@ -78,12 +78,13 @@ export default function AutoComplete({
 
 const styles = StyleSheet.create({
   input: {
-    borderBottomWidth: 1,
-    borderColor: Colors.light.inactiveIcon,
+    borderWidth: 2,
+    borderColor: "#eee",
     marginBottom: 10,
-    paddingHorizontal: 2,
+    paddingHorizontal: 10,
     paddingVertical: 8,
     fontSize: 15,
+    borderRadius: 8,
   },
   focusedInput: {
     borderColor: Colors.light.specialBlue,

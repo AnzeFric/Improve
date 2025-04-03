@@ -1,27 +1,44 @@
-import {
-  Text,
-  View,
-  ScrollView,
-  Pressable,
-  Dimensions,
-  StyleSheet,
-} from "react-native";
+import { Text, View, ScrollView, Pressable, StyleSheet } from "react-native";
 import { useState } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import DaySelector from "@/components/statistics/DaySelector";
 import { Timeline } from "@/interfaces/statistics";
 import { Colors } from "@/constants/Colors";
 import AutoComplete from "@/components/global/AutoComplete";
-import { LineChart, lineDataItem } from "react-native-gifted-charts";
+import { lineDataItem } from "react-native-gifted-charts";
+import Charts from "@/components/statistics/Charts";
 
-const data: Array<lineDataItem> = [
-  { value: 50, label: "M", secondaryLabel: "h" },
-  { value: 10, label: "T", secondaryLabel: "h" },
-  { value: 50, label: "W", secondaryLabel: "h" },
-  { value: 10, label: "T", secondaryLabel: "h" },
-  { value: 50, label: "F", secondaryLabel: "h" },
-  { value: 50, label: "S", secondaryLabel: "h" },
-  { value: 50, label: "S", secondaryLabel: "h" },
+const dataWeek: Array<lineDataItem> = [
+  { value: 10, label: "M" },
+  { value: 0, label: "T" },
+  { value: 0, label: "W" },
+  { value: 0, label: "T" },
+  { value: 0, label: "F" },
+  { value: 0, label: "S" },
+  { value: 0, label: "S" },
+];
+
+const dataMonth: Array<lineDataItem> = [
+  { value: 0, label: "1.4" },
+  { value: 0, label: "7.4" },
+  { value: 0, label: "14.4" },
+  { value: 0, label: "21.4" },
+  { value: 0, label: "28.4" },
+];
+
+const dataYear: Array<lineDataItem> = [
+  { value: 0, label: "JAN" },
+  { value: 0, label: "FEB" },
+  { value: 0, label: "MAR" },
+  { value: 0, label: "APR" },
+  { value: 0, label: "MAY" },
+  { value: 0, label: "JUN" },
+  { value: 0, label: "JUL" },
+  { value: 0, label: "AVG" },
+  { value: 0, label: "SEP" },
+  { value: 0, label: "OCT" },
+  { value: 0, label: "NOV" },
+  { value: 0, label: "DEC" },
 ];
 
 const workoutOptions = [
@@ -45,8 +62,6 @@ const exerciseOptions = [
   "Cable row",
   "Deadlift",
 ];
-
-const windowWidth = Dimensions.get("window").width;
 
 export default function StatisticsScreen() {
   const [overallTimeline, setOverallTimeline] = useState<Timeline>("Week");
@@ -73,59 +88,48 @@ export default function StatisticsScreen() {
               setTimeline={setOverallTimeline}
             />
             <View style={styles.chartContainer}>
-              <LineChart
-                data={data}
-                width={windowWidth * 0.815}
-                spacing={windowWidth * 0.125}
-                xAxisLabelTextStyle={{ fontSize: 14 }}
-                xAxisIndicesColor={"transparent"}
-                yAxisIndicesColor={"transparent"}
-                endSpacing={0}
-              />
+              <Charts data={dataWeek} timePeriod={overallTimeline} />
             </View>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.title}>Workout</Text>
-            <AutoComplete
-              placeholder={"Choose workout"}
-              searchOptions={workoutOptions}
-              isFocused={showWorkout}
-              setIsFocused={setShowWorkout}
-              onPress={() => {
-                setShowExercise(false);
-              }}
-            />
+            <View style={styles.inputContainer}>
+              <AutoComplete
+                placeholder={"Choose workout"}
+                searchOptions={workoutOptions}
+                isFocused={showWorkout}
+                setIsFocused={setShowWorkout}
+                onPress={() => {
+                  setShowExercise(false);
+                }}
+              />
+            </View>
+
             <DaySelector
               timeline={workoutTimeline}
               setTimeline={setWorkoutTimeline}
             />
             <View style={styles.chartContainer}>
-              <LineChart
-                data={data}
-                width={windowWidth * 0.815}
-                spacing={windowWidth * 0.125}
-                xAxisLabelTextStyle={{ fontSize: 14 }}
-                xAxisIndicesColor={"transparent"}
-                yAxisIndicesColor={"transparent"}
-                endSpacing={0}
-              />
+              <Charts data={dataMonth} timePeriod={workoutTimeline} />
             </View>
           </View>
           <View style={styles.contentContainer}>
             <Text style={styles.title}>Exercise</Text>
-            <AutoComplete
-              placeholder={"Choose exercise"}
-              searchOptions={exerciseOptions}
-              isFocused={showExercise}
-              setIsFocused={setShowExercise}
-              onPress={() => setShowWorkout(false)}
-            />
+            <View style={styles.inputContainer}>
+              <AutoComplete
+                placeholder={"Choose exercise"}
+                searchOptions={exerciseOptions}
+                isFocused={showExercise}
+                setIsFocused={setShowExercise}
+                onPress={() => setShowWorkout(false)}
+              />
+            </View>
             <DaySelector
               timeline={exerciseTimeline}
               setTimeline={setExerciseTimeline}
             />
             <View style={styles.chartContainer}>
-              <LineChart data={data} areaChart />
+              <Charts data={dataYear} timePeriod={exerciseTimeline} />
             </View>
           </View>
         </View>
@@ -145,20 +149,27 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     gap: 10,
+    borderWidth: 3,
+    borderColor: Colors.light.underlayOrange,
+    borderRadius: 8,
+    elevation: 3,
+    backgroundColor: "#fff",
   },
   chartContainer: {
-    paddingTop: 10,
+    paddingVertical: 10,
     width: "100%",
     paddingRight: 20,
   },
-  input: {
-    borderBottomWidth: 1,
-    borderColor: Colors.light.specialBlue,
-    marginBottom: 10,
+  inputContainer: {
+    paddingHorizontal: 10,
   },
   title: {
     fontSize: 22,
     fontWeight: "bold",
     color: "#333333",
+    backgroundColor: Colors.light.underlayOrange,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+    alignSelf: "flex-start",
   },
 });

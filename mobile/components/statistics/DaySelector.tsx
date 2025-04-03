@@ -1,3 +1,4 @@
+import React from "react";
 import { View, StyleSheet } from "react-native";
 import ButtonSelectable from "./ButtonSelectable";
 import { Timeline } from "@/interfaces/statistics";
@@ -31,9 +32,8 @@ export default function DaySelector({ timeline, setTimeline }: Props) {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "space-around",
     gap: 10,
   },
 });

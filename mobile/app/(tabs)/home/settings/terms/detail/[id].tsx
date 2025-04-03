@@ -17,8 +17,8 @@ export default function TermsAndConditionsDetail() {
       <View>
         <TitleRow title={"Item not found"} hasBackButton={true} />
         <View style={styles.contentContainer}>
-          <Text>
-            Item not found, return to the previous page and try again.
+          <Text style={styles.text}>
+            Return to the previous page and try again.
           </Text>
         </View>
       </View>
@@ -29,7 +29,7 @@ export default function TermsAndConditionsDetail() {
     <View>
       <TitleRow title={data.title} hasBackButton={true} />
       <View style={styles.contentContainer}>
-        <Text>{data.description}</Text>
+        <Text style={styles.text}>{data.description}</Text>
       </View>
     </View>
   );
@@ -39,5 +39,8 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 20,
     paddingVertical: 25,
+  },
+  text: {
+    fontSize: 15,
   },
 });

@@ -5,6 +5,7 @@ import com.anzefric.improve.repository.UserMetricsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserMetricsService {
@@ -13,26 +14,23 @@ public class UserMetricsService {
     private UserMetricsRepository userMetricsRepository;
 
     public UserMetrics create(UserMetrics userMetrics) {
-        // Check if the user already has metrics
-        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.getUserMetricsByUserId(userMetrics.getUserId());
+        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.getUserMetricsByUserUuid(userMetrics.getUserUuid());
         if (foundUserMetrics.isPresent()) {
             throw new RuntimeException("Metrics for this user already exists!");
         }
         return userMetricsRepository.save(userMetrics);
     }
 
-    public UserMetrics getUserMetricsByUserId(String userId) {
-        // Check if the user has a metrics
-        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.getUserMetricsByUserId(userId);
+    public UserMetrics getUserMetricsByUserId(UUID userUuid) {
+        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.getUserMetricsByUserUuid(userUuid);
         if (!foundUserMetrics.isPresent()) {
             throw new RuntimeException("Metrics for this user do not exist!");
         }
         return foundUserMetrics.get();
     }  
     
-    public void deleteUserMetrics(String userId) {
-        // Check if the user has a metrics
-        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.getUserMetricsByUserId(userId);
+    public void deleteUserMetrics(UUID userUuid) {
+        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.getUserMetricsByUserUuid(userUuid);
         if(!foundUserMetrics.isPresent()) {
             throw new RuntimeException("Metrics for this user do not exist!");
         }

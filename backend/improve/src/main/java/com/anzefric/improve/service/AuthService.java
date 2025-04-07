@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -14,8 +15,7 @@ public class AuthService {
     private AuthRepository authRepository;
 
     public User register(User user) {
-        // Check if user already exists
-        if (authRepository.findByEmail(user.getEmail()).isPresent()) {
+        if (authRepository.findByEmailIgnoreCase(user.getEmail()).isPresent()) {
             throw new RuntimeException("User with this email already exists");
         }
         
@@ -23,12 +23,11 @@ public class AuthService {
     }
     
     public User login(String email, String password) {
-        Optional<User> userOptional = authRepository.findByEmail(email);
+        Optional<User> userOptional = authRepository.findByEmailIgnoreCase(email);
         
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             
-            // String comparison for password
             if (user.getPassword().equals(password)) {
                 return user;
             } else {
@@ -39,10 +38,10 @@ public class AuthService {
         }
     }
 
-    public void deleteUser(String userId) {
-        if (!authRepository.existsById(userId)) {
-            throw new RuntimeException("User not found with id: " + userId);
+    public void deleteUser(UUID userUuid) {
+        if (!authRepository.existsByUserUuid(userUuid)) {
+            throw new RuntimeException("User not found, with uuid: " + userUuid);
         }
-        authRepository.deleteById(userId);
+        authRepository.existsByUserUuid(userUuid);
     }
 }

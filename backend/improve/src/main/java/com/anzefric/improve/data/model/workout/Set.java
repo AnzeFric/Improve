@@ -17,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "sets")
 public class Set {
     @Id
-    @NonNull
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "set_seq")
     @SequenceGenerator(name = "set_seq", sequenceName = "set_sequence", allocationSize = 1)

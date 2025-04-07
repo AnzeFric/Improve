@@ -19,7 +19,6 @@ import java.util.List;
 @Table(name = "exercises")
 public class Exercise {
     @Id
-    @NonNull
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exercise_seq")
     @SequenceGenerator(name = "exercise_seq", sequenceName = "exercise_sequence", allocationSize = 1)

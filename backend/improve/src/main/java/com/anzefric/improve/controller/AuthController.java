@@ -44,7 +44,7 @@ public class AuthController {
             User user = authService.login(email, password);
 
             Map<String, Object> response = Map.of(
-                "userId", user.getUuid()
+                "userId", user.getUserUuid()
             );
 
             return ResponseEntity.ok(response);

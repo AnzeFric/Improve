@@ -15,12 +15,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
-    @NonNull
     @JsonIgnore
     @Column(unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
@@ -29,7 +26,7 @@ public class User {
 
     @NonNull
     @Column(unique = true, nullable = false)
-    private UUID uuid;
+    private UUID userUuid;
 
     @NonNull
     @Column(name = "first_name", nullable = false, length = DataLengths.L_64)
@@ -47,8 +44,9 @@ public class User {
     @Size(min = DataLengths.L_4, max = DataLengths.L_128)
     private String email;
 
+    //@JsonIgnore => Ne shrani v bazo. Ce se to ohrani in doda nullable = false, request ne gre skoz. Error
+    //                      Ce se odstrani NonNull(in nullable) ali JsonIgnore, dela
     @NonNull
-    @JsonIgnore
     @Column(nullable = false, length = DataLengths.L_128)
     @Size(min = DataLengths.L_8, max = DataLengths.L_128)
     private String password;
@@ -56,4 +54,9 @@ public class User {
     @Min(0)
     @Column(name = "day_streak", nullable = false, length = DataLengths.L_INT)
     private int dayStreak;
+
+    public User() {
+        super();
+        this.userUuid = UUID.randomUUID();
+    }
 }

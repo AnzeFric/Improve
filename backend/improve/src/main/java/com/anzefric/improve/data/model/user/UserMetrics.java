@@ -19,7 +19,6 @@ import java.util.UUID;
 @Table(name = "user_metrics")
 public class UserMetrics {
     @Id
-    @NonNull
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "metrics_seq")
     @SequenceGenerator(name = "metrics_seq", sequenceName = "metrics_sequence", allocationSize = 1)

@@ -21,16 +21,11 @@ import java.util.UUID;
 @Table(name = "workouts")
 public class Workout {
     @Id
-    @NonNull
     @JsonIgnore
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "workout_seq")
     @SequenceGenerator(name = "workout_seq", sequenceName = "workout_sequence", allocationSize = 1)
     @Column(nullable = false, unique = true)
     private Long id;
-
-    @NonNull
-    @Column(unique = true, nullable = false)
-    private UUID uuid;
 
     @NonNull
     @Size(min = DataLengths.L_2, max = DataLengths.L_256)

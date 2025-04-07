@@ -29,6 +29,10 @@ public class Workout {
     private Long id;
 
     @NonNull
+    @Column(unique = true, nullable = false)
+    private UUID uuid;
+
+    @NonNull
     @Size(min = DataLengths.L_2, max = DataLengths.L_256)
     @Column(nullable = false, length = DataLengths.L_256)
     private String name;

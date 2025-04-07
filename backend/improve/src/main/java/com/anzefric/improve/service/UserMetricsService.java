@@ -1,6 +1,6 @@
 package com.anzefric.improve.service;
 
-import com.anzefric.improve.model.user.UserMetrics;
+import com.anzefric.improve.data.model.user.UserMetrics;
 import com.anzefric.improve.repository.UserMetricsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

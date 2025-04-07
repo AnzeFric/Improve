@@ -1,6 +1,6 @@
 package com.anzefric.improve.controller;
 
-import com.anzefric.improve.model.user.User;
+import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -60,5 +60,5 @@ public class AuthController {
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
         }
-    }
+    } 
 }

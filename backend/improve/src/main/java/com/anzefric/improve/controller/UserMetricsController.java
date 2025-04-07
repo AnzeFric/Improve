@@ -1,6 +1,6 @@
 package com.anzefric.improve.controller;
 
-import com.anzefric.improve.model.user.UserMetrics;
+import com.anzefric.improve.data.model.user.UserMetrics;
 import com.anzefric.improve.service.UserMetricsService;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,6 +3,8 @@ package com.anzefric.improve.controller;
 import com.anzefric.improve.data.model.user.UserMetrics;
 import com.anzefric.improve.service.UserMetricsService;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +29,9 @@ public class UserMetricsController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserMetrics> getUserMetricsByUserId(@PathVariable String userId) {
+    public ResponseEntity<UserMetrics> getUserMetricsByUserId(@PathVariable UUID userUuid) {
         try {
-            UserMetrics userMetrics = userMetricsService.getUserMetricsByUserId(userId);
+            UserMetrics userMetrics = userMetricsService.getUserMetricsByUserId(userUuid);
             return ResponseEntity.ok(userMetrics);
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
@@ -37,9 +39,9 @@ public class UserMetricsController {
     }
 
     @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<String> deleteUserMetricsByUserId(@PathVariable String userId) {
+    public ResponseEntity<String> deleteUserMetricsByUserId(@PathVariable UUID userUuid) {
         try {
-            userMetricsService.deleteUserMetrics(userId);
+            userMetricsService.deleteUserMetrics(userUuid);
             return ResponseEntity.ok("User metrics deleted successfully");
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

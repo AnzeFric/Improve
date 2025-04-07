@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -52,10 +53,10 @@ public class AuthController {
         }
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> delete(@PathVariable String id) {
+    @DeleteMapping("/delete/{uuid}")
+    public ResponseEntity<String> delete(@PathVariable UUID uuid) {
         try {
-            authService.deleteUser(id);
+            authService.deleteUser(uuid);
             return ResponseEntity.ok("User deleted successfully");
         } catch (RuntimeException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());

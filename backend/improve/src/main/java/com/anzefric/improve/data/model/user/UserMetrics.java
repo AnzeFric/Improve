@@ -36,7 +36,7 @@ public class UserMetrics {
 
     @Min(20)
     @Max(700)
-    @Column(nullable = false, length = DataLengths.L_DOUBLE)
+    @Column(nullable = false, length = DataLengths.L_DOUBLE) // length smiseln?
     private double weight;
 
     @Min(40)

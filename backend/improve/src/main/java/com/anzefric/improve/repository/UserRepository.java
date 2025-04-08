@@ -5,10 +5,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.anzefric.improve.data.model.user.UserMetrics;
+import com.anzefric.improve.data.model.user.User;
 import java.util.UUID;
 
 @Repository
-public interface UserMetricsRepository extends JpaRepository<UserMetrics, Long> {
-    Optional<UserMetrics> getUserMetricsByUserUuid(UUID userUuid);
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmailIgnoreCase(String email);
+    Boolean existsByUserUuid(UUID userUuid);
 }

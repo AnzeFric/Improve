@@ -1,7 +1,11 @@
 package com.anzefric.improve.controller;
 
+import com.anzefric.improve.data.dto.LoginUserDto;
+import com.anzefric.improve.data.dto.RegisterUserDto;
 import com.anzefric.improve.data.model.user.User;
-import com.anzefric.improve.service.AuthService;
+import com.anzefric.improve.data.response.LoginResponse;
+import com.anzefric.improve.service.auth.AuthService;
+import com.anzefric.improve.service.auth.JwtService;
 
 import jakarta.validation.Valid;
 
@@ -11,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -21,35 +24,35 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private JwtService jwtService;
+    
+
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody @Valid User user) {
+    public ResponseEntity<User> register(@RequestBody @Valid RegisterUserDto registerUserDto) {
         try {
-            User registeredUser = authService.register(user);
+            User registeredUser = authService.register(registerUserDto);
             return ResponseEntity.ok(registeredUser);
-        } catch (Exception e) {
+        } catch(Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> credentials) {
+    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
         try {
-            String email = credentials.get("email");
-            String password = credentials.get("password");
+            User authenticatedUser = authService.login(loginUserDto);
 
-            if (email == null || password == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Email and password are required");
-            }
+            String jwtToken = jwtService.generateToken(authenticatedUser);
 
-            User user = authService.login(email, password);
+            LoginResponse loginResponse = new LoginResponse();
+            loginResponse.setToken(jwtToken);
+            loginResponse.setExpiresIn(jwtService.getExpirationTime());
 
-            Map<String, Object> response = Map.of(
-                "userId", user.getUserUuid()
-            );
-
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
+            return ResponseEntity.ok(loginResponse);
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
+
         }
     }
 

@@ -29,7 +29,6 @@ public class User implements UserDetails {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
     private Long id;
 
-    @NonNull
     @Column(unique = true, nullable = false)
     private UUID userUuid;
 
@@ -68,10 +67,6 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     @Override

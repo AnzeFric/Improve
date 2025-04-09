@@ -1,36 +1,27 @@
 package com.anzefric.improve.service;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.anzefric.improve.data.dto.UserDto;
 import com.anzefric.improve.data.model.user.User;
+import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.repository.UserRepository;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    public List<User> allUsers() {
-        List<User> users = new ArrayList<>();
-
-        userRepository.findAll().forEach(users::add);
-
-        return users;
-    }
-
-    public void deleteUser(User user) {
-        UUID uuid = user.getUserUuid();
-        if (!userRepository.existsByUserUuid(uuid)) {
-            throw new RuntimeException("User not found, with uuid: " + uuid);
+    public void deleteUser(UserDto userDto) {
+        try {
+            String userEmail = userDto.getEmail();
+            User user = userRepository.findByEmailIgnoreCase(userEmail);
+            userRepository.delete(user);
+        } catch(Exception e) {
+            throw new ApiResponseException(HttpStatus.NOT_FOUND, "User not found.");
         }
-        userRepository.delete(user);
     }
 }

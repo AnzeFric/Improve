@@ -14,4 +14,3 @@ public class ApiResponseException extends RuntimeException {
         return status;
     }
 }
-

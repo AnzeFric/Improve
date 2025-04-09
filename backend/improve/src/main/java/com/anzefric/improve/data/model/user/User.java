@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import com.anzefric.improve.data.constants.DataLengths;
+import com.anzefric.improve.data.constant.DataLengths;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Collection;
@@ -49,7 +49,7 @@ public class User implements UserDetails {
     private String email;
 
     //@JsonIgnore => Ne shrani v bazo. Ce se to ohrani in doda nullable = false, request ne gre skoz. Error
-    //                      Ce se odstrani NonNull(in nullable) ali JsonIgnore, dela
+    //                      Ce se odstrani NonNull(in nullable) ali JsonIgnore(se se vedn ne shani v bazo), dela
     @NonNull
     @Column(nullable = false, length = DataLengths.L_128)
     @Size(min = DataLengths.L_8, max = DataLengths.L_128)

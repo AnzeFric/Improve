@@ -7,8 +7,6 @@ import com.anzefric.improve.data.response.LoginResponse;
 import com.anzefric.improve.service.auth.AuthService;
 import com.anzefric.improve.service.auth.JwtService;
 
-import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,7 @@ public class AuthController {
     
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody @Valid RegisterUserDto registerUserDto) {
+    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
         try {
             User registeredUser = authService.register(registerUserDto);
             return ResponseEntity.ok(registeredUser);

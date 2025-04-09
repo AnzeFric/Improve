@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import com.anzefric.improve.data.constants.DataLengths;
+import com.anzefric.improve.data.constant.DataLengths;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.List;

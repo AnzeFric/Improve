@@ -9,5 +9,5 @@ import lombok.ToString;
 @ToString
 public class LoginResponse {
     private String token;
-    private long expiresIn;
+    private Long expiresIn;
 }

@@ -1,4 +1,4 @@
-package com.anzefric.improve.data.constants;
+package com.anzefric.improve.data.constant;
 
 public class DataLengths {
     public static final int L_2 = 2;

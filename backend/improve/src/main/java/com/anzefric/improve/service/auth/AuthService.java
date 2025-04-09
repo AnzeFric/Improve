@@ -10,8 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public class AuthService {
 
@@ -50,12 +48,5 @@ public class AuthService {
 
         return authRepository.findByEmailIgnoreCase(input.getEmail())
                 .orElseThrow();
-    }
-
-    public void deleteUser(UUID userUuid) {
-        if (!authRepository.existsByUserUuid(userUuid)) {
-            throw new RuntimeException("User not found, with uuid: " + userUuid);
-        }
-        authRepository.existsByUserUuid(userUuid);
     }
 }

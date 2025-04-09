@@ -1,4 +1,4 @@
-package com.anzefric.improve.data.response.exceptions;
+package com.anzefric.improve.data.response.exception;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;

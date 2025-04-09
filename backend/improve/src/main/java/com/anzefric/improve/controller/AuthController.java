@@ -3,15 +3,15 @@ package com.anzefric.improve.controller;
 import com.anzefric.improve.data.dto.LoginUserDto;
 import com.anzefric.improve.data.dto.RegisterUserDto;
 import com.anzefric.improve.data.model.user.User;
+import com.anzefric.improve.data.response.ApiResponse;
+import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.data.response.LoginResponse;
 import com.anzefric.improve.service.auth.AuthService;
 import com.anzefric.improve.service.auth.JwtService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -25,17 +25,17 @@ public class AuthController {
     
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterUserDto registerUserDto) {
+    public ApiResponse<String> register(@RequestBody RegisterUserDto registerUserDto) {
         try {
-            User registeredUser = authService.register(registerUserDto);
-            return ResponseEntity.ok(registeredUser);
+            authService.register(registerUserDto);
+            return ApiResponse.success("Registration successful!");
         } catch(Exception e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Registration failed: " + e.getMessage());
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
+    public ApiResponse<?> login(@RequestBody LoginUserDto loginUserDto) {
         try {
             User authenticatedUser = authService.login(loginUserDto);
 
@@ -45,10 +45,9 @@ public class AuthController {
             loginResponse.setToken(jwtToken);
             loginResponse.setExpiresIn(jwtService.getExpirationTime());
 
-            return ResponseEntity.ok(loginResponse);
+            return ApiResponse.success(loginResponse);
         } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
-
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Login failed: " + e.getMessage());
         }
     }
 }

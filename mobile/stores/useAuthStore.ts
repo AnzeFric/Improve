@@ -4,12 +4,10 @@ import EncryptedStorage from "react-native-encrypted-storage";
 
 interface AuthStore {
   jwt: string | null;
-  setJwt: (jwt: string | null) => void;
-
   expiresIn: number;
-  setExpiresIn: (expiresIn: number) => void;
-
   isLoggined: boolean;
+  setJwt: (jwt: string | null) => void;
+  setExpiresIn: (expiresIn: number) => void;
   setIsLoggined: (isLoggined: boolean) => void;
 }
 
@@ -19,13 +17,13 @@ const useAuthStore = create(
       jwt: null,
       expiresIn: 0,
       isLoggined: false,
-      setJwt: async (jwt: string | null) => {
+      setJwt: (jwt: string | null) => {
         set({ jwt: jwt });
       },
-      setExpiresIn: async (expiresIn: number) => {
+      setExpiresIn: (expiresIn: number) => {
         set({ expiresIn: expiresIn });
       },
-      setIsLoggined: async (isLoggined: boolean) => {
+      setIsLoggined: (isLoggined: boolean) => {
         set({ isLoggined: isLoggined });
       },
     }),

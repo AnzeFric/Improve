@@ -44,7 +44,10 @@ public class AuthController {
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.setToken(jwtToken);
             loginResponse.setExpiresIn(jwtService.getExpirationTime());
-
+            loginResponse.setFirstName(authenticatedUser.getFirstName());
+            loginResponse.setLastName(authenticatedUser.getLastName());
+            loginResponse.setDayStreak(authenticatedUser.getDayStreak());
+            
             return ApiResponse.success(loginResponse);
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Login failed: " + e.getMessage());

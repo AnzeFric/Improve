@@ -1,6 +1,8 @@
 import useUserStore from "@/stores/useUserStore";
 import Config from "react-native-config";
 import { useAuth } from "./useAuth";
+import { useCleanup } from "./useCleanup";
+import { router } from "expo-router";
 
 export function useUser() {
   const {
@@ -13,6 +15,7 @@ export function useUser() {
     resetUserStore,
   } = useUserStore();
   const { jwt } = useAuth();
+  const { resetStores } = useCleanup();
 
   const getUser = async () => {
     try {
@@ -39,8 +42,28 @@ export function useUser() {
     }
   };
 
-  const deleteUser = () => {
-    console.log("Account delete clicked");
+  const deleteUser = async () => {
+    try {
+      const response = await fetch(
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user/delete`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + jwt,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        resetStores();
+        router.replace("/(auth)/login"); // Using replace to prevent returning with hardware back button
+      }
+    } catch (error) {
+      console.error("Error deleting user: ", error);
+    }
   };
 
   const incrementDayStreak = () => {

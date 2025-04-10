@@ -31,11 +31,13 @@ export function useWorkout() {
         }
       );
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (data.success) {
         return true;
       }
 
-      console.log(`Failed to save workout: ${response.status}`);
+      console.log("Failed to save workout!");
       return false;
     } catch (error) {
       console.error("Error while saving workout: ", error);

@@ -1,10 +1,8 @@
 import useUserMetricsStore from "@/stores/useUserMetricsStore";
-import useAuthStore from "@/stores/useAuthStore";
 import Config from "react-native-config";
 import { UserMetrics } from "@/interfaces/user";
 
 export function useUserMetrics() {
-  const { userId } = useAuthStore();
   const { userMetrics, setUserMetrics } = useUserMetricsStore();
 
   const saveUserMetrics = async (
@@ -18,7 +16,6 @@ export function useUserMetrics() {
       }
 
       const newUserMetrics: UserMetrics = {
-        userId: userId,
         age: age | 0,
         weight: weight,
         height: height,
@@ -50,7 +47,7 @@ export function useUserMetrics() {
   const getUserMetrics = async () => {
     try {
       const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/${userId}`,
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/`,
         {
           method: "GET",
           headers: {
@@ -76,7 +73,7 @@ export function useUserMetrics() {
   const deleteUserMetrics = async () => {
     try {
       const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/delete/${userId}`,
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/delete`,
         {
           method: "DELETE",
           headers: {

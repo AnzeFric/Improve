@@ -48,9 +48,8 @@ public class User implements UserDetails {
     @Size(min = DataLengths.L_4, max = DataLengths.L_128)
     private String email;
 
-    //@JsonIgnore => Ne shrani v bazo. Ce se to ohrani in doda nullable = false, request ne gre skoz. Error
-    //                      Ce se odstrani NonNull(in nullable) ali JsonIgnore(se se vedn ne shani v bazo), dela
     @NonNull
+    @JsonIgnore
     @Column(nullable = false, length = DataLengths.L_128)
     @Size(min = DataLengths.L_8, max = DataLengths.L_128)
     private String password;

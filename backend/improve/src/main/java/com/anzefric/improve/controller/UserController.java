@@ -1,6 +1,6 @@
 package com.anzefric.improve.controller;
 
-import com.anzefric.improve.data.dto.UserDto;
+import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.response.ApiResponse;
 import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.service.UserService;
@@ -19,9 +19,9 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/")
-    public ApiResponse<UserDto> getCurrentUser() {
+    public ApiResponse<User> getCurrentUser() {
         try {
-            UserDto currentUser = getCurrentAuthenticatedUser();
+            User currentUser = getCurrentAuthenticatedUser();
             return ApiResponse.success(currentUser);
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching user data: " + e.getMessage());
@@ -31,7 +31,7 @@ public class UserController {
     @DeleteMapping("/delete")
     public ApiResponse<String> delete() {
         try {
-            UserDto currentUser = getCurrentAuthenticatedUser();
+            User currentUser = getCurrentAuthenticatedUser();
             userService.deleteUser(currentUser);
             return ApiResponse.success("User deleted successfully.");
         } catch (Exception e) {
@@ -39,11 +39,11 @@ public class UserController {
         }
     }  
     
-    private UserDto getCurrentAuthenticatedUser() {
+    private User getCurrentAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new ApiResponseException(HttpStatus.FORBIDDEN, "User not authenticated.");
         }
-        return (UserDto) authentication.getPrincipal();
+        return (User) authentication.getPrincipal();
     }
 }

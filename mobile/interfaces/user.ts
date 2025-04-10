@@ -8,7 +8,6 @@ export interface User {
 }
 
 export interface UserMetrics {
-  userId: string;
   age?: number;
   weight: number;
   height: number;

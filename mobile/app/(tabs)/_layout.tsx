@@ -1,4 +1,4 @@
-import { Tabs, usePathname } from "expo-router";
+import { router, Tabs, usePathname } from "expo-router";
 import React from "react";
 import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -39,6 +39,9 @@ export default function TabLayout() {
               <Ionicons
                 name={"home"}
                 size={28}
+                onPress={() => {
+                  router.push("/(tabs)/home");
+                }}
                 color={
                   pathName.startsWith("/settings")
                     ? Colors.light.specialBlue
@@ -53,7 +56,14 @@ export default function TabLayout() {
           options={{
             title: "Workout",
             tabBarIcon: ({ color }) => (
-              <Ionicons name={"barbell"} size={28} color={color} />
+              <Ionicons
+                name={"barbell"}
+                size={28}
+                onPress={() => {
+                  router.push("/(tabs)/workout");
+                }}
+                color={color}
+              />
             ),
           }}
         />
@@ -62,7 +72,14 @@ export default function TabLayout() {
           options={{
             title: "Statistics",
             tabBarIcon: ({ color }) => (
-              <Ionicons name={"stats-chart"} size={28} color={color} />
+              <Ionicons
+                name={"stats-chart"}
+                size={28}
+                onPress={() => {
+                  router.push("/(tabs)/statistics");
+                }}
+                color={color}
+              />
             ),
           }}
         />
@@ -71,7 +88,14 @@ export default function TabLayout() {
           options={{
             title: "Chat",
             tabBarIcon: ({ color }) => (
-              <Ionicons name={"chatbubbles"} size={28} color={color} />
+              <Ionicons
+                name={"chatbubbles"}
+                size={28}
+                onPress={() => {
+                  router.push("/(tabs)/chat");
+                }}
+                color={color}
+              />
             ),
           }}
         />

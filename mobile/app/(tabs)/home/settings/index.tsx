@@ -18,7 +18,6 @@ import useUserMetricsStore from "@/stores/useUserMetricsStore";
 import { useUserMetrics } from "@/hooks/useUserMetrics";
 
 const fakeUser: User = {
-  id: "123f1d21d12d",
   firstName: "Anže",
   lastName: "Fric",
   age: 22,

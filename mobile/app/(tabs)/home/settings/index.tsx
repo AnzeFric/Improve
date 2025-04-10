@@ -5,30 +5,21 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { router } from "expo-router";
-import { User } from "@/interfaces/user";
 import UserMetricsDisplay from "@/components/home/settings/UserMetricsDisplay";
 import UserMetricsCreate from "@/components/home/settings/UserMetricsCreate";
-import useUserMetricsStore from "@/stores/useUserMetricsStore";
+import { useUser } from "@/hooks/useUser";
 import { useUserMetrics } from "@/hooks/useUserMetrics";
-
-const fakeUser: User = {
-  firstName: "Anže",
-  lastName: "Fric",
-  age: 22,
-  weight: 96,
-};
 
 export default function SettingsScreen() {
   const { handleLogout, handleDelete } = useAuth();
-  const [user, setUser] = useState<User>(fakeUser);
-  const { userMetrics } = useUserMetricsStore();
-  const { getUserMetrics } = useUserMetrics();
+  const { firstName, lastName } = useUser();
+  const { userMetrics, getUserMetrics } = useUserMetrics();
 
   useEffect(() => {
     if (!userMetrics) {
@@ -48,7 +39,7 @@ export default function SettingsScreen() {
             color={Colors.light.specialBlue}
           />
           <Text style={styles.userMetricsName}>
-            {user.firstName} {user.lastName}
+            {firstName} {lastName}
           </Text>
 
           {userMetrics ? (

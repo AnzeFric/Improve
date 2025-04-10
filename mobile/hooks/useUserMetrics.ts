@@ -96,6 +96,7 @@ export function useUserMetrics() {
   };
 
   return {
+    userMetrics,
     saveUserMetrics,
     getUserMetrics,
     deleteUserMetrics,

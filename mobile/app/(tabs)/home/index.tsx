@@ -4,8 +4,11 @@ import StartNewWorkout from "@/components/home/home/StartNewWorkout";
 import DailyStreak from "@/components/home/home/DailyStreak";
 import MostRecentWorkout from "@/components/home/home/MostRecentWorkout/MostRecentWorkout";
 import MenuButton from "@/components/global/buttons/MenuButton";
+import { useUser } from "@/hooks/useUser";
 
 export default function HomeScreen() {
+  const { dayStreak } = useUser();
+
   return (
     <View>
       <ScrollView>
@@ -22,7 +25,7 @@ export default function HomeScreen() {
             <StartNewWorkout recommendWorkout={"Push day"} />
           </View>
           <View style={styles.itemContainer}>
-            <DailyStreak numStreak={5} />
+            <DailyStreak numStreak={dayStreak} />
           </View>
         </View>
       </ScrollView>

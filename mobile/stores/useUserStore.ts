@@ -9,6 +9,7 @@ interface UserStore {
   setFirstName: (firstName: string) => void;
   setLastName: (lastName: string) => void;
   setDayStreak: (dayStreak: number) => void;
+  resetUserStore: () => void;
 }
 
 const useUserStore = create(
@@ -30,6 +31,13 @@ const useUserStore = create(
       setDayStreak: (dayStreak: number) => {
         set({
           dayStreak: dayStreak,
+        });
+      },
+      resetUserStore: () => {
+        set({
+          firstName: "",
+          lastName: "",
+          dayStreak: 0,
         });
       },
     }),

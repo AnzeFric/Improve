@@ -10,12 +10,12 @@ export function useUser() {
     setFirstName,
     setLastName,
     setDayStreak,
+    resetUserStore,
   } = useUserStore();
   const { jwt } = useAuth();
 
   const getUser = async () => {
     try {
-      console.log("Trigger get user");
       const response = await fetch(
         `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user/`,
         {
@@ -30,7 +30,6 @@ export function useUser() {
       const data = await response.json();
 
       if (data.success) {
-        console.log("Response saved");
         setFirstName(data.data.firstName);
         setLastName(data.data.lastName);
         setDayStreak(data.data.dayStreak);
@@ -62,5 +61,6 @@ export function useUser() {
     incrementDayStreak,
     resetDayStreak,
     deleteUser,
+    resetUserStore,
   };
 }

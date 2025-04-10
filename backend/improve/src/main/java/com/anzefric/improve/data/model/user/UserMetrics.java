@@ -26,13 +26,12 @@ public class UserMetrics {
     private Long id;
 
     @NonNull
+    @JsonIgnore
     @Column(name = "user_uuid", unique = true, nullable = false)
     private UUID userUuid;
 
-    @Min(18)
-    @Max(130)
-    @Column(length = DataLengths.L_INT)
-    private int age;
+    @Column(nullable = true)
+    private Integer age;
 
     @Min(20)
     @Max(700)

@@ -4,7 +4,8 @@ import { UserMetrics } from "@/interfaces/user";
 import { useAuth } from "./useAuth";
 
 export function useUserMetrics() {
-  const { userMetrics, setUserMetrics } = useUserMetricsStore();
+  const { userMetrics, setUserMetrics, resetUserMetricsStore } =
+    useUserMetricsStore();
   const { jwt } = useAuth();
 
   const saveUserMetrics = async (
@@ -18,7 +19,7 @@ export function useUserMetrics() {
       }
 
       const newUserMetrics: UserMetrics = {
-        age: age | 0,
+        age: age || null,
         weight: weight,
         height: height,
       };
@@ -35,12 +36,13 @@ export function useUserMetrics() {
         }
       );
 
-      if (response.ok) {
+      const data = await response.json();
+
+      if (data.success) {
         setUserMetrics(newUserMetrics);
         return true;
-      } else {
-        return false;
       }
+      return false;
     } catch (error) {
       console.error("Error while saving user metrics: ", error);
       return false;
@@ -60,14 +62,20 @@ export function useUserMetrics() {
         }
       );
 
-      if (response.ok) {
-        const userMetrics = await response.json();
+      const data = await response.json();
+
+      if (data.success) {
+        const userMetrics: UserMetrics = {
+          age: data.data.age || null,
+          weight: data.data.weight,
+          height: data.data.height,
+        };
+
         setUserMetrics(userMetrics);
         return userMetrics;
-      } else {
-        console.log("Failed to fetch userMetrics: ", response.status);
-        return null;
       }
+      console.log("Failed to fetch userMetrics: ", response.status);
+      return null;
     } catch (error) {
       console.error("Error while fetching userMetrics: ", error);
       return null;
@@ -87,15 +95,16 @@ export function useUserMetrics() {
         }
       );
 
-      if (response.ok) {
-        setUserMetrics(null);
+      const data = await response.json();
+
+      if (data.success) {
+        resetUserMetricsStore();
         return true;
-      } else {
-        console.log("Failed to delete userMetrics: ", response.status);
-        return false;
       }
+      console.log("Failed to delete userMetrics: ", response.status);
+      return false;
     } catch (error) {
-      console.error("Error while deleting userMetrics:  ", error);
+      console.error("Error while deleting userMetrics: ", error);
       return false;
     }
   };
@@ -105,5 +114,6 @@ export function useUserMetrics() {
     saveUserMetrics,
     getUserMetrics,
     deleteUserMetrics,
+    resetUserMetricsStore,
   };
 }

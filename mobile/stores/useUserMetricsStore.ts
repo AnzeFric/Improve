@@ -6,6 +6,7 @@ import EncryptedStorage from "react-native-encrypted-storage";
 interface UserMetricsStore {
   userMetrics: UserMetrics | null;
   setUserMetrics: (userMetrics: UserMetrics | null) => void;
+  resetUserMetricsStore: () => void;
 }
 
 const useUserMetricsStore = create(
@@ -15,6 +16,11 @@ const useUserMetricsStore = create(
       setUserMetrics: (userMetrics: UserMetrics | null) => {
         set({
           userMetrics: userMetrics,
+        });
+      },
+      resetUserMetricsStore: () => {
+        set({
+          userMetrics: null,
         });
       },
     }),

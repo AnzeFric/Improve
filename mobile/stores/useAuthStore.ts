@@ -9,6 +9,7 @@ interface AuthStore {
   setJwt: (jwt: string | null) => void;
   setExpiresIn: (expiresIn: number) => void;
   setIsLoggined: (isLoggined: boolean) => void;
+  resetAuthStore: () => void;
 }
 
 const useAuthStore = create(
@@ -25,6 +26,13 @@ const useAuthStore = create(
       },
       setIsLoggined: (isLoggined: boolean) => {
         set({ isLoggined: isLoggined });
+      },
+      resetAuthStore: () => {
+        set({
+          jwt: null,
+          expiresIn: 0,
+          isLoggined: false,
+        });
       },
     }),
     {

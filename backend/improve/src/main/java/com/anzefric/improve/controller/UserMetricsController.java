@@ -1,15 +1,18 @@
 package com.anzefric.improve.controller;
 
+import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.user.UserMetrics;
+import com.anzefric.improve.data.response.ApiResponse;
+import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.service.UserMetricsService;
 
-import java.util.UUID;
+import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("api/user-metrics")
@@ -19,32 +22,47 @@ public class UserMetricsController {
     private UserMetricsService userMetricsService;
 
     @PostMapping("/create")
-    public ResponseEntity<UserMetrics> create(@RequestBody UserMetrics userMetrics) {
+    public ApiResponse<String> createUserMetrics(@RequestBody @Valid UserMetrics userMetrics) {
         try {
-            UserMetrics createdUserMetrics = userMetricsService.create(userMetrics);
-            return ResponseEntity.ok(createdUserMetrics);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            User authenticatedUser = getCurrentAuthenticatedUser();
+            userMetrics.setUserUuid(authenticatedUser.getUserUuid());
+            userMetricsService.create(userMetrics);
+
+            return ApiResponse.success("User metrics saved successfully.");
+        } catch (Exception e) {
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error saving user metrics: " + e.getMessage());
         }
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserMetrics> getUserMetricsByUserId(@PathVariable UUID userUuid) {
+    @GetMapping("/")
+    public ApiResponse<UserMetrics> getUserMetrics() {
         try {
-            UserMetrics userMetrics = userMetricsService.getUserMetricsByUserId(userUuid);
-            return ResponseEntity.ok(userMetrics);
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            User authenticatedUser = getCurrentAuthenticatedUser();
+            UserMetrics userMetrics = userMetricsService.getUserMetricsByUserId(authenticatedUser.getUserUuid());
+
+            return ApiResponse.success(userMetrics);
+        } catch (Exception e) {
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching user metrics: " + e.getMessage());
         }
     }
 
-    @DeleteMapping("/delete/{userId}")
-    public ResponseEntity<String> deleteUserMetricsByUserId(@PathVariable UUID userUuid) {
+    @DeleteMapping("/delete")
+    public ApiResponse<String> deleteUserMetrics() {
         try {
-            userMetricsService.deleteUserMetrics(userUuid);
-            return ResponseEntity.ok("User metrics deleted successfully");
+            User authenticatedUser = getCurrentAuthenticatedUser();
+            userMetricsService.deleteUserMetrics(authenticatedUser.getUserUuid());
+
+            return ApiResponse.success("User metrics deleted successfully.");
         } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error deleting user metrics: " + e.getMessage());
         }
+    }
+
+    private User getCurrentAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new ApiResponseException(HttpStatus.FORBIDDEN, "User not authenticated.");
+        }
+        return (User) authentication.getPrincipal();
     }
 }

@@ -7,7 +7,7 @@ export interface User {
 }
 
 export interface UserMetrics {
-  age?: number;
+  age: number | null;
   weight: number;
   height: number;
 }

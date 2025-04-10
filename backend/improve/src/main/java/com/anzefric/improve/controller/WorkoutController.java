@@ -23,7 +23,7 @@ public class WorkoutController {
     private WorkoutService workoutService;
 
     @PostMapping("/create")
-    public ApiResponse<String> create(@RequestBody Workout workout) {
+    public ApiResponse<String> createWorkout(@RequestBody Workout workout) {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
             workout.setUserUuid(authenticatedUser.getUserUuid());

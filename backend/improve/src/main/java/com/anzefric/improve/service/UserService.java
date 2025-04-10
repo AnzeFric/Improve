@@ -14,11 +14,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void deleteUser(User userDto) {
+    public void deleteUserByEmail(String userEmail) {
         try {
-            String userEmail = userDto.getEmail();
-            User user = userRepository.findByEmailIgnoreCase(userEmail);
-            userRepository.delete(user);
+            User foundUser = userRepository.findByEmailIgnoreCase(userEmail);
+            userRepository.delete(foundUser);
         } catch(Exception e) {
             throw new ApiResponseException(HttpStatus.NOT_FOUND, "User not found.");
         }

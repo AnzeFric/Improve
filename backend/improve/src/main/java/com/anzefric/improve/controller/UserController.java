@@ -19,9 +19,10 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/")
-    public ApiResponse<User> getCurrentUser() {
+    public ApiResponse<User> getUser() {
         try {
             User currentUser = getCurrentAuthenticatedUser();
+
             return ApiResponse.success(currentUser);
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching user data: " + e.getMessage());
@@ -29,10 +30,11 @@ public class UserController {
     }
     
     @DeleteMapping("/delete")
-    public ApiResponse<String> delete() {
+    public ApiResponse<String> deleteUser() {
         try {
             User currentUser = getCurrentAuthenticatedUser();
-            userService.deleteUser(currentUser);
+            userService.deleteUserByEmail(currentUser.getEmail());
+
             return ApiResponse.success("User deleted successfully.");
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error deleting user: " + e.getMessage());

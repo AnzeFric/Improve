@@ -1,3 +1,4 @@
+import EncryptedStorage from "react-native-encrypted-storage";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -34,7 +35,7 @@ const useUserStore = create(
     }),
     {
       name: "userStore",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => EncryptedStorage),
     }
   )
 );

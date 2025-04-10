@@ -4,7 +4,8 @@ import useAuthStore from "@/stores/useAuthStore";
 import Config from "react-native-config";
 
 export function useAuth() {
-  const { setIsLoggined, setJwt, setExpiresIn } = useAuthStore();
+  const { jwt, expiresIn, isLoggined, setIsLoggined, setJwt, setExpiresIn } =
+    useAuthStore();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -87,12 +88,10 @@ export function useAuth() {
     router.replace("/(auth)/login"); // Using replace to prevent returning with hardware back button
   };
 
-  // Function to delete current user account
-  const handleDelete = () => {
-    console.log("Account delete clicked");
-  };
-
   return {
+    jwt,
+    expiresIn,
+    isLoggined,
     firstName,
     setFirstName,
     lastName,
@@ -108,6 +107,5 @@ export function useAuth() {
     handleRegister,
     handleLogin,
     handleLogout,
-    handleDelete,
   };
 }

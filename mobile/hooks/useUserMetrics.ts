@@ -1,9 +1,11 @@
 import useUserMetricsStore from "@/stores/useUserMetricsStore";
 import Config from "react-native-config";
 import { UserMetrics } from "@/interfaces/user";
+import { useAuth } from "./useAuth";
 
 export function useUserMetrics() {
   const { userMetrics, setUserMetrics } = useUserMetricsStore();
+  const { jwt } = useAuth();
 
   const saveUserMetrics = async (
     age: number,
@@ -26,6 +28,7 @@ export function useUserMetrics() {
         {
           method: "POST",
           headers: {
+            Authorization: "Bearer " + jwt,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(newUserMetrics),
@@ -51,6 +54,7 @@ export function useUserMetrics() {
         {
           method: "GET",
           headers: {
+            Authorization: "Bearer " + jwt,
             "Content-Type": "application/json",
           },
         }
@@ -77,6 +81,7 @@ export function useUserMetrics() {
         {
           method: "DELETE",
           headers: {
+            Authorization: "Bearer " + jwt,
             "Content-Type": "application/json",
           },
         }

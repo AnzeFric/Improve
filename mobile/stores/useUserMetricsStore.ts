@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { UserMetrics } from "@/interfaces/user";
+import EncryptedStorage from "react-native-encrypted-storage";
 
 interface UserMetricsStore {
   userMetrics: UserMetrics | null;
@@ -19,7 +20,7 @@ const useUserMetricsStore = create(
     }),
     {
       name: "userMetricsStore",
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => EncryptedStorage),
     }
   )
 );

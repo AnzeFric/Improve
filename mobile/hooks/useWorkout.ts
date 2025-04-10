@@ -1,7 +1,10 @@
 import Config from "react-native-config";
 import { Workout, Exercise } from "@/interfaces/workout";
+import { useAuth } from "./useAuth";
 
 export function useWorkout() {
+  const { jwt } = useAuth();
+
   const handleFinishWorkout = async (
     name: string,
     date: Date,
@@ -21,6 +24,7 @@ export function useWorkout() {
         {
           method: "POST",
           headers: {
+            Authorization: "Bearer " + jwt,
             "Content-Type": "application/json",
           },
           body: JSON.stringify(workout),

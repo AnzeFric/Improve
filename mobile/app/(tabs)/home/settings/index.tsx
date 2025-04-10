@@ -17,8 +17,8 @@ import { useUser } from "@/hooks/useUser";
 import { useUserMetrics } from "@/hooks/useUserMetrics";
 
 export default function SettingsScreen() {
-  const { handleLogout, handleDelete } = useAuth();
-  const { firstName, lastName } = useUser();
+  const { handleLogout } = useAuth();
+  const { firstName, lastName, deleteUser } = useUser();
   const { userMetrics, getUserMetrics } = useUserMetrics();
 
   useEffect(() => {
@@ -63,10 +63,7 @@ export default function SettingsScreen() {
           </TouchableOpacity>
 
           <View style={styles.deleteButtonContainer}>
-            <TouchableOpacity
-              style={styles.deleteButton}
-              onPress={handleDelete}
-            >
+            <TouchableOpacity style={styles.deleteButton} onPress={deleteUser}>
               <Text style={styles.buttonText}>Delete Account</Text>
             </TouchableOpacity>
           </View>

@@ -1,8 +1,8 @@
 import { Redirect } from "expo-router";
-import useAuthStore from "@/stores/useAuthStore";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function EntryScreen() {
-  const { isLoggined } = useAuthStore();
+  const { isLoggined } = useAuth();
 
   return isLoggined ? (
     <Redirect href={"/(tabs)/home"} />

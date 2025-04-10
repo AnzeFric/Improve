@@ -1,4 +1,5 @@
 import { View, StyleSheet, ScrollView } from "react-native";
+import { useEffect } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import StartNewWorkout from "@/components/home/home/StartNewWorkout";
 import DailyStreak from "@/components/home/home/DailyStreak";
@@ -7,7 +8,11 @@ import MenuButton from "@/components/global/buttons/MenuButton";
 import { useUser } from "@/hooks/useUser";
 
 export default function HomeScreen() {
-  const { dayStreak } = useUser();
+  const { dayStreak, getUser } = useUser();
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <View>

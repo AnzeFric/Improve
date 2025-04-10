@@ -7,7 +7,6 @@ import { Ionicons } from "@expo/vector-icons";
 
 const fakeWorkout: Workout = {
   name: "Pull day",
-  userId: "",
   date: new Date().toDateString(),
   exercises: [
     {
@@ -136,8 +135,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.light.specialBlue,
     borderRadius: 8,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingVertical: 8,
   },
   buttonText: {
     fontSize: 17,

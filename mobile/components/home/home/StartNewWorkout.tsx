@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   buttonStart: {
     backgroundColor: Colors.light.specialBlue,
     borderRadius: 8,
-    paddingVertical: 10,
+    paddingVertical: 8,
     flex: 1,
   },
   buttonCustomize: {
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.light.specialBlue,
     paddingHorizontal: 15,
-    paddingVertical: 10,
+    paddingVertical: 8,
     color: Colors.light.specialBlue,
   },
   buttonText: {

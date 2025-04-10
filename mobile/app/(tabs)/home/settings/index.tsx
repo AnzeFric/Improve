@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: Colors.light.specialBlue,
     borderRadius: 12,
-    paddingVertical: 14,
+    paddingVertical: 10,
     alignItems: "center",
     elevation: 3,
   },
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 2,
     borderColor: Colors.light.destructiveRed,
-    paddingVertical: 14,
+    paddingVertical: 10,
     alignItems: "center",
   },
   logoutText: {
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   deleteButton: {
     backgroundColor: Colors.light.destructiveRed,
     borderRadius: 12,
-    paddingVertical: 14,
+    paddingVertical: 10,
     alignItems: "center",
     elevation: 3,
   },

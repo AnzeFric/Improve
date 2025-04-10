@@ -1,5 +1,4 @@
 export interface Workout {
-  userId: string;
   name: string;
   date: string;
   exercises: Array<Exercise>;

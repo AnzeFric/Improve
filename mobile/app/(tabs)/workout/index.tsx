@@ -9,6 +9,7 @@ import { useState, useCallback } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { router, useFocusEffect } from "expo-router";
+import { AppStyles } from "@/constants/AppStyles";
 
 export default function WorkoutScreen() {
   const [workoutTitle, setWorkoutTitle] = useState("");
@@ -41,15 +42,15 @@ export default function WorkoutScreen() {
         <View style={styles.contentContainer}>
           <View
             style={[
-              styles.inputContainer,
+              AppStyles.inputContainer,
               isEmpty() && {
-                shadowColor: Colors.light.destructiveRed,
-                elevation: 5,
+                borderColor: Colors.light.destructiveRed,
+                borderWidth: 1,
               },
             ]}
           >
             <TextInput
-              style={styles.input}
+              style={AppStyles.input}
               placeholder={"Workout title"}
               value={workoutTitle}
               onChangeText={setWorkoutTitle}
@@ -76,20 +77,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     gap: 10,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    elevation: 3,
-  },
-  input: {
-    padding: 15,
-    borderRadius: 10,
-    fontSize: 16,
-    flex: 1,
   },
   button: {
     backgroundColor: Colors.light.specialBlue,

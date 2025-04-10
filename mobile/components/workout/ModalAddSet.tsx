@@ -10,6 +10,7 @@ import { useState, useCallback } from "react";
 import { useFocusEffect } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { Exercise } from "@/interfaces/workout";
+import { AppStyles } from "@/constants/AppStyles";
 
 interface Props {
   exerciseIndex: number;
@@ -79,12 +80,12 @@ export default function ModalAddSet({
           <View style={styles.contentContainer}>
             <View
               style={[
-                styles.inputContainer,
+                AppStyles.inputContainer,
                 emptyRepsError && !reps && styles.inputContainerError,
               ]}
             >
               <TextInput
-                style={styles.input}
+                style={AppStyles.input}
                 placeholder="Reps"
                 keyboardType="numeric"
                 value={reps}
@@ -97,12 +98,12 @@ export default function ModalAddSet({
 
             <View
               style={[
-                styles.inputContainer,
+                AppStyles.inputContainer,
                 emptyWeightError && !weight && styles.inputContainerError,
               ]}
             >
               <TextInput
-                style={styles.input}
+                style={AppStyles.input}
                 placeholder="Weight (kg)"
                 keyboardType="numeric"
                 value={weight}
@@ -154,22 +155,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   inputContainerError: {
-    shadowColor: Colors.light.destructiveRed,
-    elevation: 5,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    elevation: 3,
-  },
-  input: {
-    padding: 15,
-    borderRadius: 10,
-    fontSize: 16,
-    flex: 1,
+    borderColor: Colors.light.destructiveRed,
+    borderWidth: 1,
   },
   errorText: {
     color: "red",

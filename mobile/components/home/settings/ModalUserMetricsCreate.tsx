@@ -10,6 +10,7 @@ import { useState, useCallback } from "react";
 import { useFocusEffect } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { useUserMetrics } from "@/hooks/useUserMetrics";
+import { AppStyles } from "@/constants/AppStyles";
 
 interface Props {
   isVisible: boolean;
@@ -68,9 +69,9 @@ export default function ModalUserMetricsCreate({
         <View style={styles.modalContent}>
           <Text style={styles.title}>Create your Metrics</Text>
           <View style={styles.contentContainer}>
-            <View style={styles.inputContainer}>
+            <View style={AppStyles.inputContainer}>
               <TextInput
-                style={styles.input}
+                style={AppStyles.input}
                 placeholder="Age"
                 keyboardType="numeric"
                 value={age}
@@ -80,12 +81,12 @@ export default function ModalUserMetricsCreate({
 
             <View
               style={[
-                styles.inputContainer,
+                AppStyles.inputContainer,
                 emptyFieldsError && !weight && styles.inputContainerError,
               ]}
             >
               <TextInput
-                style={styles.input}
+                style={AppStyles.input}
                 placeholder="Weight (kg)"
                 keyboardType="numeric"
                 value={weight}
@@ -98,12 +99,12 @@ export default function ModalUserMetricsCreate({
 
             <View
               style={[
-                styles.inputContainer,
+                AppStyles.inputContainer,
                 emptyFieldsError && !height && styles.inputContainerError,
               ]}
             >
               <TextInput
-                style={styles.input}
+                style={AppStyles.input}
                 placeholder="Height (cm)"
                 keyboardType="numeric"
                 value={height}
@@ -160,32 +161,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     gap: 10,
   },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    elevation: 3,
-    justifyContent: "space-between",
-    paddingRight: 20,
-  },
   inputContainerError: {
     borderColor: Colors.light.destructiveRed,
     borderWidth: 1,
-  },
-  input: {
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 10,
-    fontSize: 16,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    elevation: 3,
-    width: "100%",
   },
   errorText: {
     color: "red",

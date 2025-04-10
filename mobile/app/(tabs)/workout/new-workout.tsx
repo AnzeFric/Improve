@@ -18,6 +18,7 @@ import ModalAddSet from "@/components/workout/ModalAddSet";
 import EditButton from "@/components/global/buttons/EditButton";
 import CircleCheckButton from "@/components/global/buttons/CircleCheckButton";
 import { useWorkout } from "@/hooks/useWorkout";
+import { AppStyles } from "@/constants/AppStyles";
 
 export default function NewWorkoutScreen() {
   const { workoutTitle } = useLocalSearchParams();
@@ -130,15 +131,15 @@ export default function NewWorkoutScreen() {
             <View style={styles.exerciseAddContainer}>
               <View
                 style={[
-                  styles.inputContainer,
+                  AppStyles.inputContainer,
                   isEmpty() && {
-                    shadowColor: Colors.light.destructiveRed,
-                    elevation: 5,
+                    borderColor: Colors.light.destructiveRed,
+                    borderWidth: 1,
                   },
                 ]}
               >
                 <TextInput
-                  style={styles.input}
+                  style={AppStyles.input}
                   placeholder={"Exercise title"}
                   value={exerciseTitle}
                   onChangeText={setExerciseTitle}
@@ -195,20 +196,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5,
     marginBottom: 10,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    elevation: 3,
-  },
-  input: {
-    padding: 15,
-    borderRadius: 10,
-    fontSize: 16,
-    flex: 1,
   },
   button: {
     backgroundColor: Colors.light.specialBlue,

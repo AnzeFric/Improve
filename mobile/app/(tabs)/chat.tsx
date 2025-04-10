@@ -12,6 +12,7 @@ import UserItem from "@/components/chat/UserItem";
 import AiItem from "@/components/chat/AiItem";
 import PatchyBackground from "@/components/global/PatchyBackground";
 import DisplayChatLog from "@/components/chat/DisplayChatLog";
+import { AppStyles } from "@/constants/AppStyles";
 
 export default function ChatScreen() {
   const [value, setValue] = useState("");
@@ -41,9 +42,9 @@ export default function ChatScreen() {
           </View>
         </ScrollView>
 
-        <View style={styles.inputContainer}>
+        <View style={[AppStyles.inputContainer, styles.inputContainer]}>
           <TextInput
-            style={styles.input}
+            style={AppStyles.input}
             placeholder={"Chat"}
             value={value}
             onChangeText={setValue}
@@ -73,19 +74,7 @@ const styles = StyleSheet.create({
     gap: 15,
   },
   inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    elevation: 3,
     paddingHorizontal: 10,
     margin: 10,
-  },
-  input: {
-    borderRadius: 10,
-    fontSize: 16,
-    flex: 1,
-    paddingVertical: 18,
-    paddingLeft: 10,
   },
 });

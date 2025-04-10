@@ -9,6 +9,7 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 import { Colors } from "@/constants/Colors";
+import { AppStyles } from "@/constants/AppStyles";
 
 export default function RegisterScreen() {
   const {
@@ -35,37 +36,40 @@ export default function RegisterScreen() {
       <Text style={styles.subtitle}>Embark on a new chapter in your life.</Text>
 
       <View style={styles.contentContainer}>
-        <View style={styles.inputContainer}>
+        <View style={AppStyles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={AppStyles.input}
             placeholder={"First name"}
             value={firstName}
             onChangeText={setFirstName}
             autoCapitalize={"words"}
+            autoComplete={"off"}
           />
         </View>
-        <View style={styles.inputContainer}>
+        <View style={AppStyles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={AppStyles.input}
             placeholder={"Last name"}
             value={lastName}
             onChangeText={setLastName}
             autoCapitalize={"words"}
+            autoComplete={"off"}
           />
         </View>
-        <View style={styles.inputContainer}>
+        <View style={AppStyles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={AppStyles.input}
             placeholder={"Email"}
             value={email}
             onChangeText={setEmail}
             keyboardType={"email-address"}
             autoCapitalize={"none"}
+            autoComplete={"off"}
           />
         </View>
-        <View style={styles.inputContainer}>
+        <View style={AppStyles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={AppStyles.input}
             placeholder={"Password"}
             value={password}
             onChangeText={setPassword}
@@ -81,9 +85,9 @@ export default function RegisterScreen() {
             />
           </TouchableOpacity>
         </View>
-        <View style={styles.inputContainer}>
+        <View style={AppStyles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={AppStyles.input}
             placeholder={"Confirm password"}
             value={confirmPassword}
             onChangeText={setConfirmPassword}
@@ -129,21 +133,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     width: "100%",
     gap: 15,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    elevation: 3,
-    paddingRight: 20,
-  },
-  input: {
-    padding: 15,
-    borderRadius: 10,
-    fontSize: 16,
-    flex: 1,
   },
   button: {
     marginTop: 20,

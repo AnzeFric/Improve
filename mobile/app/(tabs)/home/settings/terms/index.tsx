@@ -6,6 +6,7 @@ import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import TermsItem from "@/components/home/settings/TermsItem";
 import termsJson from "@/data/terms.json";
+import { AppStyles } from "@/constants/AppStyles";
 
 export default function TermsAndConditionsScreen() {
   const [value, setValue] = useState("");
@@ -31,9 +32,9 @@ export default function TermsAndConditionsScreen() {
     <ScrollView>
       <TitleRow title={"Terms and conditions"} hasBackButton={true} />
       <View style={styles.contentContainer}>
-        <View style={styles.inputContainer}>
+        <View style={AppStyles.inputContainer}>
           <TextInput
-            style={styles.input}
+            style={AppStyles.input}
             placeholder={"Search"}
             value={value}
             onChangeText={setValue}
@@ -56,21 +57,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 25,
     gap: 30,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    shadowColor: "#000",
-    elevation: 3,
-    paddingRight: 20,
-  },
-  input: {
-    padding: 15,
-    borderRadius: 10,
-    fontSize: 16,
-    flex: 1,
   },
   button: {
     borderRadius: 8,

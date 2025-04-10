@@ -116,13 +116,16 @@ export default function ModalAddSet({
 
             <View style={styles.buttonContainer}>
               <TouchableOpacity
-                style={styles.cancelButton}
+                style={[
+                  AppStyles.button,
+                  { backgroundColor: Colors.light.destructiveRed },
+                ]}
                 onPress={clearInputsAndClose}
               >
-                <Text style={styles.buttonText}>Cancel</Text>
+                <Text style={AppStyles.buttonText}>Cancel</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.addButton} onPress={handleAdd}>
-                <Text style={styles.buttonText}>Add</Text>
+              <TouchableOpacity style={AppStyles.button} onPress={handleAdd}>
+                <Text style={AppStyles.buttonText}>Add</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -170,26 +173,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     paddingTop: 10,
-  },
-  addButton: {
-    backgroundColor: Colors.light.specialBlue,
-    borderRadius: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    alignItems: "center",
-    elevation: 3,
-  },
-  cancelButton: {
-    backgroundColor: Colors.light.destructiveRed,
-    borderRadius: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    alignItems: "center",
-    elevation: 3,
-  },
-  buttonText: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: "#fff",
   },
 });

@@ -8,6 +8,7 @@ import {
 import { useState, Dispatch, SetStateAction } from "react";
 import { Exercise } from "@/interfaces/workout";
 import { Colors } from "@/constants/Colors";
+import { AppStyles } from "@/constants/AppStyles";
 
 interface Props {
   exercise: Exercise;
@@ -86,12 +87,12 @@ export default function ExerciseDisplay({
       ))}
       {isEditing && setIsEditing ? (
         <TouchableOpacity
-          style={styles.saveButton}
+          style={[AppStyles.button, { marginTop: 15 }]}
           onPress={() => {
             setIsEditing(false);
           }}
         >
-          <Text style={styles.buttonText}>Save</Text>
+          <Text style={AppStyles.buttonText}>Save</Text>
         </TouchableOpacity>
       ) : (
         <></>
@@ -137,21 +138,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: 60,
   },
-  saveButton: {
-    backgroundColor: Colors.light.specialBlue,
-    borderRadius: 10,
-    paddingVertical: 8,
-    alignItems: "center",
-    marginTop: 10,
-  },
   text: {
     fontSize: 14,
     color: "#333",
-  },
-  buttonText: {
-    fontSize: 16,
-    color: "#fff",
-    fontWeight: "bold",
   },
   weight: {
     fontSize: 14,

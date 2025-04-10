@@ -15,6 +15,7 @@ import UserMetricsDisplay from "@/components/home/settings/UserMetricsDisplay";
 import UserMetricsCreate from "@/components/home/settings/UserMetricsCreate";
 import { useUser } from "@/hooks/useUser";
 import { useUserMetrics } from "@/hooks/useUserMetrics";
+import { AppStyles } from "@/constants/AppStyles";
 
 export default function SettingsScreen() {
   const { handleLogout } = useAuth();
@@ -50,21 +51,40 @@ export default function SettingsScreen() {
         </View>
 
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-            <Text style={styles.logoutText}>Logout</Text>
+          <TouchableOpacity
+            style={[
+              AppStyles.borderButton,
+              { borderColor: Colors.light.destructiveRed },
+            ]}
+            onPress={handleLogout}
+          >
+            <Text
+              style={[
+                AppStyles.borderButtonText,
+                { color: Colors.light.destructiveRed },
+              ]}
+            >
+              Logout
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={styles.button}
+            style={AppStyles.button}
             onPress={() => {
               router.push("/(tabs)/home/settings/terms");
             }}
           >
-            <Text style={styles.buttonText}>Terms & Conditions</Text>
+            <Text style={AppStyles.buttonText}>Terms & Conditions</Text>
           </TouchableOpacity>
 
           <View style={styles.deleteButtonContainer}>
-            <TouchableOpacity style={styles.deleteButton} onPress={deleteUser}>
-              <Text style={styles.buttonText}>Delete Account</Text>
+            <TouchableOpacity
+              style={[
+                AppStyles.button,
+                { backgroundColor: Colors.light.destructiveRed },
+              ]}
+              onPress={deleteUser}
+            >
+              <Text style={AppStyles.buttonText}>Delete Account</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -95,44 +115,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
     marginTop: 10,
+    marginBottom: 12,
   },
   buttonsContainer: {
     gap: 15,
   },
-  button: {
-    backgroundColor: Colors.light.specialBlue,
-    borderRadius: 12,
-    paddingVertical: 10,
-    alignItems: "center",
-    elevation: 3,
-  },
-  logoutButton: {
-    backgroundColor: "#fff",
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: Colors.light.destructiveRed,
-    paddingVertical: 10,
-    alignItems: "center",
-  },
-  logoutText: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: Colors.light.destructiveRed,
-  },
   deleteButtonContainer: {
     justifyContent: "flex-end",
     paddingBottom: 20,
-  },
-  deleteButton: {
-    backgroundColor: Colors.light.destructiveRed,
-    borderRadius: 12,
-    paddingVertical: 10,
-    alignItems: "center",
-    elevation: 3,
-  },
-  buttonText: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: "#fff",
   },
 });

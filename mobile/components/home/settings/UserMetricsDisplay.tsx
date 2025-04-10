@@ -85,7 +85,6 @@ export default function UserMetricsDisplay({ userMetrics }: Props) {
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    marginTop: 12,
   },
   headerContainer: {
     flexDirection: "row",

@@ -149,8 +149,8 @@ export default function NewWorkoutScreen() {
                 <Text style={styles.errorText}>Exercise title is empty!</Text>
               )}
             </View>
-            <TouchableOpacity style={styles.button} onPress={addExercise}>
-              <Text style={styles.buttonText}>Add Exercise</Text>
+            <TouchableOpacity style={AppStyles.button} onPress={addExercise}>
+              <Text style={AppStyles.buttonText}>Add Exercise</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -197,13 +197,6 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     marginBottom: 10,
   },
-  button: {
-    backgroundColor: Colors.light.specialBlue,
-    borderRadius: 10,
-    paddingVertical: 8,
-    alignItems: "center",
-    marginTop: 10,
-  },
   buttonRep: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -216,12 +209,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: Colors.light.specialBlue,
   },
-  buttonText: {
-    fontSize: 17,
-    color: "#ffffff",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
   buttonFinish: {
     backgroundColor: Colors.light.specialBlue,
     borderRadius: 10,
@@ -232,7 +219,7 @@ const styles = StyleSheet.create({
   },
   exerciseAddContainer: {
     gap: 10,
-    paddingBottom: 10,
+    paddingBottom: 20,
   },
   errorText: {
     fontSize: 14,

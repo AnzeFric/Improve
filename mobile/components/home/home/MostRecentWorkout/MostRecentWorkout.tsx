@@ -4,6 +4,7 @@ import { Colors } from "@/constants/Colors";
 import { Workout } from "@/interfaces/workout";
 import WorkoutDisplay from "./WorkoutDisplay";
 import { Ionicons } from "@expo/vector-icons";
+import { AppStyles } from "@/constants/AppStyles";
 
 const fakeWorkout: Workout = {
   name: "Pull day",
@@ -87,8 +88,8 @@ export default function MostRecentWorkout() {
 
       <WorkoutDisplay workout={recentWorkout} />
 
-      <TouchableOpacity style={styles.button} onPress={handlePress}>
-        <Text style={styles.buttonText}>Redo workout</Text>
+      <TouchableOpacity style={AppStyles.button} onPress={handlePress}>
+        <Text style={AppStyles.buttonText}>Redo workout</Text>
       </TouchableOpacity>
     </View>
   );
@@ -131,16 +132,5 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 4,
-  },
-  button: {
-    backgroundColor: Colors.light.specialBlue,
-    borderRadius: 8,
-    paddingVertical: 8,
-  },
-  buttonText: {
-    fontSize: 17,
-    color: "#ffffff",
-    fontWeight: "bold",
-    textAlign: "center",
   },
 });

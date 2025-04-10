@@ -1,6 +1,6 @@
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Colors } from "@/constants/Colors";
+import { Text, TouchableOpacity } from "react-native";
 import { Timeline } from "@/interfaces/statistics";
+import { AppStyles } from "@/constants/AppStyles";
 
 interface Props {
   text: Timeline;
@@ -15,12 +15,12 @@ export default function ButtonSelectable({
 }: Props) {
   return (
     <TouchableOpacity
-      style={timeline === text ? styles.button : styles.inactiveButton}
+      style={timeline === text ? AppStyles.button : AppStyles.borderButton}
       onPress={() => setTimeline(text)}
     >
       <Text
         style={
-          timeline === text ? styles.buttonText : styles.inactiveButtonText
+          timeline === text ? AppStyles.buttonText : AppStyles.borderButtonText
         }
       >
         {text}
@@ -28,32 +28,3 @@ export default function ButtonSelectable({
     </TouchableOpacity>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: Colors.light.specialBlue,
-    borderRadius: 12,
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-    borderWidth: 1,
-    borderColor: Colors.light.specialBlue,
-  },
-  inactiveButton: {
-    backgroundColor: "#fff",
-    borderColor: Colors.light.specialBlue,
-    borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  inactiveButtonText: {
-    color: Colors.light.specialBlue,
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});

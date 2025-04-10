@@ -1,7 +1,7 @@
-import { Text, TouchableOpacity, StyleSheet } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 import { useState } from "react";
-import { Colors } from "@/constants/Colors";
 import ModalUserMetricsCreate from "./ModalUserMetricsCreate";
+import { AppStyles } from "@/constants/AppStyles";
 
 export default function UserMetricsCreate() {
   const [isVisible, setIsVisible] = useState(false);
@@ -9,12 +9,12 @@ export default function UserMetricsCreate() {
   return (
     <>
       <TouchableOpacity
-        style={styles.button}
+        style={AppStyles.button}
         onPress={() => {
           setIsVisible(true);
         }}
       >
-        <Text style={styles.buttonText}>Create your Metrics</Text>
+        <Text style={AppStyles.buttonText}>Create your Metrics</Text>
       </TouchableOpacity>
       <ModalUserMetricsCreate
         isVisible={isVisible}
@@ -23,20 +23,3 @@ export default function UserMetricsCreate() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: Colors.light.specialBlue,
-    borderRadius: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 20,
-    alignItems: "center",
-    elevation: 3,
-    marginTop: 10,
-  },
-  buttonText: {
-    fontSize: 17,
-    fontWeight: "bold",
-    color: "#fff",
-  },
-});

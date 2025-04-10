@@ -2,6 +2,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { AppStyles } from "@/constants/AppStyles";
 
 interface Props {
   recommendWorkout: string;
@@ -32,17 +33,16 @@ export default function StartNewWorkout({ recommendWorkout }: Props) {
 
       <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={styles.buttonCustomize}
+          style={AppStyles.borderButton}
           onPress={handleCustomize}
         >
-          <Text
-            style={[styles.buttonText, { color: Colors.light.specialBlue }]}
-          >
-            Customize
-          </Text>
+          <Text style={AppStyles.borderButtonText}>Customize</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonStart} onPress={handleStart}>
-          <Text style={styles.buttonText}>Start</Text>
+        <TouchableOpacity
+          style={[AppStyles.button, { flex: 1 }]}
+          onPress={handleStart}
+        >
+          <Text style={AppStyles.buttonText}>Start</Text>
         </TouchableOpacity>
       </View>
     </>
@@ -75,26 +75,5 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     paddingTop: 20,
-  },
-  buttonStart: {
-    backgroundColor: Colors.light.specialBlue,
-    borderRadius: 8,
-    paddingVertical: 8,
-    flex: 1,
-  },
-  buttonCustomize: {
-    backgroundColor: "#ffffff",
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: Colors.light.specialBlue,
-    paddingHorizontal: 15,
-    paddingVertical: 8,
-    color: Colors.light.specialBlue,
-  },
-  buttonText: {
-    fontSize: 17,
-    color: "#ffffff",
-    fontWeight: "bold",
-    textAlign: "center",
   },
 });

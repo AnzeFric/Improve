@@ -6,13 +6,15 @@ import { useMemo, useState } from "react";
 import ModalBottomAction from "../../global/modals/ModalBottomAction";
 import { useBmiCalculator } from "@/hooks/useBmiCalculator";
 import { useUserMetrics } from "@/hooks/useUserMetrics";
+import ModalUserMetricsUpdate from "./ModalUserMetricsCreate";
 
 interface Props {
   userMetrics: UserMetrics;
 }
 
 export default function UserMetricsDisplay({ userMetrics }: Props) {
-  const [isVisible, setIsVisible] = useState(false);
+  const [showBottomActionModal, setShowBottomActionModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const { getBmiCategory, getBmiColor, calculateBmi } = useBmiCalculator();
   const { deleteUserMetrics } = useUserMetrics();
 
@@ -20,13 +22,18 @@ export default function UserMetricsDisplay({ userMetrics }: Props) {
     return calculateBmi(userMetrics.weight, userMetrics.height);
   }, [userMetrics]);
 
+  const handleUpdate = () => {
+    setShowBottomActionModal(false);
+    setShowUpdateModal(true);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <Text style={styles.sectionTitle}>User Metrics</Text>
         <TouchableOpacity
           style={styles.editIconButton}
-          onPress={() => setIsVisible(true)}
+          onPress={() => setShowBottomActionModal(true)}
         >
           <Ionicons
             name="create-outline"
@@ -73,10 +80,16 @@ export default function UserMetricsDisplay({ userMetrics }: Props) {
 
       <ModalBottomAction
         subject={"Metrics"}
-        isVisible={isVisible}
-        setIsVisible={setIsVisible}
+        isVisible={showBottomActionModal}
+        setIsVisible={setShowBottomActionModal}
         handleDelete={deleteUserMetrics}
-        handleEdit={() => {}}
+        handleEdit={handleUpdate}
+      />
+
+      <ModalUserMetricsUpdate
+        isVisible={showUpdateModal}
+        setIsVisible={setShowUpdateModal}
+        updateData={userMetrics}
       />
     </View>
   );

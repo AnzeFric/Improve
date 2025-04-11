@@ -42,9 +42,11 @@ export function useUserMetrics() {
         setUserMetrics(newUserMetrics);
         return true;
       }
+
+      console.log("Failed to save user metrics: ", response.status);
       return false;
     } catch (error) {
-      console.error("Error while saving user metrics: ", error);
+      console.error("Error saving user metrics: ", error);
       return false;
     }
   };
@@ -74,10 +76,10 @@ export function useUserMetrics() {
         setUserMetrics(userMetrics);
         return userMetrics;
       }
-      console.log("Failed to fetch userMetrics: ", response.status);
+      console.log("Failed to fetch user metrics: ", response.status);
       return null;
     } catch (error) {
-      console.error("Error while fetching userMetrics: ", error);
+      console.error("Error fetching user metrics: ", error);
       return null;
     }
   };
@@ -101,11 +103,53 @@ export function useUserMetrics() {
         resetUserMetricsStore();
         return true;
       }
-      console.log("Failed to delete userMetrics: ", response.status);
+      console.log("Failed to delete user metrics: ", response.status);
       return false;
     } catch (error) {
-      console.error("Error while deleting userMetrics: ", error);
+      console.error("Error deleting user metrics: ", error);
       return false;
+    }
+  };
+
+  const updateUserMetrics = async (
+    age: number,
+    weight: number,
+    height: number
+  ) => {
+    try {
+      if (!weight || !height) {
+        return false;
+      }
+
+      const updatedUserMetrics: UserMetrics = {
+        age: age || null,
+        weight: weight,
+        height: height,
+      };
+
+      const response = await fetch(
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/update`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: "Bearer " + jwt,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedUserMetrics),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        setUserMetrics(updatedUserMetrics);
+        return true;
+      }
+
+      console.log("Failed to update user metrics: ", response.status);
+      return false;
+    } catch (error) {
+      console.error("Error updating user metrics: ", error);
     }
   };
 
@@ -115,5 +159,6 @@ export function useUserMetrics() {
     getUserMetrics,
     deleteUserMetrics,
     resetUserMetricsStore,
+    updateUserMetrics,
   };
 }

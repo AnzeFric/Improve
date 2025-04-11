@@ -11,20 +11,27 @@ import { useFocusEffect } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import { useUserMetrics } from "@/hooks/useUserMetrics";
 import { AppStyles } from "@/constants/AppStyles";
+import { UserMetrics } from "@/interfaces/user";
 
 interface Props {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
+  updateData?: UserMetrics;
 }
 
 export default function ModalUserMetricsCreate({
   isVisible,
   setIsVisible,
+  updateData,
 }: Props) {
-  const { saveUserMetrics } = useUserMetrics();
-  const [age, setAge] = useState("");
-  const [weight, setWeight] = useState<string>("");
-  const [height, setHeight] = useState<string>("");
+  const { saveUserMetrics, updateUserMetrics } = useUserMetrics();
+  const [age, setAge] = useState(updateData?.age?.toString() || "");
+  const [weight, setWeight] = useState<string>(
+    updateData?.weight.toString() || ""
+  );
+  const [height, setHeight] = useState<string>(
+    updateData?.height.toString() || ""
+  );
   const [emptyFieldsError, setEmptyFieldsError] = useState(false);
   const [errorOccured, setErrorOccured] = useState(false);
 
@@ -54,20 +61,30 @@ export default function ModalUserMetricsCreate({
     const intWeight = parseFloat(weight);
     const intHeight = parseFloat(height);
 
-    saveUserMetrics(intAge, intWeight, intHeight).then((response) => {
-      if (response) {
-        setIsVisible(false);
-      } else {
-        setErrorOccured(true);
-      }
-    });
+    updateData
+      ? updateUserMetrics(intAge, intWeight, intHeight).then((response) => {
+          if (response) {
+            setIsVisible(false);
+          } else {
+            setErrorOccured(true);
+          }
+        })
+      : saveUserMetrics(intAge, intWeight, intHeight).then((response) => {
+          if (response) {
+            setIsVisible(false);
+          } else {
+            setErrorOccured(true);
+          }
+        });
   };
 
   return (
     <Modal visible={isVisible} transparent animationType={"fade"}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.title}>Create your Metrics</Text>
+          <Text style={styles.title}>
+            {updateData ? "Update" : "Create"} your Metrics
+          </Text>
           <View style={styles.contentContainer}>
             <View style={AppStyles.inputContainer}>
               <TextInput
@@ -117,7 +134,8 @@ export default function ModalUserMetricsCreate({
 
             {errorOccured && (
               <Text style={styles.generalErrorText}>
-                Failed to save user metrics. Please try again.
+                Failed to {updateData ? "update" : "save"} user metrics. Please
+                try again.
               </Text>
             )}
 

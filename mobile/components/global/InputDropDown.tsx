@@ -31,36 +31,33 @@ export default function InputDropDown({
   );
 
   const textInputRef = useRef<TextInput>(null);
+  const rotationAnimRef = useRef(new Animated.Value(0)).current;
 
-  // Create an Animated Value for rotation
-  const rotationAnim = useRef(new Animated.Value(0)).current;
+  // Rotate the caret
+  const rotateInterpolate = rotationAnimRef.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["270deg", "360deg"],
+  });
+
+  const AnimatedIonicon = Animated.createAnimatedComponent(Ionicons);
 
   // Animate rotation when isFocused changes
   useEffect(() => {
-    Animated.timing(rotationAnim, {
+    Animated.timing(rotationAnimRef, {
       toValue: isFocused ? 1 : 0,
       duration: 300,
       useNativeDriver: true,
     }).start();
   }, [isFocused]);
 
-  // Interpolate the animated value to a rotation angle
-  const rotateInterpolate = rotationAnim.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["270deg", "360deg"],
-  });
-
-  // Wrap the Ionicons component with Animated
-  const AnimatedIonicons = Animated.createAnimatedComponent(Ionicons);
-
   const handleOption = (option: string) => {
     setValue(option);
     setIsFocused(false);
   };
 
-  const handleFocus = () => {
-    setIsFocused(true);
-  };
+  const filteredSearchOptions = searchOptions.filter((searchOption) =>
+    searchOption.toLowerCase().includes(value.toLowerCase())
+  );
 
   return (
     <View>
@@ -74,13 +71,15 @@ export default function InputDropDown({
           value={value}
           placeholder={placeholder}
           onChangeText={setValue}
-          onFocus={handleFocus}
+          onFocus={() => {
+            setIsFocused(true);
+          }}
           onPress={onPress}
           style={styles.input}
           ref={textInputRef}
         />
         {/* Animated caret icon */}
-        <AnimatedIonicons
+        <AnimatedIonicon
           name="caret-down-outline"
           size={20}
           color={"#000"}
@@ -98,7 +97,7 @@ export default function InputDropDown({
             nestedScrollEnabled={true}
             showsVerticalScrollIndicator={false}
           >
-            {searchOptions.map((option, index) => (
+            {filteredSearchOptions.map((option, index) => (
               <TouchableOpacity
                 style={[
                   styles.optionContainer,
@@ -146,7 +145,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     elevation: 3,
     width: "100%",
-    height: 200,
+    maxHeight: 200,
     overflow: "hidden",
   },
   contentContainer: {

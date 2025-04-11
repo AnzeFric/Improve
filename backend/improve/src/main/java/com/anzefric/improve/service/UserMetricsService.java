@@ -13,27 +13,35 @@ public class UserMetricsService {
     @Autowired
     private UserMetricsRepository userMetricsRepository;
 
-    public UserMetrics create(UserMetrics userMetrics) {
-        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.getUserMetricsByUserUuid(userMetrics.getUserUuid());
-        if (foundUserMetrics.isPresent()) {
-            throw new RuntimeException("Metrics for this user already exists!");
+    public UserMetrics createUserMetrics(UserMetrics userMetrics) {
+        Optional<UserMetrics> existingMetrics = userMetricsRepository.getUserMetricsByUserUuid(userMetrics.getUserUuid());
+        if(existingMetrics.isPresent()) {
+            throw new RuntimeException("Metrics for this user already exist! Use update instead.");
         }
         return userMetricsRepository.save(userMetrics);
     }
 
-    public UserMetrics getUserMetricsByUserId(UUID userUuid) {
-        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.getUserMetricsByUserUuid(userUuid);
-        if (!foundUserMetrics.isPresent()) {
-            throw new RuntimeException("Metrics for this user do not exist!");
-        }
-        return foundUserMetrics.get();
+    public UserMetrics getUserMetricsByUserUuid(UUID userUuid) {
+        Optional<UserMetrics> existingMetrics = getExistingUserMetrics(userUuid);
+        return existingMetrics.get();
     }  
     
-    public void deleteUserMetrics(UUID userUuid) {
-        Optional<UserMetrics> foundUserMetrics = userMetricsRepository.getUserMetricsByUserUuid(userUuid);
-        if(!foundUserMetrics.isPresent()) {
+    public void deleteUserMetricsByUserUuid(UUID userUuid) {
+        Optional<UserMetrics> existingMetrics = getExistingUserMetrics(userUuid);
+        userMetricsRepository.delete(existingMetrics.get());
+    }
+
+    public void updateUserMetrics(UserMetrics newUserMetrics) {
+        UUID userUuid = newUserMetrics.getUserUuid();
+        getExistingUserMetrics(userUuid);
+        userMetricsRepository.updateUserMetricsByUserUuid(userUuid, newUserMetrics);
+    }
+
+    private Optional<UserMetrics> getExistingUserMetrics(UUID userUuid) {
+        Optional<UserMetrics> existingMetrics = userMetricsRepository.getUserMetricsByUserUuid(userUuid);
+        if(!existingMetrics.isPresent()) {
             throw new RuntimeException("Metrics for this user do not exist!");
         }
-        userMetricsRepository.delete(foundUserMetrics.get());
+        return existingMetrics;
     }
 }

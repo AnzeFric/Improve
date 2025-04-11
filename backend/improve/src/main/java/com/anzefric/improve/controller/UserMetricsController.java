@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("api/user-metrics")
@@ -26,7 +28,7 @@ public class UserMetricsController {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
             userMetrics.setUserUuid(authenticatedUser.getUserUuid());
-            userMetricsService.create(userMetrics);
+            userMetricsService.createUserMetrics(userMetrics);
 
             return ApiResponse.success("User metrics saved successfully.");
         } catch (Exception e) {
@@ -38,7 +40,7 @@ public class UserMetricsController {
     public ApiResponse<UserMetrics> getUserMetrics() {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
-            UserMetrics userMetrics = userMetricsService.getUserMetricsByUserId(authenticatedUser.getUserUuid());
+            UserMetrics userMetrics = userMetricsService.getUserMetricsByUserUuid(authenticatedUser.getUserUuid());
 
             return ApiResponse.success(userMetrics);
         } catch (Exception e) {
@@ -50,11 +52,24 @@ public class UserMetricsController {
     public ApiResponse<String> deleteUserMetrics() {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
-            userMetricsService.deleteUserMetrics(authenticatedUser.getUserUuid());
+            userMetricsService.deleteUserMetricsByUserUuid(authenticatedUser.getUserUuid());
 
             return ApiResponse.success("User metrics deleted successfully.");
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error deleting user metrics: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/update")
+    public ApiResponse<String> updateUserMetrics(@RequestBody @Valid UserMetrics newUserMetrics) {
+        try {
+            User authenticatedUser = getCurrentAuthenticatedUser();
+            newUserMetrics.setUserUuid(authenticatedUser.getUserUuid());
+            userMetricsService.updateUserMetrics(newUserMetrics);
+
+            return ApiResponse.success("User metrics updated successfully.");
+        } catch (Exception e) {
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error updating user metrics: " + e.getMessage());
         }
     }
 

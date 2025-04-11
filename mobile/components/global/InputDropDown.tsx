@@ -30,6 +30,8 @@ export default function InputDropDown({
     searchOptions[0].length > 0 ? searchOptions[0] : ""
   );
 
+  const textInputRef = useRef<TextInput>(null);
+
   // Create an Animated Value for rotation
   const rotationAnim = useRef(new Animated.Value(0)).current;
 
@@ -75,6 +77,7 @@ export default function InputDropDown({
           onFocus={handleFocus}
           onPress={onPress}
           style={styles.input}
+          ref={textInputRef}
         />
         {/* Animated caret icon */}
         <AnimatedIonicons
@@ -82,6 +85,9 @@ export default function InputDropDown({
           size={20}
           color={"#000"}
           style={{ transform: [{ rotate: rotateInterpolate }] }}
+          onPress={() => {
+            textInputRef.current?.focus();
+          }}
         />
       </View>
 

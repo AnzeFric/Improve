@@ -81,6 +81,7 @@ export default function SettingsScreen() {
                   , intensity: {splitIntensity}
                 </Text>
               </Text>
+
               <View>
                 {splitTrainingDays.map((day, index) => (
                   <View key={index}>
@@ -90,6 +91,18 @@ export default function SettingsScreen() {
                   </View>
                 ))}
               </View>
+
+              <TouchableOpacity
+                style={[
+                  AppStyles.button,
+                  { alignSelf: "center", marginTop: 20 },
+                ]}
+                onPress={() => {
+                  setShowSplitModal(true);
+                }}
+              >
+                <Text style={AppStyles.buttonText}>Change your split</Text>
+              </TouchableOpacity>
             </>
           ) : (
             <TouchableOpacity
@@ -183,6 +196,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
+    fontWeight: "normal",
   },
   buttonsContainer: {
     gap: 15,

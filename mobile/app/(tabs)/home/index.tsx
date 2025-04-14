@@ -1,18 +1,37 @@
 import { View, StyleSheet, ScrollView } from "react-native";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import StartNewWorkout from "@/components/home/home/StartNewWorkout";
 import DailyStreak from "@/components/home/home/DailyStreak";
 import MostRecentWorkout from "@/components/home/home/MostRecentWorkout/MostRecentWorkout";
 import MenuButton from "@/components/global/buttons/MenuButton";
 import { useUser } from "@/hooks/useUser";
+import { useAuth } from "@/hooks/useAuth";
+import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
 
 export default function HomeScreen() {
   const { dayStreak, getUser } = useUser();
+  const { isFirstLogin, setIsFirstLogin } = useAuth();
+  const [showSplitModal, setShowSplitModal] = useState(true);
 
   useEffect(() => {
     getUser();
   }, []);
+
+  const handleSelectSplit = (
+    splitType: string,
+    intensity: string,
+    customData: string | undefined
+  ) => {
+    setIsFirstLogin(true);
+
+    console.log("Selected split:", splitType);
+    console.log("Selected intensity", intensity);
+
+    if (customData) {
+      console.log("Custom split details:", JSON.parse(customData));
+    }
+  };
 
   return (
     <View>
@@ -34,6 +53,13 @@ export default function HomeScreen() {
           </View>
         </View>
       </ScrollView>
+      {isFirstLogin && (
+        <ModalSetSplit
+          isVisible={showSplitModal}
+          setIsVisible={setShowSplitModal}
+          onSelectSplit={handleSelectSplit}
+        />
+      )}
     </View>
   );
 }

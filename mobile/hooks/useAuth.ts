@@ -5,8 +5,16 @@ import Config from "react-native-config";
 import { useCleanup } from "./useCleanup";
 
 export function useAuth() {
-  const { jwt, expiresIn, isLoggined, setIsLoggined, setJwt, setExpiresIn } =
-    useAuthStore();
+  const {
+    jwt,
+    expiresIn,
+    isLoggined,
+    isFirstLogin,
+    setJwt,
+    setExpiresIn,
+    setIsLoggined,
+    setIsFirstLogin,
+  } = useAuthStore();
   const { resetStores } = useCleanup();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -93,6 +101,8 @@ export function useAuth() {
     jwt,
     expiresIn,
     isLoggined,
+    isFirstLogin,
+    setIsFirstLogin,
     firstName,
     setFirstName,
     lastName,

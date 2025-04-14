@@ -14,3 +14,15 @@ export interface Set {
   reps: number;
   weight: number;
 }
+
+export interface Split {
+  name: string;
+  days: Array<string>;
+}
+
+export interface SplitDescription {
+  name: string;
+  description: string;
+}
+
+export type modalSteps = "split" | "custom" | "intensity";

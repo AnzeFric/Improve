@@ -21,15 +21,15 @@ export default function HomeScreen() {
   const handleSelectSplit = (
     splitType: string,
     intensity: string,
-    customData: string | undefined
+    customTrainingDays: Array<string> | undefined
   ) => {
     setIsFirstLogin(false);
 
     console.log("Selected split:", splitType);
     console.log("Selected intensity", intensity);
 
-    if (customData) {
-      console.log("Custom split details:", JSON.parse(customData));
+    if (customTrainingDays) {
+      console.log("Custom split details:", customTrainingDays);
     }
   };
 

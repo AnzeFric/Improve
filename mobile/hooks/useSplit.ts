@@ -10,7 +10,11 @@ export function useSplit() {
     setSplitTraingingDays,
   } = useSplitStore();
 
-  const saveSplit = async () => {
+  const saveSplit = async (
+    name: string,
+    intensity: string,
+    trainingDays: Array<string> | undefined
+  ) => {
     console.log("Save split");
   };
 

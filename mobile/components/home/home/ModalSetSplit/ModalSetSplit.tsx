@@ -10,9 +10,9 @@ interface Props {
   isVisible: boolean;
   setIsVisible: (isVisible: boolean) => void;
   onSelectSplit: (
-    splitType: string,
+    name: string,
     intensity: string,
-    customName?: string
+    customTrainingDays?: Array<string>
   ) => void;
 }
 
@@ -58,14 +58,10 @@ export default function ModalSetSplit({
 
   const handleConfirm = () => {
     if (selectedSplit === "Custom") {
-      const customDetail: Split = {
-        name: customSplitName,
-        days: customSplitDays,
-      };
       onSelectSplit(
         "Custom",
         selectedIntensity || "Intermediate",
-        JSON.stringify(customDetail)
+        customSplitDays
       );
     } else if (selectedSplit && selectedIntensity) {
       onSelectSplit(selectedSplit, selectedIntensity);

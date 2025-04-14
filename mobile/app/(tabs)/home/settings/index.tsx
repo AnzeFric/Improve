@@ -5,7 +5,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,12 +17,15 @@ import { useUser } from "@/hooks/useUser";
 import { useUserMetrics } from "@/hooks/useUserMetrics";
 import { AppStyles } from "@/constants/AppStyles";
 import { useSplit } from "@/hooks/useSplit";
+import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
 
 export default function SettingsScreen() {
   const { handleLogout } = useAuth();
   const { firstName, lastName, deleteUser } = useUser();
   const { userMetrics, getUserMetrics } = useUserMetrics();
-  const { splitName, splitIntensity, splitTrainingDays, getSplit } = useSplit();
+  const { splitName, splitIntensity, splitTrainingDays, getSplit, saveSplit } =
+    useSplit();
+  const [showSplitModal, setShowSplitModal] = useState(false);
 
   useEffect(() => {
     if (!userMetrics) {
@@ -33,6 +36,20 @@ export default function SettingsScreen() {
       getSplit();
     }
   }, [userMetrics, splitName]);
+
+  const handleSelectSplit = (
+    name: string,
+    intensity: string,
+    customTrainingDays: Array<string> | undefined
+  ) => {
+    console.log("Selected split:", splitName);
+    console.log("Selected intensity", intensity);
+
+    if (customTrainingDays) {
+      console.log("Custom training days", customTrainingDays);
+      saveSplit(name, intensity, customTrainingDays);
+    }
+  };
 
   return (
     <ScrollView>
@@ -79,7 +96,9 @@ export default function SettingsScreen() {
           ) : (
             <TouchableOpacity
               style={[AppStyles.button, { alignSelf: "center" }]}
-              onPress={() => {}}
+              onPress={() => {
+                setShowSplitModal(true);
+              }}
             >
               <Text style={AppStyles.buttonText}>Create your split</Text>
             </TouchableOpacity>
@@ -125,6 +144,11 @@ export default function SettingsScreen() {
           </View>
         </View>
       </View>
+      <ModalSetSplit
+        isVisible={showSplitModal}
+        setIsVisible={setShowSplitModal}
+        onSelectSplit={handleSelectSplit}
+      />
     </ScrollView>
   );
 }

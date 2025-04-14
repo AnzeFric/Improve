@@ -15,11 +15,6 @@ export interface Set {
   weight: number;
 }
 
-export interface Split {
-  name: string;
-  days: Array<string>;
-}
-
 export interface SplitDescription {
   name: string;
   description: string;

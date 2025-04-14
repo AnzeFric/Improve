@@ -1,7 +1,7 @@
 import { Text, View, Modal, StyleSheet, TouchableOpacity } from "react-native";
 import { AppStyles } from "@/constants/AppStyles";
 import { useState } from "react";
-import { Split, SplitDescription, modalSteps } from "@/interfaces/workout";
+import { SplitDescription, modalSteps } from "@/interfaces/workout";
 import CustomSplitSelection from "./CustomSplitSelection";
 import PresetSplitSelection from "./PresetSplitSelection";
 import IntensitySelection from "./IntensitySelection";

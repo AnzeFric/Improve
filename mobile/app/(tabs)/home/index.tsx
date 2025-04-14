@@ -23,7 +23,7 @@ export default function HomeScreen() {
     intensity: string,
     customData: string | undefined
   ) => {
-    setIsFirstLogin(true);
+    setIsFirstLogin(false);
 
     console.log("Selected split:", splitType);
     console.log("Selected intensity", intensity);

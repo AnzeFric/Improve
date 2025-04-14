@@ -20,7 +20,7 @@ const useAuthStore = create(
       jwt: null,
       expiresIn: 0,
       isLoggined: false,
-      isFirstLogin: false,
+      isFirstLogin: true,
       setJwt: (jwt: string | null) => {
         set({ jwt: jwt });
       },
@@ -38,7 +38,7 @@ const useAuthStore = create(
           jwt: null,
           expiresIn: 0,
           isLoggined: false,
-          isFirstLogin: false,
+          isFirstLogin: true,
         });
       },
     }),

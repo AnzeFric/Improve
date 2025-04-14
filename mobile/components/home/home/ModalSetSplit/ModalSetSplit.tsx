@@ -48,7 +48,7 @@ export default function ModalSetSplit({
     presetSplits[0].name
   );
   const [customSplitName, setCustomSplitName] = useState("");
-  const [customSplitDays, setCustomSplitDays] = useState<string[]>([""]);
+  const [customSplitDays, setCustomSplitDays] = useState<string[]>([]);
   const [showEmptyNameError, setShowEmptyNameError] = useState(false);
   const [showEmptyDaysError, setShowEmptyDaysError] = useState(false);
   const [selectedIntensity, setSelectedIntensity] = useState<string | null>(

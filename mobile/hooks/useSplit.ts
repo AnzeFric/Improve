@@ -22,11 +22,13 @@ export function useSplit() {
     trainingDays?: Array<string>
   ) => {
     setSplitName(name);
-    setSplitIntensity(intensity);
 
     if (trainingDays) {
       setSplitTraingingDays(trainingDays);
+      setSplitIntensity("");
     } else {
+      setSplitIntensity(intensity);
+
       const foundSplit = splitData.find((split) => split.name === name);
       if (foundSplit) {
         const foundIntensity = foundSplit.intensity.find(

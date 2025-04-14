@@ -21,7 +21,3 @@ export interface SplitDescription {
 }
 
 export type modalSteps = "split" | "custom" | "intensity";
-
-export const beginner = 2;
-export const intermediate = 4;
-export const advanced = 6;

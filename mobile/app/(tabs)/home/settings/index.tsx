@@ -75,12 +75,14 @@ export default function SettingsScreen() {
           <Text style={styles.itemTitle}>Currently selected split</Text>
           {splitName ? (
             <>
-              <Text style={styles.itemBoldText}>
-                {splitName}
-                <Text style={styles.itemText}>
-                  , intensity: {splitIntensity}
-                </Text>
-              </Text>
+              <View style={styles.itemDescription}>
+                <Text style={styles.itemBoldText}>{splitName}</Text>
+                {splitIntensity && (
+                  <Text style={styles.itemText}>
+                    , intensity: {splitIntensity}
+                  </Text>
+                )}
+              </View>
 
               <View>
                 {splitTrainingDays.map((day, index) => (
@@ -189,6 +191,10 @@ const styles = StyleSheet.create({
     color: "#333",
     marginTop: 10,
     marginBottom: 12,
+  },
+  itemDescription: {
+    flexDirection: "row",
+    paddingBottom: 10,
   },
   itemBoldText: {
     fontSize: 16,

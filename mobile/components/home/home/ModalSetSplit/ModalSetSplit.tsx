@@ -77,7 +77,7 @@ export default function ModalSetSplit({
         }
       }
 
-      setCurrentStep("intensity");
+      handleConfirm();
     } else if (currentStep === "intensity") {
       handleConfirm();
     }

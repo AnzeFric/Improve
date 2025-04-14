@@ -1,0 +1,94 @@
+{
+  "items": [
+    {
+      "name": "Push/Pull/Legs",
+      "description": "3-6 days focusing on pushing, pulling, and leg exercises",
+      "intensity": [
+        {
+          "type": "beginner",
+          "numDays": 3
+        },
+        {
+          "type": "intermediate",
+          "numDays": 4
+        },
+        {
+          "type": "advanced",
+          "numDays": 6
+        }
+      ]
+    },
+    {
+      "name": "Upper/Lower",
+      "description": "2-6 days alternating between upper and lower body workouts",
+      "intensity": [
+        {
+          "type": "beginner",
+          "numDays": 2
+        },
+        {
+          "type": "intermediate",
+          "numDays": 4
+        },
+        {
+          "type": "advanced",
+          "numDays": 6
+        }
+      ]
+    },
+    {
+      "name": "Full Body",
+      "description": "2-4 days training the entire body each session",
+      "intensity": [
+        {
+          "type": "beginner",
+          "numDays": 2
+        },
+        {
+          "type": "intermediate",
+          "numDays": 3
+        },
+        {
+          "type": "advanced",
+          "numDays": 4
+        }
+      ]
+    },
+    {
+      "name": "Bro Split",
+      "description": "4-6 days focusing on individual muscle groups",
+      "intensity": [
+        {
+          "type": "beginner",
+          "numDays": 4
+        },
+        {
+          "type": "intermediate",
+          "numDays": 5
+        },
+        {
+          "type": "advanced",
+          "numDays": 6
+        }
+      ]
+    },
+    {
+      "name": "Push/Pull",
+      "description": "2-4 days alternating between push and pull exercises",
+      "intensity": [
+        {
+          "type": "beginner",
+          "numDays": 2
+        },
+        {
+          "type": "intermediate",
+          "numDays": 4
+        },
+        {
+          "type": "advanced",
+          "numDays": 4
+        }
+      ]
+    }
+  ]
+}

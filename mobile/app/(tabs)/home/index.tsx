@@ -8,28 +8,29 @@ import MenuButton from "@/components/global/buttons/MenuButton";
 import { useUser } from "@/hooks/useUser";
 import { useAuth } from "@/hooks/useAuth";
 import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
+import { useSplit } from "@/hooks/useSplit";
 
 export default function HomeScreen() {
   const { dayStreak, getUser } = useUser();
   const { isFirstLogin, setIsFirstLogin } = useAuth();
   const [showSplitModal, setShowSplitModal] = useState(true);
+  const { saveSplit } = useSplit();
 
   useEffect(() => {
     getUser();
   }, []);
 
   const handleSelectSplit = (
-    splitType: string,
+    name: string,
     intensity: string,
     customTrainingDays: Array<string> | undefined
   ) => {
     setIsFirstLogin(false);
 
-    console.log("Selected split:", splitType);
-    console.log("Selected intensity", intensity);
-
     if (customTrainingDays) {
-      console.log("Custom split details:", customTrainingDays);
+      saveSplit(name, intensity, customTrainingDays);
+    } else {
+      saveSplit(name, intensity);
     }
   };
 

@@ -42,12 +42,10 @@ export default function SettingsScreen() {
     intensity: string,
     customTrainingDays: Array<string> | undefined
   ) => {
-    console.log("Selected split:", splitName);
-    console.log("Selected intensity", intensity);
-
     if (customTrainingDays) {
-      console.log("Custom training days", customTrainingDays);
       saveSplit(name, intensity, customTrainingDays);
+    } else {
+      saveSplit(name, intensity);
     }
   };
 

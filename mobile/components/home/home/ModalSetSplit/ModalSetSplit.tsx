@@ -1,10 +1,11 @@
 import { Text, View, Modal, StyleSheet, TouchableOpacity } from "react-native";
 import { AppStyles } from "@/constants/AppStyles";
-import { useState } from "react";
-import { SplitDescription, modalSteps } from "@/interfaces/workout";
+import { useState, useMemo } from "react";
+import { modalSteps } from "@/interfaces/workout";
 import CustomSplitSelection from "./CustomSplitSelection";
 import PresetSplitSelection from "./PresetSplitSelection";
 import IntensitySelection from "./IntensitySelection";
+import splits from "@/data/splits.json";
 
 interface Props {
   isVisible: boolean;
@@ -16,36 +17,17 @@ interface Props {
   ) => void;
 }
 
-const presetSplits: Array<SplitDescription> = [
-  {
-    name: "Push/Pull/Legs",
-    description: "3-6 days focusing on pushing, pulling, and leg exercises",
-  },
-  {
-    name: "Upper/Lower",
-    description: "4 days alternating between upper and lower body workouts",
-  },
-  {
-    name: "Full Body",
-    description: "2-4 days training the entire body each session",
-  },
-  {
-    name: "Bro Split",
-    description: "4-6 days focusing on individual muscle groups",
-  },
-  {
-    name: "Push/Pull",
-    description: "4 days alternating between push and pull exercises",
-  },
-];
-
 export default function ModalSetSplit({
   isVisible,
   setIsVisible,
   onSelectSplit,
 }: Props) {
+  const splitData = useMemo(() => {
+    return splits.items;
+  }, [splits]);
+
   const [selectedSplit, setSelectedSplit] = useState<string | null>(
-    presetSplits[0].name
+    splitData[0].name
   );
   const [customSplitName, setCustomSplitName] = useState("");
   const [customSplitDays, setCustomSplitDays] = useState<string[]>([]);
@@ -114,7 +96,7 @@ export default function ModalSetSplit({
   };
 
   const handleCancel = () => {
-    setSelectedSplit(presetSplits[0].name);
+    setSelectedSplit(splitData[0].name);
     setCustomSplitName("");
     setCustomSplitDays([""]);
     setShowEmptyNameError(false);
@@ -130,7 +112,7 @@ export default function ModalSetSplit({
         <View style={styles.modalContent}>
           {currentStep === "split" && (
             <PresetSplitSelection
-              presetSplits={presetSplits}
+              presetSplits={splitData}
               selectedSplit={selectedSplit}
               setSelectedSplit={setSelectedSplit}
             />

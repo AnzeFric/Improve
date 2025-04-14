@@ -1,4 +1,6 @@
+import { useMemo } from "react";
 import useSplitStore from "@/stores/useSplitStore";
+import splits from "@/data/splits.json";
 
 export function useSplit() {
   const {
@@ -10,12 +12,32 @@ export function useSplit() {
     setSplitTraingingDays,
   } = useSplitStore();
 
+  const splitData = useMemo(() => {
+    return splits.items;
+  }, [splits]);
+
   const saveSplit = async (
     name: string,
     intensity: string,
-    trainingDays: Array<string> | undefined
+    trainingDays?: Array<string>
   ) => {
-    console.log("Save split");
+    setSplitName(name);
+    setSplitIntensity(intensity);
+
+    if (trainingDays) {
+      setSplitTraingingDays(trainingDays);
+    } else {
+      const foundSplit = splitData.find((split) => split.name === name);
+      if (foundSplit) {
+        const foundIntensity = foundSplit.intensity.find(
+          (item) => item.type === intensity
+        );
+
+        if (foundIntensity && foundIntensity.trainingDays) {
+          setSplitTraingingDays(foundIntensity.trainingDays);
+        }
+      }
+    }
   };
 
   const getSplit = async () => {

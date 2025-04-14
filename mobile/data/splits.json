@@ -5,16 +5,44 @@
       "description": "3-6 days focusing on pushing, pulling, and leg exercises",
       "intensity": [
         {
-          "type": "beginner",
-          "numDays": 3
+          "type": "Beginner",
+          "trainingDays": [
+            "Push",
+            "Rest",
+            "Pull",
+            "Rest",
+            "Legs",
+            "Rest",
+            "Rest"
+          ]
         },
         {
-          "type": "intermediate",
-          "numDays": 4
+          "type": "Intermediate",
+          "trainingDays": [
+            "Push",
+            "Pull",
+            "Legs",
+            "Rest",
+            "Rest",
+            "Push",
+            "Pull",
+            "Legs",
+            "Rest",
+            "Rest"
+          ]
         },
         {
-          "type": "advanced",
-          "numDays": 6
+          "type": "Advanced",
+          "trainingDays": [
+            "Push",
+            "Pull",
+            "Legs",
+            "Rest",
+            "Push",
+            "Pull",
+            "Legs",
+            "Rest"
+          ]
         }
       ]
     },
@@ -23,16 +51,32 @@
       "description": "2-6 days alternating between upper and lower body workouts",
       "intensity": [
         {
-          "type": "beginner",
-          "numDays": 2
+          "type": "Beginner",
+          "trainingDays": ["Upper", "Rest", "Rest", "Lower", "Rest", "Rest"]
         },
         {
-          "type": "intermediate",
-          "numDays": 4
+          "type": "Intermediate",
+          "trainingDays": [
+            "Upper",
+            "Lower",
+            "Rest",
+            "Upper",
+            "Lower",
+            "Rest",
+            "Rest"
+          ]
         },
         {
-          "type": "advanced",
-          "numDays": 6
+          "type": "Advanced",
+          "trainingDays": [
+            "Upper",
+            "Lower",
+            "Upper",
+            "Lower",
+            "Upper",
+            "Lower",
+            "Rest"
+          ]
         }
       ]
     },
@@ -41,16 +85,39 @@
       "description": "2-4 days training the entire body each session",
       "intensity": [
         {
-          "type": "beginner",
-          "numDays": 2
+          "type": "Beginner",
+          "trainingDays": [
+            "Full Body",
+            "Rest",
+            "Rest",
+            "Full Body",
+            "Rest",
+            "Rest"
+          ]
         },
         {
-          "type": "intermediate",
-          "numDays": 3
+          "type": "Intermediate",
+          "trainingDays": [
+            "Full Body",
+            "Rest",
+            "Full Body",
+            "Rest",
+            "Full Body",
+            "Rest",
+            "Rest"
+          ]
         },
         {
-          "type": "advanced",
-          "numDays": 4
+          "type": "Advanced",
+          "trainingDays": [
+            "Full Body",
+            "Full Body",
+            "Rest",
+            "Full Body",
+            "Full Body",
+            "Rest",
+            "Rest"
+          ]
         }
       ]
     },
@@ -59,34 +126,82 @@
       "description": "4-6 days focusing on individual muscle groups",
       "intensity": [
         {
-          "type": "beginner",
-          "numDays": 4
+          "type": "Beginner",
+          "trainingDays": [
+            "Chest & Shoulders",
+            "Back",
+            "Rest",
+            "Legs",
+            "Arms",
+            "Rest",
+            "Rest"
+          ]
         },
         {
-          "type": "intermediate",
-          "numDays": 5
+          "type": "Intermediate",
+          "trainingDays": [
+            "Chest",
+            "Back",
+            "Shoulders",
+            "Arms",
+            "Legs",
+            "Rest",
+            "Rest"
+          ]
         },
         {
-          "type": "advanced",
-          "numDays": 6
+          "type": "Advanced",
+          "trainingDays": [
+            "Chest",
+            "Back",
+            "Legs",
+            "Shoulders",
+            "Arms",
+            "Core & Calves",
+            "Rest"
+          ]
         }
       ]
     },
     {
       "name": "Push/Pull",
-      "description": "2-4 days alternating between push and pull exercises",
+      "description": "2-6 days alternating between push and pull exercises",
       "intensity": [
         {
-          "type": "beginner",
-          "numDays": 2
+          "type": "Beginner",
+          "trainingDays": [
+            "Push",
+            "Rest",
+            "Pull",
+            "Rest",
+            "Rest",
+            "Rest",
+            "Rest"
+          ]
         },
         {
-          "type": "intermediate",
-          "numDays": 4
+          "type": "Intermediate",
+          "trainingDays": [
+            "Push",
+            "Pull",
+            "Rest",
+            "Push",
+            "Pull",
+            "Rest",
+            "Rest"
+          ]
         },
         {
-          "type": "advanced",
-          "numDays": 4
+          "type": "Advanced",
+          "trainingDays": [
+            "Push",
+            "Pull",
+            "Push",
+            "Pull",
+            "Push",
+            "Pull",
+            "Rest"
+          ]
         }
       ]
     }

@@ -6,6 +6,8 @@ import com.anzefric.improve.repository.UserMetricsRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,6 +17,7 @@ public class UserMetricsService {
 
     private final UserMetricsRepository userMetricsRepository;
 
+    @Transactional
     public UserMetrics createUserMetrics(UserMetrics userMetrics) {
         Optional<UserMetrics> existingMetrics = userMetricsRepository.getUserMetricsByUserUuid(userMetrics.getUserUuid());
         if(existingMetrics.isPresent()) {
@@ -27,12 +30,14 @@ public class UserMetricsService {
         Optional<UserMetrics> existingMetrics = getExistingUserMetrics(userUuid);
         return existingMetrics.get();
     }  
-    
+
+    @Transactional
     public void deleteUserMetricsByUserUuid(UUID userUuid) {
         Optional<UserMetrics> existingMetrics = getExistingUserMetrics(userUuid);
         userMetricsRepository.delete(existingMetrics.get());
     }
 
+    @Transactional
     public void updateUserMetrics(UserMetrics newUserMetrics) {
         UUID userUuid = newUserMetrics.getUserUuid();
         getExistingUserMetrics(userUuid);

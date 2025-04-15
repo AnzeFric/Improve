@@ -3,16 +3,19 @@ package com.anzefric.improve.service.auth;
 import com.anzefric.improve.data.dto.LoginUserDto;
 import com.anzefric.improve.data.dto.RegisterUserDto;
 import com.anzefric.improve.data.model.user.User;
+import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.repository.AuthRepository;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -22,9 +25,10 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     
+    @Transactional
     public User register(RegisterUserDto input) {
         if (authRepository.findByEmailIgnoreCase(input.getEmail()).isPresent()) {
-            throw new RuntimeException("User with this email already exists");
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "User with this email already exists");
         }
 
         User user = new User();
@@ -37,15 +41,15 @@ public class AuthService {
         return authRepository.save(user);
     }
 
+    @Transactional
     public User login(LoginUserDto input) {
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
-                        input.getPassword()
-                )
+            new UsernamePasswordAuthenticationToken(
+                input.getEmail(),
+                input.getPassword()
+            )
         );
 
-        return authRepository.findByEmailIgnoreCase(input.getEmail())
-                .orElseThrow();
+        return authRepository.findByEmailIgnoreCase(input.getEmail()).orElseThrow();
     }
 }

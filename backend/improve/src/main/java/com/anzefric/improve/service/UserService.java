@@ -1,6 +1,7 @@
 package com.anzefric.improve.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.repository.UserRepository;
@@ -13,6 +14,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Transactional
     public void deleteUserByEmail(String userEmail) {
         User foundUser = userRepository.findByEmailIgnoreCase(userEmail);
         userRepository.delete(foundUser);

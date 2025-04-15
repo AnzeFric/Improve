@@ -12,6 +12,7 @@ import com.anzefric.improve.service.auth.JwtService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -32,8 +33,9 @@ public class AuthController {
         }
     }
 
+    @Transactional
     @PostMapping("/login")
-    public ApiResponse<?> login(@RequestBody LoginUserDto loginUserDto) {
+    public ApiResponse<LoginResponse> login(@RequestBody LoginUserDto loginUserDto) {
         try {
             User authenticatedUser = authService.login(loginUserDto);
 

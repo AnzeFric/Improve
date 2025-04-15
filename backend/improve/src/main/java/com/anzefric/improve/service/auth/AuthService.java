@@ -7,6 +7,8 @@ import com.anzefric.improve.repository.AuthRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Date;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,7 +32,7 @@ public class AuthService {
         user.setLastName(input.getLastName());
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setDayStreak(0);
+        user.setLastLogin(new Date());
 
         return authRepository.save(user);
     }

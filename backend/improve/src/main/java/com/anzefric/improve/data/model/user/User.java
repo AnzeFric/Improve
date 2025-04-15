@@ -10,6 +10,7 @@ import com.anzefric.improve.data.model.workout.Workout;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -54,8 +55,8 @@ public class User implements UserDetails {
     @Size(min = DataLengths.L_8, max = DataLengths.L_128)
     private String password;
 
-    @Column(name = "day_streak", nullable = false)
-    private int dayStreak;
+    @Column(name = "last_login", nullable = false)
+    private Date lastLogin;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Workout> workouts;

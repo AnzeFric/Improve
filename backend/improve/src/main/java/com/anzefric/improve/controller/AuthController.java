@@ -9,19 +9,18 @@ import com.anzefric.improve.data.response.LoginResponse;
 import com.anzefric.improve.service.auth.AuthService;
 import com.anzefric.improve.service.auth.JwtService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthService authService;
-
-    @Autowired
-    private JwtService jwtService;
+    private final AuthService authService;
+    private final JwtService jwtService;
     
 
     @PostMapping("/register")

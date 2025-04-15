@@ -4,24 +4,21 @@ import com.anzefric.improve.data.dto.LoginUserDto;
 import com.anzefric.improve.data.dto.RegisterUserDto;
 import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.repository.AuthRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class AuthService {
 
-    @Autowired
-    private AuthRepository authRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
+    private final AuthRepository authRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
     
     public User register(RegisterUserDto input) {
         if (authRepository.findByEmailIgnoreCase(input.getEmail()).isPresent()) {

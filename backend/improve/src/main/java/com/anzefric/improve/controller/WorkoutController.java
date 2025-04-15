@@ -1,6 +1,5 @@
 package com.anzefric.improve.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,12 +14,14 @@ import com.anzefric.improve.data.response.ApiResponse;
 import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.service.WorkoutService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/workout")
 public class WorkoutController {
  
-    @Autowired
-    private WorkoutService workoutService;
+    private final WorkoutService workoutService;
 
     @PostMapping("/create")
     public ApiResponse<String> createWorkout(@RequestBody Workout workout) {

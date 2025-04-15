@@ -7,8 +7,8 @@ import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.service.UserMetricsService;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("api/user-metrics")
 public class UserMetricsController {
     
-    @Autowired
-    private UserMetricsService userMetricsService;
+    private final UserMetricsService userMetricsService;
 
     @PostMapping("/create")
     public ApiResponse<String> createUserMetrics(@RequestBody @Valid UserMetrics userMetrics) {

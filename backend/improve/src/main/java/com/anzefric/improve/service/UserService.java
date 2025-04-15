@@ -1,16 +1,17 @@
 package com.anzefric.improve.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public void deleteUserByEmail(String userEmail) {
         User foundUser = userRepository.findByEmailIgnoreCase(userEmail);

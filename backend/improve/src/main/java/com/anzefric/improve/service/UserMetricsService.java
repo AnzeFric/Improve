@@ -2,16 +2,18 @@ package com.anzefric.improve.service;
 
 import com.anzefric.improve.data.model.user.UserMetrics;
 import com.anzefric.improve.repository.UserMetricsRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class UserMetricsService {
 
-    @Autowired
-    private UserMetricsRepository userMetricsRepository;
+    private final UserMetricsRepository userMetricsRepository;
 
     public UserMetrics createUserMetrics(UserMetrics userMetrics) {
         Optional<UserMetrics> existingMetrics = userMetricsRepository.getUserMetricsByUserUuid(userMetrics.getUserUuid());

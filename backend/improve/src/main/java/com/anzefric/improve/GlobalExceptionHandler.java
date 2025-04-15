@@ -4,6 +4,9 @@ import com.anzefric.improve.data.response.ApiResponse;
 import com.anzefric.improve.data.response.ApiResponseException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
+
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -14,6 +17,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static record ExceptionDetails(String description, HttpStatus status) {}
+
+    private static final Map<Class<? extends Exception>, ExceptionDetails> exceptions = Map.of(
+        AccountStatusException.class, new ExceptionDetails("The account is locked", HttpStatus.UNAUTHORIZED),
+        AccessDeniedException.class, new ExceptionDetails("You are not authorized to access this resource", HttpStatus.FORBIDDEN),
+        SignatureException.class, new ExceptionDetails("The JWT signature is invalid", HttpStatus.FORBIDDEN),
+        ExpiredJwtException.class, new ExceptionDetails("The JWT token has expired", HttpStatus.FORBIDDEN)
+    );
+
     @ExceptionHandler({
         AccountStatusException.class,
         AccessDeniedException.class,
@@ -22,32 +34,22 @@ public class GlobalExceptionHandler {
     })
     public ResponseEntity<ApiResponse<String>> handleSecurityException(Exception exception) {
         exception.printStackTrace();
-    
-        String message = exception.getMessage();
-        HttpStatus status = HttpStatus.FORBIDDEN;
-        String description = "Security error";
-    
-        if (exception instanceof AccountStatusException) {
-            description = "The account is locked";
-        } else if (exception instanceof AccessDeniedException) {
-            description = "You are not authorized to access this resource";
-        } else if (exception instanceof SignatureException) {
-            description = "The JWT signature is invalid";
-        } else if (exception instanceof ExpiredJwtException) {
-            description = "The JWT token has expired";
-        } else {
-            status = HttpStatus.INTERNAL_SERVER_ERROR;
-        }
-    
-        String fullMessage = description + ": " + message;
-        ApiResponse<String> response = ApiResponse.fail(fullMessage);
         
-        return new ResponseEntity<>(response, status);
-    }
+        String message = exception.getMessage();
+        
+        ExceptionDetails details = exceptions.getOrDefault(
+            exception.getClass(), 
+            new ExceptionDetails("Internal server error", HttpStatus.INTERNAL_SERVER_ERROR)
+        );
+        
+        String fullMessage = details.description() + ": " + message;
+        ApiResponse<String> response = ApiResponse.fail(fullMessage);
     
+        return new ResponseEntity<>(response, details.status());
+    }
 
     @ExceptionHandler(ApiResponseException.class)
-    public ResponseEntity<ApiResponse<String>> handleApiResponseException(ApiResponseException exception) {
+    public ResponseEntity<ApiResponse<String>> handleApiResponseException(ApiResponseException exception) {        
         ApiResponse<String> response = ApiResponse.fail(exception.getMessage());
         HttpStatus status = exception.getStatus();
 

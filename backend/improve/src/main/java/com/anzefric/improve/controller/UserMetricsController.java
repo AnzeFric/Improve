@@ -13,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
 @RestController
@@ -27,7 +25,7 @@ public class UserMetricsController {
     public ApiResponse<String> createUserMetrics(@RequestBody @Valid UserMetrics userMetrics) {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
-            userMetrics.setUserUuid(authenticatedUser.getUserUuid());
+            userMetrics.setUser(authenticatedUser);
             userMetricsService.create(userMetrics);
 
             return ApiResponse.success("User metrics saved successfully.");
@@ -40,7 +38,7 @@ public class UserMetricsController {
     public ApiResponse<UserMetrics> getUserMetrics() {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
-            UserMetrics userMetrics = userMetricsService.getByUserUuid(authenticatedUser.getUserUuid());
+            UserMetrics userMetrics = userMetricsService.getByUser(authenticatedUser);
 
             return ApiResponse.success(userMetrics);
         } catch (Exception e) {
@@ -52,7 +50,7 @@ public class UserMetricsController {
     public ApiResponse<String> deleteUserMetrics() {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
-            userMetricsService.deleteByUserUuid(authenticatedUser.getUserUuid());
+            userMetricsService.deleteByUser(authenticatedUser);
 
             return ApiResponse.success("User metrics deleted successfully.");
         } catch (Exception e) {
@@ -64,7 +62,7 @@ public class UserMetricsController {
     public ApiResponse<String> updateUserMetrics(@RequestBody @Valid UserMetrics newUserMetrics) {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
-            newUserMetrics.setUserUuid(authenticatedUser.getUserUuid());
+            newUserMetrics.setUser(authenticatedUser);
             userMetricsService.update(newUserMetrics);
 
             return ApiResponse.success("User metrics updated successfully.");

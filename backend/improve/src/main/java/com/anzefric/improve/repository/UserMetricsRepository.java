@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.user.UserMetrics;
 
 
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Repository
 public interface UserMetricsRepository extends JpaRepository<UserMetrics, Long> {
-    Optional<UserMetrics> getUserMetricsByUserUuid(UUID userUuid);
+    Optional<UserMetrics> findByUser(User user);
 
     @Modifying
     @Transactional

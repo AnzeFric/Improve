@@ -5,8 +5,6 @@ import lombok.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import java.util.UUID;
-
 @Entity
 @Builder
 @Getter
@@ -24,9 +22,9 @@ public class UserMetrics {
     private Long id;
 
     @NonNull
-    @JsonIgnore
-    @Column(name = "user_uuid", unique = true, nullable = false)
-    private UUID userUuid;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_user", nullable = false)
+    private User user;
 
     @Column(nullable = true)
     private Integer age;

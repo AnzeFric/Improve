@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import com.anzefric.improve.data.constant.DataLengths;
+import com.anzefric.improve.data.model.Split;
 import com.anzefric.improve.data.model.workout.Workout;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -52,14 +53,23 @@ public class User implements UserDetails {
     @NonNull
     @JsonIgnore
     @Column(nullable = false, length = DataLengths.L_128)
-    @Size(min = DataLengths.L_8, max = DataLengths.L_128)
+    @Size(min = DataLengths.L_4, max = DataLengths.L_128)
     private String password;
 
     @Column(name = "last_login", nullable = false)
     private Date lastLogin;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Workout> workouts;
+    private List<Workout> workout;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private UserMetrics userMetrics;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Split split;
 
     public User() {
         super();

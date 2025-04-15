@@ -21,12 +21,11 @@ public class Set {
     @Column(unique = true, nullable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exercise_id", nullable = false)
     @NonNull
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_exercise", nullable = false)
     private Exercise exercise;
-
+    
     @Column(nullable = false)
     private int reps;
 

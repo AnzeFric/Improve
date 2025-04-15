@@ -26,8 +26,7 @@ public class WorkoutController {
     @PostMapping("/create")
     public ApiResponse<String> createWorkout(@RequestBody Workout workout) {
         try {
-            User authenticatedUser = getCurrentAuthenticatedUser();
-            workout.setUserUuid(authenticatedUser.getUserUuid());
+            getCurrentAuthenticatedUser();
             workoutService.create(workout);
 
             return ApiResponse.success("Workout created successfully!");

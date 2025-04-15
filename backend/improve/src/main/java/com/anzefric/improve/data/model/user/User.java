@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import com.anzefric.improve.data.constant.DataLengths;
+import com.anzefric.improve.data.model.workout.Workout;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Collection;
@@ -28,7 +29,7 @@ public class User implements UserDetails {
     @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(name = "user_uuid", unique = true, nullable = false)
     private UUID userUuid;
 
     @NonNull
@@ -55,6 +56,9 @@ public class User implements UserDetails {
 
     @Column(name = "day_streak", nullable = false)
     private int dayStreak;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Workout> workouts;
 
     public User() {
         super();

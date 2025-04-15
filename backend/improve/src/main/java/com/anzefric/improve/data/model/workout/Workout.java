@@ -5,11 +5,11 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import com.anzefric.improve.data.constant.DataLengths;
+import com.anzefric.improve.data.model.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Builder
@@ -33,14 +33,14 @@ public class Workout {
     private String name;
 
     @NonNull
-    @Column(name = "user_uuid", unique = true, nullable = false)
-    private UUID userUuid;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_user", nullable = false)
+    private User user;
 
     @NonNull
     @Column(nullable = false)
     private Date date;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "workout_id")
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Exercise> exercises;
 }

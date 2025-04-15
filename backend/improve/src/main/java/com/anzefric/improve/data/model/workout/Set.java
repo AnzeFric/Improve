@@ -1,8 +1,6 @@
 package com.anzefric.improve.data.model.workout;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import lombok.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,13 +27,9 @@ public class Set {
     @JsonIgnore
     private Exercise exercise;
 
-    @Min(1)
-    @Max(500)
     @Column(nullable = false)
     private int reps;
 
-    @Min(1)
-    @Max(1500)
     @Column(nullable = false)
     private double weight;
 }

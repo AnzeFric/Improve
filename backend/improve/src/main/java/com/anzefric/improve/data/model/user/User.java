@@ -2,7 +2,6 @@ package com.anzefric.improve.data.model.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -54,7 +53,6 @@ public class User implements UserDetails {
     @Size(min = DataLengths.L_8, max = DataLengths.L_128)
     private String password;
 
-    @Min(0)
     @Column(name = "day_streak", nullable = false)
     private int dayStreak;
 

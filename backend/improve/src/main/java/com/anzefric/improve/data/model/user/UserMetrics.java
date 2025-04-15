@@ -1,7 +1,6 @@
 package com.anzefric.improve.data.model.user;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -32,13 +31,9 @@ public class UserMetrics {
     @Column(nullable = true)
     private Integer age;
 
-    @Min(20)
-    @Max(700)
     @Column(nullable = false)
     private double weight;
 
-    @Min(40)
-    @Max(300)
     @Column(nullable = false)
     private double height;
 }

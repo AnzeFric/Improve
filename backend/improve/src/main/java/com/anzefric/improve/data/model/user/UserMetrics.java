@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
-import com.anzefric.improve.data.constant.DataLengths;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.UUID;
@@ -35,11 +34,11 @@ public class UserMetrics {
 
     @Min(20)
     @Max(700)
-    @Column(nullable = false, length = DataLengths.L_DOUBLE) // length smiseln?
+    @Column(nullable = false)
     private double weight;
 
     @Min(40)
     @Max(300)
-    @Column(nullable = false, length = DataLengths.L_DOUBLE)
+    @Column(nullable = false)
     private double height;
 }

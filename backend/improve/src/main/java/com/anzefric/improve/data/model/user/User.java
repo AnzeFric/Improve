@@ -55,7 +55,7 @@ public class User implements UserDetails {
     private String password;
 
     @Min(0)
-    @Column(name = "day_streak", nullable = false, length = DataLengths.L_INT)
+    @Column(name = "day_streak", nullable = false)
     private int dayStreak;
 
     public User() {

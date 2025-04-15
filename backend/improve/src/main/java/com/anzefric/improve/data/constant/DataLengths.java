@@ -12,10 +12,4 @@ public class DataLengths {
     public static final int L_512 = 512;
     public static final int L_1K = 1024;
     public static final int L_4K = 4096;
-
-    public static final int L_FILENAME = 256;
-
-    public static final int L_LONG = 64;
-    public static final int L_DOUBLE = 64;
-    public static final int L_INT = 32;
 }

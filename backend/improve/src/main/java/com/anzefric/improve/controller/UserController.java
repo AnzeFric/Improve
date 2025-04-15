@@ -34,7 +34,7 @@ public class UserController {
     public ApiResponse<String> deleteUser() {
         try {
             User currentUser = getCurrentAuthenticatedUser();
-            userService.deleteUserByEmail(currentUser.getEmail());
+            userService.deleteByEmail(currentUser.getEmail());
 
             return ApiResponse.success("User deleted successfully.");
         } catch (Exception e) {

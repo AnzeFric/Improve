@@ -28,7 +28,7 @@ public class UserMetricsController {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
             userMetrics.setUserUuid(authenticatedUser.getUserUuid());
-            userMetricsService.createUserMetrics(userMetrics);
+            userMetricsService.create(userMetrics);
 
             return ApiResponse.success("User metrics saved successfully.");
         } catch (Exception e) {
@@ -40,7 +40,7 @@ public class UserMetricsController {
     public ApiResponse<UserMetrics> getUserMetrics() {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
-            UserMetrics userMetrics = userMetricsService.getUserMetricsByUserUuid(authenticatedUser.getUserUuid());
+            UserMetrics userMetrics = userMetricsService.getByUserUuid(authenticatedUser.getUserUuid());
 
             return ApiResponse.success(userMetrics);
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class UserMetricsController {
     public ApiResponse<String> deleteUserMetrics() {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
-            userMetricsService.deleteUserMetricsByUserUuid(authenticatedUser.getUserUuid());
+            userMetricsService.deleteByUserUuid(authenticatedUser.getUserUuid());
 
             return ApiResponse.success("User metrics deleted successfully.");
         } catch (Exception e) {
@@ -65,7 +65,7 @@ public class UserMetricsController {
         try {
             User authenticatedUser = getCurrentAuthenticatedUser();
             newUserMetrics.setUserUuid(authenticatedUser.getUserUuid());
-            userMetricsService.updateUserMetrics(newUserMetrics);
+            userMetricsService.update(newUserMetrics);
 
             return ApiResponse.success("User metrics updated successfully.");
         } catch (Exception e) {

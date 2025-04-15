@@ -15,7 +15,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public void deleteUserByEmail(String userEmail) {
+    public void deleteByEmail(String userEmail) {
         User foundUser = userRepository.findByEmailIgnoreCase(userEmail);
         userRepository.delete(foundUser);
     }

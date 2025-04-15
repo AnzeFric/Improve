@@ -18,7 +18,7 @@ public class UserMetricsService {
     private final UserMetricsRepository userMetricsRepository;
 
     @Transactional
-    public UserMetrics createUserMetrics(UserMetrics userMetrics) {
+    public UserMetrics create(UserMetrics userMetrics) {
         Optional<UserMetrics> existingMetrics = userMetricsRepository.getUserMetricsByUserUuid(userMetrics.getUserUuid());
         if(existingMetrics.isPresent()) {
             throw new RuntimeException("Metrics for this user already exist! Use update instead.");
@@ -26,19 +26,19 @@ public class UserMetricsService {
         return userMetricsRepository.save(userMetrics);
     }
 
-    public UserMetrics getUserMetricsByUserUuid(UUID userUuid) {
+    public UserMetrics getByUserUuid(UUID userUuid) {
         Optional<UserMetrics> existingMetrics = getExistingUserMetrics(userUuid);
         return existingMetrics.get();
     }  
 
     @Transactional
-    public void deleteUserMetricsByUserUuid(UUID userUuid) {
+    public void deleteByUserUuid(UUID userUuid) {
         Optional<UserMetrics> existingMetrics = getExistingUserMetrics(userUuid);
         userMetricsRepository.delete(existingMetrics.get());
     }
 
     @Transactional
-    public void updateUserMetrics(UserMetrics newUserMetrics) {
+    public void update(UserMetrics newUserMetrics) {
         UUID userUuid = newUserMetrics.getUserUuid();
         getExistingUserMetrics(userUuid);
         userMetricsRepository.updateUserMetricsByUserUuid(userUuid, newUserMetrics);

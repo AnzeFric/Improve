@@ -8,9 +8,6 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LoginResponse {
-    private String firstName;
-    private String lastName;
-    private int dayStreak;
     private String token;
     private Long expiresIn;
 }

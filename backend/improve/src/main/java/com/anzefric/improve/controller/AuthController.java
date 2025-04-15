@@ -21,7 +21,6 @@ public class AuthController {
 
     private final AuthService authService;
     private final JwtService jwtService;
-    
 
     @PostMapping("/register")
     public ApiResponse<String> register(@RequestBody RegisterUserDto registerUserDto) {
@@ -43,9 +42,6 @@ public class AuthController {
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.setToken(jwtToken);
             loginResponse.setExpiresIn(jwtService.getExpirationTime());
-            loginResponse.setFirstName(authenticatedUser.getFirstName());
-            loginResponse.setLastName(authenticatedUser.getLastName());
-            loginResponse.setDayStreak(authenticatedUser.getDayStreak());
             
             return ApiResponse.success(loginResponse);
         } catch (Exception e) {

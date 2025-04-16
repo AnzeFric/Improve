@@ -8,10 +8,10 @@ export function useUser() {
   const {
     firstName,
     lastName,
-    dayStreak,
+    startStreak,
     setFirstName,
     setLastName,
-    setDayStreak,
+    setStartStreak,
     resetUserStore,
   } = useUserStore();
   const { jwt } = useAuth();
@@ -35,7 +35,7 @@ export function useUser() {
       if (data.success) {
         setFirstName(data.data.firstName);
         setLastName(data.data.lastName);
-        setDayStreak(data.data.dayStreak);
+        setStartStreak(new Date(data.data.startStreak));
       }
     } catch (error) {
       console.error("Error fetching user: ", error);
@@ -66,23 +66,25 @@ export function useUser() {
     }
   };
 
-  const incrementDayStreak = () => {
-    console.log("increment day streak");
-    setDayStreak(dayStreak + 1);
-  };
+  const getDayStreak = () => {
+    const start = new Date(startStreak);
+    const today = new Date();
 
-  const resetDayStreak = () => {
-    console.log("reset day streak");
-    setDayStreak(0);
+    // Reset h, m, s to compare days only
+    start.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    const differenceInTime = today.getTime() - start.getTime();
+    const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+
+    return differenceInDays + 1; // include start day (+1)
   };
 
   return {
     firstName,
     lastName,
-    dayStreak,
     getUser,
-    incrementDayStreak,
-    resetDayStreak,
+    getDayStreak,
     deleteUser,
     resetUserStore,
   };

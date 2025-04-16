@@ -36,8 +36,8 @@ public class AuthService {
         user.setLastName(input.getLastName());
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setLastLogin(new Date());
-
+        user.setStartStreak(new Date());
+        
         return authRepository.save(user);
     }
 

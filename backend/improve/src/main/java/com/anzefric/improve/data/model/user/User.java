@@ -56,8 +56,8 @@ public class User implements UserDetails {
     @Size(min = DataLengths.L_4, max = DataLengths.L_128)
     private String password;
 
-    @Column(name = "last_login", nullable = false)
-    private Date lastLogin;
+    @Column(name = "start_streak", nullable = false)
+    private Date startStreak; // Day when the user started a daily streak of app use
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

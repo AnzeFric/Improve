@@ -5,10 +5,10 @@ import { persist, createJSONStorage } from "zustand/middleware";
 interface UserStore {
   firstName: string;
   lastName: string;
-  dayStreak: number;
+  startStreak: Date;
   setFirstName: (firstName: string) => void;
   setLastName: (lastName: string) => void;
-  setDayStreak: (dayStreak: number) => void;
+  setStartStreak: (startStreak: Date) => void;
   resetUserStore: () => void;
 }
 
@@ -17,7 +17,7 @@ const useUserStore = create(
     (set) => ({
       firstName: "",
       lastName: "",
-      dayStreak: 0,
+      startStreak: new Date(),
       setFirstName: (firstName: string) => {
         set({
           firstName: firstName,
@@ -28,16 +28,16 @@ const useUserStore = create(
           lastName: lastName,
         });
       },
-      setDayStreak: (dayStreak: number) => {
+      setStartStreak: (startStreak: Date) => {
         set({
-          dayStreak: dayStreak,
+          startStreak: startStreak,
         });
       },
       resetUserStore: () => {
         set({
           firstName: "",
           lastName: "",
-          dayStreak: 0,
+          startStreak: new Date(),
         });
       },
     }),

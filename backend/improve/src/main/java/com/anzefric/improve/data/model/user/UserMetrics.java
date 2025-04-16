@@ -30,8 +30,8 @@ public class UserMetrics {
     private Integer age;
 
     @Column(nullable = false)
-    private double weight;
+    private double weight; // kg
 
     @Column(nullable = false)
-    private double height;
+    private double height; // cm
 }

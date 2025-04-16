@@ -30,5 +30,5 @@ public class Set {
     private int reps;
 
     @Column(nullable = false)
-    private double weight;
+    private double weight; // kg
 }

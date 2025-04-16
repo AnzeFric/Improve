@@ -13,14 +13,12 @@ import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.user.UserMetrics;
 
 
-import java.util.UUID;
-
 @Repository
 public interface UserMetricsRepository extends JpaRepository<UserMetrics, Long> {
     Optional<UserMetrics> findByUser(User user);
 
     @Modifying
     @Transactional
-    @Query("UPDATE UserMetrics u SET u.age = :#{#userMetrics.age}, u.weight = :#{#userMetrics.weight}, u.height = :#{#userMetrics.height} WHERE u.userUuid = :userUuid")
-    void updateUserMetricsByUserUuid(UUID userUuid, UserMetrics userMetrics);
+    @Query("UPDATE UserMetrics u SET u.age = :#{#userMetrics.age}, u.weight = :#{#userMetrics.weight}, u.height = :#{#userMetrics.height} WHERE u.user = :user")
+    void updateUserMetricsByUserUuid(User user, UserMetrics userMetrics);
 }

@@ -41,7 +41,7 @@ public class UserMetricsService {
     public void update(UserMetrics newUserMetrics) {
         User user = newUserMetrics.getUser();
         getExistingUserMetrics(user);
-        userMetricsRepository.updateUserMetricsByUserUuid(user.getUserUuid(), newUserMetrics);
+        userMetricsRepository.updateUserMetricsByUserUuid(user, newUserMetrics);
     }
 
     private Optional<UserMetrics> getExistingUserMetrics(User user) {

@@ -139,18 +139,21 @@ export default function ModalSetSplit({
           )}
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={[AppStyles.button, { backgroundColor: "#f0f0f0" }]}
-              onPress={currentStep === "split" ? handleCancel : handleBack}
-            >
-              <Text style={[AppStyles.buttonText, { color: "#666" }]}>
-                {currentStep === "split" ? "Cancel" : "Back"}
-              </Text>
-            </TouchableOpacity>
-
+            {currentStep === "custom" || currentStep === "intensity" ? (
+              <TouchableOpacity
+                style={[AppStyles.button, { backgroundColor: "#f0f0f0" }]}
+                onPress={handleBack}
+              >
+                <Text style={[AppStyles.buttonText, { color: "#666" }]}>
+                  {"Back"}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <View></View>
+            )}
             <TouchableOpacity style={AppStyles.button} onPress={handleNext}>
               <Text style={AppStyles.buttonText}>
-                {currentStep === "intensity" ? "Confirm" : "Next"}
+                {currentStep === "split" ? "Next" : "Confirm"}
               </Text>
             </TouchableOpacity>
           </View>

@@ -5,7 +5,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,7 +17,7 @@ import { useUser } from "@/hooks/useUser";
 import { useUserMetrics } from "@/hooks/useUserMetrics";
 import { AppStyles } from "@/constants/AppStyles";
 import { useSplit } from "@/hooks/useSplit";
-import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
+import SplitDisplay from "@/components/home/settings/SplitDisplay";
 
 export default function SettingsScreen() {
   const { handleLogout } = useAuth();
@@ -25,7 +25,6 @@ export default function SettingsScreen() {
   const { userMetrics, getUserMetrics } = useUserMetrics();
   const { splitName, splitIntensity, splitTrainingDays, getSplit, saveSplit } =
     useSplit();
-  const [showSplitModal, setShowSplitModal] = useState(false);
 
   useEffect(() => {
     if (!userMetrics) {
@@ -54,7 +53,7 @@ export default function SettingsScreen() {
       <TitleRow title="Settings" hasBackButton={true} />
 
       <View style={styles.contentContainer}>
-        <View style={styles.itemCard}>
+        <View style={[styles.itemCard, { alignItems: "center" }]}>
           <Ionicons
             name="person-circle"
             size={64}
@@ -71,51 +70,13 @@ export default function SettingsScreen() {
           )}
         </View>
 
-        <View style={[styles.itemCard, { alignItems: "flex-start" }]}>
-          <Text style={styles.itemTitle}>Currently selected split</Text>
-          {splitName ? (
-            <>
-              <View style={styles.itemDescription}>
-                <Text style={styles.itemBoldText}>{splitName}</Text>
-                {splitIntensity && (
-                  <Text style={styles.itemText}>
-                    , intensity: {splitIntensity}
-                  </Text>
-                )}
-              </View>
-
-              <View>
-                {splitTrainingDays.map((day, index) => (
-                  <View key={index}>
-                    <Text>
-                      Day {index + 1}: {day}
-                    </Text>
-                  </View>
-                ))}
-              </View>
-
-              <TouchableOpacity
-                style={[
-                  AppStyles.button,
-                  { alignSelf: "center", marginTop: 20 },
-                ]}
-                onPress={() => {
-                  setShowSplitModal(true);
-                }}
-              >
-                <Text style={AppStyles.buttonText}>Change your split</Text>
-              </TouchableOpacity>
-            </>
-          ) : (
-            <TouchableOpacity
-              style={[AppStyles.button, { alignSelf: "center" }]}
-              onPress={() => {
-                setShowSplitModal(true);
-              }}
-            >
-              <Text style={AppStyles.buttonText}>Create your split</Text>
-            </TouchableOpacity>
-          )}
+        <View style={styles.itemCard}>
+          <SplitDisplay
+            splitName={splitName}
+            splitIntensity={splitIntensity}
+            splitTrainingDays={splitTrainingDays}
+            handleSelectSplit={handleSelectSplit}
+          />
         </View>
 
         <View style={styles.buttonsContainer}>
@@ -157,11 +118,6 @@ export default function SettingsScreen() {
           </View>
         </View>
       </View>
-      <ModalSetSplit
-        isVisible={showSplitModal}
-        setIsVisible={setShowSplitModal}
-        onSelectSplit={handleSelectSplit}
-      />
     </ScrollView>
   );
 }
@@ -177,7 +133,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 20,
     paddingTop: 10,
-    alignItems: "center",
     elevation: 4,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 3 },
@@ -191,18 +146,6 @@ const styles = StyleSheet.create({
     color: "#333",
     marginTop: 10,
     marginBottom: 12,
-  },
-  itemDescription: {
-    flexDirection: "row",
-    paddingBottom: 10,
-  },
-  itemBoldText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  itemText: {
-    fontSize: 16,
-    fontWeight: "normal",
   },
   buttonsContainer: {
     gap: 15,

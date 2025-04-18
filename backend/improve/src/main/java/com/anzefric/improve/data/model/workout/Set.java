@@ -22,6 +22,7 @@ public class Set {
     private Long id;
 
     @NonNull
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_exercise", nullable = false)
     private Exercise exercise;

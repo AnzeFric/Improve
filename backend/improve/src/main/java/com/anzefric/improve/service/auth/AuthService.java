@@ -8,8 +8,6 @@ import com.anzefric.improve.repository.AuthRepository;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.Date;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,7 +34,6 @@ public class AuthService {
         user.setLastName(input.getLastName());
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setStartStreak(new Date());
         
         return authRepository.save(user);
     }

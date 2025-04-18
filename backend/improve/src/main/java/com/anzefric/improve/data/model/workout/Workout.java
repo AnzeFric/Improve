@@ -33,6 +33,7 @@ public class Workout {
     private String name;
 
     @NonNull
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user", nullable = false)
     private User user;

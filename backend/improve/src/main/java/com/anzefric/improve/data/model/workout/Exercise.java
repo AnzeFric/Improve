@@ -26,6 +26,7 @@ public class Exercise {
     private Long id;
 
     @NonNull
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_workout", nullable = false)
     private Workout workout;

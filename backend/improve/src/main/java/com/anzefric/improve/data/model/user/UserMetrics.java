@@ -22,6 +22,7 @@ public class UserMetrics {
     private Long id;
 
     @NonNull
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_user", nullable = false)
     private User user;

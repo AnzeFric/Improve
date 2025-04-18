@@ -4,7 +4,7 @@ import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.user.UserMetrics;
 import com.anzefric.improve.data.response.ApiResponse;
 import com.anzefric.improve.data.response.ApiResponseException;
-import com.anzefric.improve.service.UserMetricsService;
+import com.anzefric.improve.service.user.UserMetricsService;
 import com.anzefric.improve.util.SecurityUtils;
 
 import jakarta.validation.Valid;

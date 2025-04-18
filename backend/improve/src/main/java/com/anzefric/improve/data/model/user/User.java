@@ -7,6 +7,7 @@ import lombok.*;
 
 import com.anzefric.improve.data.constant.DataLengths;
 import com.anzefric.improve.data.model.Split;
+import com.anzefric.improve.data.model.Streak;
 import com.anzefric.improve.data.model.workout.Workout;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -70,6 +71,9 @@ public class User implements UserDetails {
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Split split;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Streak streak;
 
     public User() {
         super();

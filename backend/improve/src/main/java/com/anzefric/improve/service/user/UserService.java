@@ -1,10 +1,10 @@
-package com.anzefric.improve.service;
+package com.anzefric.improve.service.user;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.anzefric.improve.data.model.user.User;
-import com.anzefric.improve.repository.UserRepository;
+import com.anzefric.improve.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

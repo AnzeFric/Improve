@@ -1,4 +1,4 @@
-package com.anzefric.improve.repository;
+package com.anzefric.improve.repository.user;
 
 import java.util.Optional;
 

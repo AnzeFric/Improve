@@ -1,8 +1,8 @@
-package com.anzefric.improve.service;
+package com.anzefric.improve.service.user;
 
 import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.user.UserMetrics;
-import com.anzefric.improve.repository.UserMetricsRepository;
+import com.anzefric.improve.repository.user.UserMetricsRepository;
 
 import lombok.RequiredArgsConstructor;
 

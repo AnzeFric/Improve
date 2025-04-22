@@ -35,7 +35,7 @@ export function useUser() {
       if (data.success) {
         setFirstName(data.data.firstName);
         setLastName(data.data.lastName);
-        setStartStreak(new Date(data.data.startStreak));
+        setStartStreak(new Date(data.data.streak.startStreak));
       }
     } catch (error) {
       console.error("Error fetching user: ", error);

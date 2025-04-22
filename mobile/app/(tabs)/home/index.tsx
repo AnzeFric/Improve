@@ -11,14 +11,24 @@ import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
 import { useSplit } from "@/hooks/useSplit";
 
 export default function HomeScreen() {
-  const { getDayStreak, getUser } = useUser();
+  const { lastCheckIn, getDayStreak, getUser } = useUser();
   const { isFirstLogin, setIsFirstLogin } = useAuth();
   const [showSplitModal, setShowSplitModal] = useState(true);
+  const [dayStreak, setDayStreak] = useState(0);
   const { saveSplit } = useSplit();
 
   useEffect(() => {
     getUser();
   }, []);
+
+  const updateStreak = async () => {
+    const days = await getDayStreak();
+    setDayStreak(days);
+  };
+
+  useEffect(() => {
+    updateStreak();
+  }, [lastCheckIn]);
 
   const handleSelectSplit = (
     name: string,
@@ -50,7 +60,7 @@ export default function HomeScreen() {
             <StartNewWorkout recommendWorkout={"Push day"} />
           </View>
           <View style={styles.itemContainer}>
-            <DailyStreak numStreak={getDayStreak()} />
+            <DailyStreak numStreak={dayStreak} />
           </View>
         </View>
       </ScrollView>

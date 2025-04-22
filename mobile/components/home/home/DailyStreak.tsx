@@ -15,7 +15,11 @@ export default function DailyStreak({ numStreak }: Props) {
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.text}>Current streak</Text>
-          <Text style={styles.title}>{numStreak} Days</Text>
+          {numStreak === 0 ? (
+            <Text style={styles.title}>Loading streak...</Text>
+          ) : (
+            <Text style={styles.title}>{numStreak} Days</Text>
+          )}
         </View>
       </View>
     </>

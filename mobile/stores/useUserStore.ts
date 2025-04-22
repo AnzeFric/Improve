@@ -6,9 +6,11 @@ interface UserStore {
   firstName: string;
   lastName: string;
   startStreak: Date;
+  lastCheckIn: Date;
   setFirstName: (firstName: string) => void;
   setLastName: (lastName: string) => void;
   setStartStreak: (startStreak: Date) => void;
+  setLastCheckIn: (lastCheckIn: Date) => void;
   resetUserStore: () => void;
 }
 
@@ -18,6 +20,7 @@ const useUserStore = create(
       firstName: "",
       lastName: "",
       startStreak: new Date(),
+      lastCheckIn: new Date(),
       setFirstName: (firstName: string) => {
         set({
           firstName: firstName,
@@ -33,11 +36,17 @@ const useUserStore = create(
           startStreak: startStreak,
         });
       },
+      setLastCheckIn: (lastCheckIn: Date) => {
+        set({
+          lastCheckIn: lastCheckIn,
+        });
+      },
       resetUserStore: () => {
         set({
           firstName: "",
           lastName: "",
           startStreak: new Date(),
+          lastCheckIn: new Date(),
         });
       },
     }),

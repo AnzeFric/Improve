@@ -18,12 +18,12 @@ public class UserMetricsService {
     private final UserMetricsRepository userMetricsRepository;
 
     @Transactional
-    public UserMetrics create(UserMetrics userMetrics) {
+    public void create(UserMetrics userMetrics) {
         Optional<UserMetrics> existingMetrics = userMetricsRepository.findByUser(userMetrics.getUser());
         if(existingMetrics.isPresent()) {
             throw new RuntimeException("Metrics for this user already exist! Use update instead.");
         }
-        return userMetricsRepository.save(userMetrics);
+        userMetricsRepository.save(userMetrics);
     }
 
     public UserMetrics getByUser(User user) {

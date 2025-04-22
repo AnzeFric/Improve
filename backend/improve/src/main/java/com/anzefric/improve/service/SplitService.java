@@ -15,7 +15,6 @@ public class SplitService {
     private final SplitRepository splitRepository;
 
     public Split getByUser(User user) {
-        Split split = splitRepository.findByUser(user);
-        return split;
+        return splitRepository.findByUser(user);
     }
 }

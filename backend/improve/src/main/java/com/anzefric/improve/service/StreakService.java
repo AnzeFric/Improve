@@ -18,8 +18,7 @@ public class StreakService {
     private final StreakRepository streakRepository;
 
     public Streak findByUser(User user) {
-        Streak streak = streakRepository.findByUser(user);
-        return streak;
+        return streakRepository.findByUser(user);
     }
 
     @Transactional

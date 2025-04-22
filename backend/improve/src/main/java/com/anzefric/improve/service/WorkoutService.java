@@ -13,7 +13,7 @@ public class WorkoutService {
 
     private final WorkoutRepository workoutRepository;
 
-    public Workout create(Workout workout) {
-        return workoutRepository.save(workout);
+    public void create(Workout workout) {
+        workoutRepository.save(workout);
     }
 }

@@ -16,7 +16,8 @@ export default function HomeScreen() {
   const { isFirstLogin, setIsFirstLogin } = useAuth();
   const { getStreakData, getDays, updateDayStreak } = useStreak();
   const [dayStreak, setDayStreak] = useState(0);
-  const { saveSplit, getCurrentTrainingDay } = useSplit();
+  const { checkForNextTrainingDay, saveSplit, getCurrentTrainingDay } =
+    useSplit();
 
   useEffect(() => {
     const updateAndSaveStreak = async () => {
@@ -34,6 +35,7 @@ export default function HomeScreen() {
     };
 
     fetchUser();
+    checkForNextTrainingDay();
   }, []);
 
   const handleSelectSplit = (

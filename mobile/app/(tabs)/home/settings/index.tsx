@@ -23,16 +23,12 @@ export default function SettingsScreen() {
   const { handleLogout } = useAuth();
   const { firstName, lastName, deleteUser } = useUser();
   const { userMetrics, getUserMetrics } = useUserMetrics();
-  const { splitName, splitIntensity, splitTrainingDays, getSplit, saveSplit } =
+  const { splitName, splitIntensity, splitTrainingDays, saveSplit } =
     useSplit();
 
   useEffect(() => {
     if (!userMetrics) {
       getUserMetrics();
-    }
-
-    if (!splitName) {
-      getSplit();
     }
   }, [userMetrics, splitName]);
 

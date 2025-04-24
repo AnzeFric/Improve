@@ -1,14 +1,12 @@
 import useUserStore from "@/stores/useUserStore";
 import Config from "react-native-config";
 import useAuthStore from "@/stores/useAuthStore";
-import { useCleanup } from "./useCleanup";
 import { router } from "expo-router";
 
 export function useUser() {
   const { firstName, lastName, setFirstName, setLastName, resetUserStore } =
     useUserStore();
   const { jwt } = useAuthStore();
-  const { resetStores } = useCleanup();
 
   const getUser = async () => {
     try {
@@ -50,7 +48,6 @@ export function useUser() {
       const data = await response.json();
 
       if (data.success) {
-        resetStores();
         router.replace("/(auth)/login"); // Using replace to prevent returning with hardware back button
       }
     } catch (error) {

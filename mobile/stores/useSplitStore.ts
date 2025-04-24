@@ -11,7 +11,6 @@ interface SplitStore {
   setSplitIntensity: (intensity: string) => void;
   setSplitTraingingDays: (trainingDays: Array<string>) => void;
   setCurrentDayIndex: (currentDayIndex: number) => void;
-  resetSplitStore: () => void;
 }
 
 const useSplitStore = create(
@@ -32,14 +31,6 @@ const useSplitStore = create(
       },
       setCurrentDayIndex: (currentDayIndex: number) => {
         set({ currentDayIndex: currentDayIndex });
-      },
-      resetSplitStore: () => {
-        set({
-          splitName: "",
-          splitIntensity: "",
-          splitTrainingDays: [],
-          currentDayIndex: 0,
-        });
       },
     }),
     {

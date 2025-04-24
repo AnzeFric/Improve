@@ -2,7 +2,6 @@ import { useState, useCallback } from "react";
 import { router, useFocusEffect } from "expo-router";
 import useAuthStore from "@/stores/useAuthStore";
 import Config from "react-native-config";
-import { useCleanup } from "./useCleanup";
 
 export function useAuth() {
   const {
@@ -13,7 +12,6 @@ export function useAuth() {
     setIsLoggined,
     setIsFirstLogin,
   } = useAuthStore();
-  const { resetStores } = useCleanup();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -91,7 +89,6 @@ export function useAuth() {
   };
 
   const handleLogout = () => {
-    resetStores();
     router.replace("/(auth)/login"); // Using replace to prevent returning with hardware back button
   };
 

@@ -1,9 +1,9 @@
 import Config from "react-native-config";
+import useAuthStore from "@/stores/useAuthStore";
 import { Workout, Exercise } from "@/interfaces/workout";
-import { useAuth } from "./useAuth";
 
 export function useWorkout() {
-  const { jwt } = useAuth();
+  const { jwt } = useAuthStore();
 
   const handleFinishWorkout = async (
     name: string,

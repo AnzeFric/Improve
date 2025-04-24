@@ -1,6 +1,6 @@
-import useStreakStore from "@/stores/useStreakStore";
 import Config from "react-native-config";
 import useAuthStore from "@/stores/useAuthStore";
+import useStreakStore from "@/stores/useStreakStore";
 
 export function useStreak() {
   const { jwt } = useAuthStore();

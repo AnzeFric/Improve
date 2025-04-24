@@ -7,7 +7,6 @@ interface UserStore {
   lastName: string;
   setFirstName: (firstName: string) => void;
   setLastName: (lastName: string) => void;
-  resetUserStore: () => void;
 }
 
 const useUserStore = create(
@@ -23,12 +22,6 @@ const useUserStore = create(
       setLastName: (lastName: string) => {
         set({
           lastName: lastName,
-        });
-      },
-      resetUserStore: () => {
-        set({
-          firstName: "",
-          lastName: "",
         });
       },
     }),

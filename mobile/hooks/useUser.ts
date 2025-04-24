@@ -1,11 +1,10 @@
-import useUserStore from "@/stores/useUserStore";
+import { router } from "expo-router";
 import Config from "react-native-config";
 import useAuthStore from "@/stores/useAuthStore";
-import { router } from "expo-router";
+import useUserStore from "@/stores/useUserStore";
 
 export function useUser() {
-  const { firstName, lastName, setFirstName, setLastName, resetUserStore } =
-    useUserStore();
+  const { firstName, lastName, setFirstName, setLastName } = useUserStore();
   const { jwt } = useAuthStore();
 
   const getUser = async () => {
@@ -60,6 +59,5 @@ export function useUser() {
     lastName,
     getUser,
     deleteUser,
-    resetUserStore,
   };
 }

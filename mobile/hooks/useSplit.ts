@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import useSplitStore from "@/stores/useSplitStore";
 import splits from "@/data/splits.json";
+import useSplitStore from "@/stores/useSplitStore";
 
 export function useSplit() {
   const {

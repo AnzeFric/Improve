@@ -1,12 +1,11 @@
-import useUserMetricsStore from "@/stores/useUserMetricsStore";
 import Config from "react-native-config";
 import { UserMetrics } from "@/interfaces/user";
-import { useAuth } from "./useAuth";
+import useAuthStore from "@/stores/useAuthStore";
+import useUserMetricsStore from "@/stores/useUserMetricsStore";
 
 export function useUserMetrics() {
-  const { userMetrics, setUserMetrics, resetUserMetricsStore } =
-    useUserMetricsStore();
-  const { jwt } = useAuth();
+  const { jwt } = useAuthStore();
+  const { userMetrics, setUserMetrics } = useUserMetricsStore();
 
   const saveUserMetrics = async (
     age: number,
@@ -100,7 +99,6 @@ export function useUserMetrics() {
       const data = await response.json();
 
       if (data.success) {
-        resetUserMetricsStore();
         return true;
       }
       console.log("Failed to delete user metrics: ", response.status);
@@ -158,7 +156,6 @@ export function useUserMetrics() {
     saveUserMetrics,
     getUserMetrics,
     deleteUserMetrics,
-    resetUserMetricsStore,
     updateUserMetrics,
   };
 }

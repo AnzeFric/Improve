@@ -28,15 +28,12 @@ public class StreakController {
     private final StreakService streakService;
 
     @GetMapping("/")
-    public ApiResponse<Long> getCurrentStreak() {
+    public ApiResponse<Streak> getCurrentStreak() {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
             Streak currentStreak = streakService.findByUser(authenticatedUser);
 
-            long millisecondsDiff = Math.abs(currentStreak.getLastCheckIn().getTime() - currentStreak.getStartStreak().getTime());
-            long days = (millisecondsDiff / (1000 * 60 * 60 * 24)) + 1;
-
-            return ApiResponse.success(days);
+            return ApiResponse.success(currentStreak);
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching split: " + e.getMessage());
         }

@@ -6,8 +6,6 @@ import { useCleanup } from "./useCleanup";
 
 export function useAuth() {
   const {
-    jwt,
-    expiresIn,
     isLoggined,
     isFirstLogin,
     setJwt,
@@ -98,8 +96,6 @@ export function useAuth() {
   };
 
   return {
-    jwt,
-    expiresIn,
     isLoggined,
     isFirstLogin,
     setIsFirstLogin,

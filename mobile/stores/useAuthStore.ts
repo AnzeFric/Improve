@@ -38,7 +38,6 @@ const useAuthStore = create(
           jwt: null,
           expiresIn: 0,
           isLoggined: false,
-          isFirstLogin: true,
         });
       },
     }),

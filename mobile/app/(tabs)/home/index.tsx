@@ -7,28 +7,34 @@ import MostRecentWorkout from "@/components/home/home/MostRecentWorkout/MostRece
 import MenuButton from "@/components/global/buttons/MenuButton";
 import { useUser } from "@/hooks/useUser";
 import { useAuth } from "@/hooks/useAuth";
-import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
 import { useSplit } from "@/hooks/useSplit";
+import { useStreak } from "@/hooks/useStreak";
+import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
 
 export default function HomeScreen() {
-  const { lastCheckIn, getDayStreak, getUser } = useUser();
+  const { getUser } = useUser();
   const { isFirstLogin, setIsFirstLogin } = useAuth();
-  const [showSplitModal, setShowSplitModal] = useState(true);
+  const { getStreakData, getDays, updateDayStreak } = useStreak();
   const [dayStreak, setDayStreak] = useState(0);
-  const { saveSplit } = useSplit();
+  const { saveSplit, getCurrentTrainingDay } = useSplit();
 
   useEffect(() => {
-    getUser();
+    const updateAndSaveStreak = async () => {
+      await getStreakData();
+      await updateDayStreak().then(() => {
+        let days = getDays();
+        setDayStreak(days);
+      });
+    };
+
+    const fetchUser = async () => {
+      await getUser().then(() => {
+        updateAndSaveStreak();
+      });
+    };
+
+    fetchUser();
   }, []);
-
-  const updateStreak = async () => {
-    const days = await getDayStreak();
-    setDayStreak(days);
-  };
-
-  useEffect(() => {
-    updateStreak();
-  }, [lastCheckIn]);
 
   const handleSelectSplit = (
     name: string,
@@ -57,20 +63,18 @@ export default function HomeScreen() {
             <MostRecentWorkout />
           </View>
           <View style={styles.itemContainer}>
-            <StartNewWorkout recommendWorkout={"Push day"} />
+            <StartNewWorkout recommendWorkout={getCurrentTrainingDay()} />
           </View>
           <View style={styles.itemContainer}>
             <DailyStreak numStreak={dayStreak} />
           </View>
         </View>
       </ScrollView>
-      {isFirstLogin && (
-        <ModalSetSplit
-          isVisible={showSplitModal}
-          setIsVisible={setShowSplitModal}
-          onSelectSplit={handleSelectSplit}
-        />
-      )}
+      <ModalSetSplit
+        isVisible={isFirstLogin}
+        setIsVisible={() => setIsFirstLogin(false)}
+        onSelectSplit={handleSelectSplit}
+      />
     </View>
   );
 }

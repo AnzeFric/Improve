@@ -6,9 +6,11 @@ interface SplitStore {
   splitName: string;
   splitIntensity: string;
   splitTrainingDays: Array<string>;
+  currentDayIndex: number;
   setSplitName: (name: string) => void;
   setSplitIntensity: (intensity: string) => void;
   setSplitTraingingDays: (trainingDays: Array<string>) => void;
+  setCurrentDayIndex: (currentDayIndex: number) => void;
   resetSplitStore: () => void;
 }
 
@@ -18,6 +20,7 @@ const useSplitStore = create(
       splitName: "",
       splitIntensity: "",
       splitTrainingDays: [],
+      currentDayIndex: 0,
       setSplitName: (splitName: string) => {
         set({ splitName: splitName });
       },
@@ -27,11 +30,15 @@ const useSplitStore = create(
       setSplitTraingingDays: (splitTrainingDays: Array<string>) => {
         set({ splitTrainingDays: splitTrainingDays });
       },
+      setCurrentDayIndex: (currentDayIndex: number) => {
+        set({ currentDayIndex: currentDayIndex });
+      },
       resetSplitStore: () => {
         set({
           splitName: "",
           splitIntensity: "",
           splitTrainingDays: [],
+          currentDayIndex: 0,
         });
       },
     }),

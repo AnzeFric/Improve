@@ -7,9 +7,11 @@ export function useSplit() {
     splitName,
     splitIntensity,
     splitTrainingDays,
+    currentDayIndex,
     setSplitName,
     setSplitIntensity,
     setSplitTraingingDays,
+    setCurrentDayIndex,
   } = useSplitStore();
 
   const splitData = useMemo(() => {
@@ -42,6 +44,18 @@ export function useSplit() {
     }
   };
 
+  const getCurrentTrainingDay = () => {
+    return splitTrainingDays[currentDayIndex];
+  };
+
+  const setNextTraniningDay = () => {
+    if (currentDayIndex >= splitTrainingDays.length) {
+      setCurrentDayIndex(0);
+    } else {
+      setCurrentDayIndex(currentDayIndex + 1);
+    }
+  };
+
   const getSplit = async () => {
     console.log("Fetch split");
   };
@@ -60,5 +74,7 @@ export function useSplit() {
     saveSplit,
     getSplit,
     changeSplit,
+    getCurrentTrainingDay,
+    setNextTraniningDay,
   };
 }

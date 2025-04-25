@@ -11,11 +11,9 @@ export function useWorkout() {
     exercises: Array<Exercise>
   ) => {
     try {
-      const dateString = date.toISOString();
-
       const workout: Workout = {
         name: name,
-        date: dateString,
+        date: date,
         exercises: exercises,
       };
 

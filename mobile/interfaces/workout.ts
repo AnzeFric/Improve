@@ -1,6 +1,6 @@
 export interface Workout {
   name: string;
-  date: string;
+  date: Date;
   exercises: Array<Exercise>;
 }
 

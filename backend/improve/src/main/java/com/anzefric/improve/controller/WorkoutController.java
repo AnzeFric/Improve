@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.workout.Workout;
 import com.anzefric.improve.data.response.ApiResponse;
 import com.anzefric.improve.data.response.ApiResponseException;
@@ -24,7 +25,8 @@ public class WorkoutController {
     @PostMapping("/create")
     public ApiResponse<String> createWorkout(@RequestBody Workout workout) {
         try {
-            SecurityUtils.getCurrentAuthenticatedUser();
+            User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
+            workout.setUser(authenticatedUser);        
             workoutService.create(workout);
 
             return ApiResponse.success("Workout created successfully!");

@@ -1,5 +1,5 @@
-import EncryptedStorage from "react-native-encrypted-storage";
 import { create } from "zustand";
+import EncryptedStorage from "react-native-encrypted-storage";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 interface UserStore {

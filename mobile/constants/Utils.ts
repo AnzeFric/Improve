@@ -2,6 +2,7 @@ import useAuthStore from "@/stores/useAuthStore";
 import useUserStore from "@/stores/useUserStore";
 import useSplitStore from "@/stores/useSplitStore";
 import useStreakStore from "@/stores/useStreakStore";
+import useWorkoutStore from "@/stores/useWorkoutStore";
 import useUserMetricsStore from "@/stores/useUserMetricsStore";
 
 export function formatDate(date: Date): string {
@@ -33,4 +34,5 @@ export function resetAllStores() {
   useSplitStore.getState().reset();
   useStreakStore.getState().reset();
   useUserMetricsStore.getState().reset();
+  useWorkoutStore.getState().reset();
 }

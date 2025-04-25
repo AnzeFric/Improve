@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
 import EncryptedStorage from "react-native-encrypted-storage";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 interface AuthStore {
   jwt: string | null;

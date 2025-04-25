@@ -7,13 +7,18 @@ interface UserStore {
   lastName: string;
   setFirstName: (firstName: string) => void;
   setLastName: (lastName: string) => void;
+  reset: () => void;
 }
+
+const initialState = {
+  firstName: "",
+  lastName: "",
+};
 
 const useUserStore = create(
   persist<UserStore>(
     (set) => ({
-      firstName: "",
-      lastName: "",
+      ...initialState,
       setFirstName: (firstName: string) => {
         set({
           firstName: firstName,
@@ -23,6 +28,10 @@ const useUserStore = create(
         set({
           lastName: lastName,
         });
+      },
+      reset: async () => {
+        set(() => ({ ...initialState }));
+        useUserStore.persist.clearStorage();
       },
     }),
     {

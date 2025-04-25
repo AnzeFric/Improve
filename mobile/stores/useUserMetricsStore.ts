@@ -6,16 +6,25 @@ import EncryptedStorage from "react-native-encrypted-storage";
 interface UserMetricsStore {
   userMetrics: UserMetrics | null;
   setUserMetrics: (userMetrics: UserMetrics | null) => void;
+  reset: () => void;
 }
+
+const initialState = {
+  userMetrics: null,
+};
 
 const useUserMetricsStore = create(
   persist<UserMetricsStore>(
     (set) => ({
-      userMetrics: null,
+      ...initialState,
       setUserMetrics: (userMetrics: UserMetrics | null) => {
         set({
           userMetrics: userMetrics,
         });
+      },
+      reset: async () => {
+        set(() => ({ ...initialState }));
+        useUserMetricsStore.persist.clearStorage();
       },
     }),
     {

@@ -13,16 +13,21 @@ interface SplitStore {
   setSplitTraingingDays: (trainingDays: Array<string>) => void;
   setCurrentDayIndex: (currentDayIndex: number) => void;
   setLastTrainingDayChange: (lastTrainingDayChange: Date) => void;
+  reset: () => void;
 }
+
+const initialState = {
+  splitName: "",
+  splitIntensity: "",
+  splitTrainingDays: [],
+  currentDayIndex: 0,
+  lastTrainingDayChange: new Date(),
+};
 
 const useSplitStore = create(
   persist<SplitStore>(
     (set) => ({
-      splitName: "",
-      splitIntensity: "",
-      splitTrainingDays: [],
-      currentDayIndex: 0,
-      lastTrainingDayChange: new Date(),
+      ...initialState,
       setSplitName: (splitName: string) => {
         set({ splitName: splitName });
       },
@@ -37,6 +42,10 @@ const useSplitStore = create(
       },
       setLastTrainingDayChange: (lastTrainingDayChange: Date) => {
         set({ lastTrainingDayChange: lastTrainingDayChange });
+      },
+      reset: () => {
+        set(() => ({ ...initialState }));
+        useSplitStore.persist.clearStorage();
       },
     }),
     {

@@ -11,16 +11,20 @@ interface AuthStore {
   setExpiresIn: (expiresIn: number) => void;
   setIsLoggined: (isLoggined: boolean) => void;
   setIsFirstLogin: (isFirstLogin: boolean) => void;
-  resetAuthStore: () => void;
+  reset: () => void;
 }
+
+const initialState = {
+  jwt: null,
+  expiresIn: 0,
+  isLoggined: false,
+  isFirstLogin: true,
+};
 
 const useAuthStore = create(
   persist<AuthStore>(
     (set) => ({
-      jwt: null,
-      expiresIn: 0,
-      isLoggined: false,
-      isFirstLogin: true,
+      ...initialState,
       setJwt: (jwt: string | null) => {
         set({ jwt: jwt });
       },
@@ -33,12 +37,9 @@ const useAuthStore = create(
       setIsFirstLogin: (isFirstLogin: boolean) => {
         set({ isFirstLogin: isFirstLogin });
       },
-      resetAuthStore: () => {
-        set({
-          jwt: null,
-          expiresIn: 0,
-          isLoggined: false,
-        });
+      reset: async () => {
+        set(() => ({ ...initialState }));
+        useAuthStore.persist.clearStorage();
       },
     }),
     {

@@ -7,18 +7,27 @@ interface StreakStore {
   lastCheckIn: Date;
   setStartStreak: (startStreak: Date) => void;
   setLastCheckIn: (lastCheckIn: Date) => void;
+  reset: () => void;
 }
+
+const initialState = {
+  startStreak: new Date(),
+  lastCheckIn: new Date(),
+};
 
 const useStreakStore = create(
   persist<StreakStore>(
     (set) => ({
-      startStreak: new Date(),
-      lastCheckIn: new Date(),
+      ...initialState,
       setStartStreak: (startStreak: Date) => {
         set({ startStreak: startStreak });
       },
       setLastCheckIn: (lastCheckIn: Date) => {
         set({ lastCheckIn: lastCheckIn });
+      },
+      reset: async () => {
+        set(() => ({ ...initialState }));
+        useStreakStore.persist.clearStorage();
       },
     }),
     {

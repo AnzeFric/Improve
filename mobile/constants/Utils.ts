@@ -1,3 +1,9 @@
+import useAuthStore from "@/stores/useAuthStore";
+import useUserStore from "@/stores/useUserStore";
+import useSplitStore from "@/stores/useSplitStore";
+import useStreakStore from "@/stores/useStreakStore";
+import useUserMetricsStore from "@/stores/useUserMetricsStore";
+
 export function formatDate(date: Date): string {
   const year = date.getFullYear();
   const month = date.getMonth() + 1; // Months start at 0
@@ -19,4 +25,12 @@ export function formatDateTime(dateTime: Date): string {
   const paddedMinute = minute.toString().padStart(2, "0");
 
   return `${date}, ${paddedHour}:${paddedMinute}`;
+}
+
+export function resetAllStores() {
+  useAuthStore.getState().reset();
+  useUserStore.getState().reset();
+  useSplitStore.getState().reset();
+  useStreakStore.getState().reset();
+  useUserMetricsStore.getState().reset();
 }

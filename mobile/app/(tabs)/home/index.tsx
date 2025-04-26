@@ -9,17 +9,25 @@ import { useUser } from "@/hooks/useUser";
 import { useAuth } from "@/hooks/useAuth";
 import { useSplit } from "@/hooks/useSplit";
 import { useStreak } from "@/hooks/useStreak";
+import { useWorkout } from "@/hooks/useWorkout";
 import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
 
 export default function HomeScreen() {
-  const { getUser } = useUser();
+  const { firstName, getUser } = useUser();
   const { isFirstLogin, setIsFirstLogin } = useAuth();
   const { getStreakData, getDays, updateDayStreak } = useStreak();
   const [dayStreak, setDayStreak] = useState(0);
+  const { lastestWorkout, getLatestWorkout } = useWorkout();
   const { checkForNextTrainingDay, saveSplit, getCurrentTrainingDay } =
     useSplit();
 
   useEffect(() => {
+    const checkForWorkout = async () => {
+      if (!lastestWorkout) {
+        await getLatestWorkout();
+      }
+    };
+
     const updateAndSaveStreak = async () => {
       await getStreakData();
       await updateDayStreak().then(() => {
@@ -36,7 +44,8 @@ export default function HomeScreen() {
 
     fetchUser();
     checkForNextTrainingDay();
-  }, []);
+    checkForWorkout();
+  }, [firstName]); // Firstname cannot be changed by user. New firstname === new user
 
   const handleSelectSplit = (
     name: string,
@@ -62,7 +71,7 @@ export default function HomeScreen() {
         />
         <View style={styles.contentContainer}>
           <View style={styles.itemContainer}>
-            <MostRecentWorkout />
+            <MostRecentWorkout workout={lastestWorkout} />
           </View>
           <View style={styles.itemContainer}>
             <StartNewWorkout recommendWorkout={getCurrentTrainingDay()} />

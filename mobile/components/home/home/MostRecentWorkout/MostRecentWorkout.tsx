@@ -1,73 +1,15 @@
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import { useState, useEffect } from "react";
+import { Text, View, StyleSheet } from "react-native";
 import { Colors } from "@/constants/Colors";
 import { Workout } from "@/interfaces/workout";
 import WorkoutDisplay from "./WorkoutDisplay";
 import { Ionicons } from "@expo/vector-icons";
-import { AppStyles } from "@/constants/AppStyles";
+import { formatDate } from "@/constants/Utils";
 
-const fakeWorkout: Workout = {
-  name: "Pull day",
-  date: new Date().toDateString(),
-  exercises: [
-    {
-      name: "Biceps curl",
-      numSets: 3,
-      sets: [
-        {
-          reps: 2,
-          weight: 14,
-        },
-        {
-          reps: 5,
-          weight: 18,
-        },
-        {
-          reps: 3,
-          weight: 20,
-        },
-      ],
-    },
-    {
-      name: "Lat pulldown",
-      numSets: 5,
-      sets: [
-        {
-          reps: 2,
-          weight: 20,
-        },
-        {
-          reps: 2,
-          weight: 40,
-        },
-        {
-          reps: 3,
-          weight: 60,
-        },
-        {
-          reps: 5,
-          weight: 60,
-        },
-        {
-          reps: 8,
-          weight: 50,
-        },
-      ],
-    },
-  ],
-};
+interface Props {
+  workout: Workout | null;
+}
 
-export default function MostRecentWorkout() {
-  const [recentWorkout, setRecentWorkout] = useState(fakeWorkout);
-
-  useEffect(() => {
-    // Load recent workout from api
-  }, []);
-
-  const handlePress = () => {
-    console.log("Redo recent workout click");
-  };
-
+export default function MostRecentWorkout({ workout }: Props) {
   return (
     <View>
       <View style={styles.headerContainer}>
@@ -76,21 +18,20 @@ export default function MostRecentWorkout() {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Most Recent Workout</Text>
 
-          <View style={styles.workoutTitleContainer}>
-            <Text style={styles.workoutName}>{recentWorkout.name}</Text>
-            <Text style={styles.workoutDate}>
-              {/*formatDate(recentWorkout.date)*/}
-              {recentWorkout.date}
-            </Text>
-          </View>
+          {workout ? (
+            <View style={styles.workoutTitleContainer}>
+              <Text style={styles.workoutName}>{workout.name}</Text>
+              <Text style={styles.workoutDate}>
+                {formatDate(new Date(workout.date))}
+              </Text>
+            </View>
+          ) : (
+            <Text style={styles.workoutName}>Empty...</Text>
+          )}
         </View>
       </View>
 
-      <WorkoutDisplay workout={recentWorkout} />
-
-      <TouchableOpacity style={AppStyles.button} onPress={handlePress}>
-        <Text style={AppStyles.buttonText}>Redo workout</Text>
-      </TouchableOpacity>
+      {workout && <WorkoutDisplay workout={workout} />}
     </View>
   );
 }

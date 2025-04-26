@@ -28,7 +28,7 @@ public class Workout {
     private Long id;
 
     @NonNull
-    @Size(min = DataLengths.L_2, max = DataLengths.L_256)
+    @Size(min = DataLengths.L_1, max = DataLengths.L_256)
     @Column(nullable = false, length = DataLengths.L_256)
     private String name;
 

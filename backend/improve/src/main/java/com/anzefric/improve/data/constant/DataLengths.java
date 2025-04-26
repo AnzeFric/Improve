@@ -1,6 +1,7 @@
 package com.anzefric.improve.data.constant;
 
 public class DataLengths {
+    public static final int L_1 = 1;
     public static final int L_2 = 2;
     public static final int L_4 = 4;
     public static final int L_8 = 8;

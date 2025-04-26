@@ -2,6 +2,7 @@ package com.anzefric.improve.service;
 
 import org.springframework.stereotype.Service;
 
+import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.workout.Exercise;
 import com.anzefric.improve.data.model.workout.Set;
 import com.anzefric.improve.data.model.workout.Workout;
@@ -30,5 +31,9 @@ public class WorkoutService {
         }
 
         workoutRepository.save(workout);
+    }
+
+    public Workout findLatestByUser(User user) {
+        return workoutRepository.findTopByUserOrderByDateDesc(user);
     }
 }

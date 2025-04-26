@@ -1,9 +1,11 @@
 import Config from "react-native-config";
 import useAuthStore from "@/stores/useAuthStore";
+import useWorkoutStore from "@/stores/useWorkoutStore";
 import { Workout, Exercise } from "@/interfaces/workout";
 
 export function useWorkout() {
   const { jwt } = useAuthStore();
+  const { lastestWorkout, setLatestWorkout } = useWorkoutStore();
 
   const handleFinishWorkout = async (
     name: string,
@@ -32,6 +34,7 @@ export function useWorkout() {
       const data = await response.json();
 
       if (data.success) {
+        setLatestWorkout(workout);
         return true;
       }
 
@@ -43,7 +46,32 @@ export function useWorkout() {
     }
   };
 
+  const getLatestWorkout = async () => {
+    try {
+      const response = await fetch(
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/workout/`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + jwt,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        setLatestWorkout(data.data);
+      }
+    } catch (error) {
+      console.error("Error while fetching workout: ", error);
+    }
+  };
+
   return {
+    lastestWorkout,
     handleFinishWorkout,
+    getLatestWorkout,
   };
 }

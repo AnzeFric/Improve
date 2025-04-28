@@ -1,5 +1,5 @@
 import { Text, View, ScrollView, Pressable, StyleSheet } from "react-native";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import DaySelector from "@/components/statistics/DaySelector";
 import { Timeline } from "@/interfaces/statistics";
@@ -71,6 +71,32 @@ export default function StatisticsScreen() {
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
 
+  const getDataForTimeline = (timeline: Timeline) => {
+    switch (timeline) {
+      case "Week":
+        return dataWeek;
+      case "Month":
+        return dataMonth;
+      case "Year":
+        return dataYear;
+    }
+  };
+
+  const overallData = useMemo(
+    () => getDataForTimeline(overallTimeline),
+    [overallTimeline]
+  );
+
+  const workoutData = useMemo(
+    () => getDataForTimeline(workoutTimeline),
+    [workoutTimeline]
+  );
+
+  const exerciseData = useMemo(
+    () => getDataForTimeline(exerciseTimeline),
+    [exerciseTimeline]
+  );
+
   const handleUnFocus = () => {
     setShowWorkout(false);
     setShowExercise(false);
@@ -88,7 +114,7 @@ export default function StatisticsScreen() {
               setTimeline={setOverallTimeline}
             />
             <View style={styles.chartContainer}>
-              <Charts data={dataWeek} timePeriod={overallTimeline} />
+              <Charts data={overallData} timePeriod={overallTimeline} />
             </View>
           </View>
           <View style={styles.contentContainer}>
@@ -110,7 +136,7 @@ export default function StatisticsScreen() {
               setTimeline={setWorkoutTimeline}
             />
             <View style={styles.chartContainer}>
-              <Charts data={dataMonth} timePeriod={workoutTimeline} />
+              <Charts data={workoutData} timePeriod={workoutTimeline} />
             </View>
           </View>
           <View style={styles.contentContainer}>
@@ -129,7 +155,7 @@ export default function StatisticsScreen() {
               setTimeline={setExerciseTimeline}
             />
             <View style={styles.chartContainer}>
-              <Charts data={dataYear} timePeriod={exerciseTimeline} />
+              <Charts data={exerciseData} timePeriod={exerciseTimeline} />
             </View>
           </View>
         </View>

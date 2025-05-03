@@ -1,5 +1,12 @@
-import { Text, View, ScrollView, Pressable, StyleSheet } from "react-native";
-import { useState, useMemo } from "react";
+import {
+  Text,
+  View,
+  ScrollView,
+  Pressable,
+  ActivityIndicator,
+  StyleSheet,
+} from "react-native";
+import { useState, useEffect } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import DaySelector from "@/components/statistics/DaySelector";
 import { Timeline } from "@/interfaces/statistics";
@@ -68,34 +75,77 @@ export default function StatisticsScreen() {
   const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Week");
   const [exerciseTimeline, setExerciseTimeline] = useState<Timeline>("Week");
 
+  const [overallData, setOverallData] = useState<Array<lineDataItem> | null>(
+    null
+  );
+  const [workoutData, setWorkoutData] = useState<Array<lineDataItem> | null>(
+    null
+  );
+  const [exerciseData, setExerciseData] = useState<Array<lineDataItem> | null>(
+    null
+  );
+
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
 
-  const getDataForTimeline = (timeline: Timeline) => {
-    switch (timeline) {
-      case "Week":
-        return dataWeek;
-      case "Month":
-        return dataMonth;
-      case "Year":
-        return dataYear;
-    }
+  // Simulate an API call with a delay
+  const fetchDataWithDelay = (
+    timeline: Timeline
+  ): Promise<Array<lineDataItem>> => {
+    return new Promise<Array<lineDataItem>>((resolve) => {
+      setTimeout(() => {
+        switch (timeline) {
+          case "Week":
+            resolve([...dataWeek]);
+            break;
+          case "Month":
+            resolve([...dataMonth]);
+            break;
+          case "Year":
+            resolve([...dataYear]);
+            break;
+          default:
+            resolve([]);
+        }
+      }, 500); // Simulate network delay
+    });
   };
 
-  const overallData = useMemo(
-    () => getDataForTimeline(overallTimeline),
-    [overallTimeline]
-  );
+  useEffect(() => {
+    const loadOverallData = async () => {
+      try {
+        const data = await fetchDataWithDelay(overallTimeline);
+        setOverallData(data);
+      } catch (error) {
+        console.error("Error loading overall data:", error);
+      }
+    };
+    loadOverallData();
+  }, [overallTimeline]);
 
-  const workoutData = useMemo(
-    () => getDataForTimeline(workoutTimeline),
-    [workoutTimeline]
-  );
+  useEffect(() => {
+    const loadWorkoutData = async () => {
+      try {
+        const data = await fetchDataWithDelay(workoutTimeline);
+        setWorkoutData(data);
+      } catch (error) {
+        console.error("Error loading workout data:", error);
+      }
+    };
+    loadWorkoutData();
+  }, [workoutTimeline]);
 
-  const exerciseData = useMemo(
-    () => getDataForTimeline(exerciseTimeline),
-    [exerciseTimeline]
-  );
+  useEffect(() => {
+    const loadExerciseData = async () => {
+      try {
+        const data = await fetchDataWithDelay(exerciseTimeline);
+        setExerciseData(data);
+      } catch (error) {
+        console.error("Error loading exercise data:", error);
+      }
+    };
+    loadExerciseData();
+  }, [exerciseTimeline]);
 
   const handleUnFocus = () => {
     setShowWorkout(false);
@@ -109,12 +159,24 @@ export default function StatisticsScreen() {
         <View style={styles.container}>
           <View style={styles.contentContainer}>
             <Text style={styles.title}>Overall</Text>
-            <DaySelector
-              timeline={overallTimeline}
-              setTimeline={setOverallTimeline}
-            />
+            <View style={{ paddingTop: 10 }}>
+              <DaySelector
+                timeline={overallTimeline}
+                setTimeline={setOverallTimeline}
+              />
+            </View>
             <View style={styles.chartContainer}>
-              <Charts data={overallData} timePeriod={overallTimeline} />
+              {overallData ? (
+                <Charts data={overallData} timePeriod={overallTimeline} />
+              ) : (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator
+                    size={"large"}
+                    color={Colors.light.specialBlue}
+                  />
+                  <Text style={styles.loadingText}>Loading data...</Text>
+                </View>
+              )}
             </View>
           </View>
           <View style={styles.contentContainer}>
@@ -136,7 +198,17 @@ export default function StatisticsScreen() {
               setTimeline={setWorkoutTimeline}
             />
             <View style={styles.chartContainer}>
-              <Charts data={workoutData} timePeriod={workoutTimeline} />
+              {workoutData ? (
+                <Charts data={workoutData} timePeriod={workoutTimeline} />
+              ) : (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator
+                    size={"large"}
+                    color={Colors.light.specialBlue}
+                  />
+                  <Text style={styles.loadingText}>Loading data...</Text>
+                </View>
+              )}
             </View>
           </View>
           <View style={styles.contentContainer}>
@@ -155,7 +227,17 @@ export default function StatisticsScreen() {
               setTimeline={setExerciseTimeline}
             />
             <View style={styles.chartContainer}>
-              <Charts data={exerciseData} timePeriod={exerciseTimeline} />
+              {exerciseData ? (
+                <Charts data={exerciseData} timePeriod={exerciseTimeline} />
+              ) : (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator
+                    size={"large"}
+                    color={Colors.light.specialBlue}
+                  />
+                  <Text style={styles.loadingText}>Loading data...</Text>
+                </View>
+              )}
             </View>
           </View>
         </View>
@@ -198,5 +280,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 3,
     alignSelf: "flex-start",
+  },
+  loadingContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 30,
+  },
+  loadingText: {
+    marginTop: 10,
+    color: Colors.light.specialBlue,
+    fontWeight: "bold",
   },
 });

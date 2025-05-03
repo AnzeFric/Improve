@@ -6,7 +6,7 @@ import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.workout.Exercise;
 import com.anzefric.improve.data.model.workout.Set;
 import com.anzefric.improve.data.model.workout.Workout;
-import com.anzefric.improve.repository.WorkoutRepository;
+import com.anzefric.improve.repository.workout.WorkoutRepository;
 
 import lombok.RequiredArgsConstructor;
 

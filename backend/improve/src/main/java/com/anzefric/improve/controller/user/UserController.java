@@ -1,4 +1,4 @@
-package com.anzefric.improve.controller;
+package com.anzefric.improve.controller.user;
 
 import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.response.ApiResponse;

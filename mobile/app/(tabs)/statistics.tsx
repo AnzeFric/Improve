@@ -14,9 +14,10 @@ import { Colors } from "@/constants/Colors";
 import InputDropDown from "@/components/global/InputDropDown";
 import { lineDataItem } from "react-native-gifted-charts";
 import Charts from "@/components/statistics/Charts";
+import { useStatistic } from "@/hooks/useStatistic";
 
 const dataWeek: Array<lineDataItem> = [
-  { value: 10, label: "M" },
+  { value: 0, label: "M" },
   { value: 0, label: "T" },
   { value: 0, label: "W" },
   { value: 0, label: "T" },
@@ -71,6 +72,7 @@ const exerciseOptions = [
 ];
 
 export default function StatisticsScreen() {
+  const { getOverallData, getWorkoutData, getExerciseData } = useStatistic();
   const [overallTimeline, setOverallTimeline] = useState<Timeline>("Week");
   const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Week");
   const [exerciseTimeline, setExerciseTimeline] = useState<Timeline>("Week");
@@ -88,33 +90,10 @@ export default function StatisticsScreen() {
   const [showWorkout, setShowWorkout] = useState(false);
   const [showExercise, setShowExercise] = useState(false);
 
-  // Simulate an API call with a delay
-  const fetchDataWithDelay = (
-    timeline: Timeline
-  ): Promise<Array<lineDataItem>> => {
-    return new Promise<Array<lineDataItem>>((resolve) => {
-      setTimeout(() => {
-        switch (timeline) {
-          case "Week":
-            resolve([...dataWeek]);
-            break;
-          case "Month":
-            resolve([...dataMonth]);
-            break;
-          case "Year":
-            resolve([...dataYear]);
-            break;
-          default:
-            resolve([]);
-        }
-      }, 500); // Simulate network delay
-    });
-  };
-
   useEffect(() => {
     const loadOverallData = async () => {
       try {
-        const data = await fetchDataWithDelay(overallTimeline);
+        const data = await getOverallData();
         setOverallData(data);
       } catch (error) {
         console.error("Error loading overall data:", error);
@@ -126,7 +105,7 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadWorkoutData = async () => {
       try {
-        const data = await fetchDataWithDelay(workoutTimeline);
+        const data = await getWorkoutData(workoutTimeline);
         setWorkoutData(data);
       } catch (error) {
         console.error("Error loading workout data:", error);
@@ -138,7 +117,7 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadExerciseData = async () => {
       try {
-        const data = await fetchDataWithDelay(exerciseTimeline);
+        const data = await getExerciseData(exerciseTimeline);
         setExerciseData(data);
       } catch (error) {
         console.error("Error loading exercise data:", error);

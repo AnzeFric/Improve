@@ -17,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class StatisticController {
     private final StatisticService statisticService;
 
     // Returns array of workouts from the authenticated user by the timeline
-    @GetMapping("/workout")
+    @PostMapping("/workout")
     public ApiResponse<List<Workout>> getAllWorkoutsByUser(@RequestBody Timeline input) {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
@@ -40,7 +40,7 @@ public class StatisticController {
     }
 
     // Returns array of exercises from the authenticated user by the timeline
-    @GetMapping("/exercise")
+    @PostMapping("/exercise")
     public ApiResponse<List<Exercise>> getAllExercisessByUser(@RequestBody Timeline input) {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();

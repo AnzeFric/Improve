@@ -15,14 +15,14 @@ export function useStatistic() {
             Authorization: "Bearer " + jwt,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ timeline }),
+          body: JSON.stringify(timeline),
         }
       );
 
       const data = await response.json();
 
       if (data.success) {
-        return data.data;
+        return data.data; // Array of workouts, their exercises and sets
       }
       return null;
     } catch (error) {
@@ -41,14 +41,14 @@ export function useStatistic() {
             Authorization: "Bearer " + jwt,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ timeline }),
+          body: JSON.stringify(timeline),
         }
       );
 
       const data = await response.json();
 
       if (data.success) {
-        return data.data;
+        return data.data; // Array of exercises and their sets
       }
       return null;
     } catch (error) {

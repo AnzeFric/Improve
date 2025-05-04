@@ -1,2 +1,1 @@
-export type Timeline = "Week" | "Month" | "Year";
-export type AllTimeline = Timeline | "All";
+export type Timeline = "Month" | "Year" | "All";

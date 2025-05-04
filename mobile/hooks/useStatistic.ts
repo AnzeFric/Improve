@@ -1,11 +1,11 @@
 import Config from "react-native-config";
 import useAuthStore from "@/stores/useAuthStore";
-import { AllTimeline } from "@/interfaces/statistics";
+import { Timeline } from "@/interfaces/statistics";
 
 export function useStatistic() {
   const { jwt } = useAuthStore();
 
-  const getWorkouts = async (timeline: AllTimeline) => {
+  const getWorkouts = async (timeline: Timeline) => {
     try {
       const response = await fetch(
         `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/workout`,
@@ -31,7 +31,7 @@ export function useStatistic() {
     }
   };
 
-  const getExercises = async (timeline: AllTimeline) => {
+  const getExercises = async (timeline: Timeline) => {
     try {
       const response = await fetch(
         `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/exercise`,
@@ -63,13 +63,13 @@ export function useStatistic() {
     return null;
   };
 
-  const getWorkoutData = async (timeline: AllTimeline) => {
+  const getWorkoutData = async (timeline: Timeline) => {
     const data = getWorkouts(timeline);
 
     return null;
   };
 
-  const getExerciseData = async (timeline: AllTimeline) => {
+  const getExerciseData = async (timeline: Timeline) => {
     const data = getExercises(timeline);
 
     return null;

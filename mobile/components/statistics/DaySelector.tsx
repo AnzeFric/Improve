@@ -12,17 +12,17 @@ export default function DaySelector({ timeline, setTimeline }: Props) {
   return (
     <View style={styles.buttonContainer}>
       <ButtonSelectable
-        text={"Week"}
-        timeline={timeline}
-        setTimeline={setTimeline}
-      />
-      <ButtonSelectable
         text={"Month"}
         timeline={timeline}
         setTimeline={setTimeline}
       />
       <ButtonSelectable
         text={"Year"}
+        timeline={timeline}
+        setTimeline={setTimeline}
+      />
+      <ButtonSelectable
+        text={"All"}
         timeline={timeline}
         setTimeline={setTimeline}
       />

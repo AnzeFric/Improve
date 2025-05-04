@@ -73,9 +73,9 @@ const exerciseOptions = [
 
 export default function StatisticsScreen() {
   const { getOverallData, getWorkoutData, getExerciseData } = useStatistic();
-  const [overallTimeline, setOverallTimeline] = useState<Timeline>("Week");
-  const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Week");
-  const [exerciseTimeline, setExerciseTimeline] = useState<Timeline>("Week");
+  const [overallTimeline, setOverallTimeline] = useState<Timeline>("Month");
+  const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Month");
+  const [exerciseTimeline, setExerciseTimeline] = useState<Timeline>("Month");
 
   const [overallData, setOverallData] = useState<Array<lineDataItem> | null>(
     null

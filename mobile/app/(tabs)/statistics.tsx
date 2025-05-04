@@ -77,6 +77,9 @@ export default function StatisticsScreen() {
   const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Month");
   const [exerciseTimeline, setExerciseTimeline] = useState<Timeline>("Month");
 
+  const [selectedWorkout, setSelectedWorkout] = useState("");
+  const [selectedExercise, setSelectedExercise] = useState("");
+
   const [overallData, setOverallData] = useState<Array<lineDataItem> | null>(
     null
   );
@@ -93,7 +96,7 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadOverallData = async () => {
       try {
-        const data = await getOverallData();
+        const data = await getOverallData(overallTimeline);
         setOverallData(data);
       } catch (error) {
         console.error("Error loading overall data:", error);
@@ -105,7 +108,7 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadWorkoutData = async () => {
       try {
-        const data = await getWorkoutData(workoutTimeline);
+        const data = await getWorkoutData(selectedWorkout, workoutTimeline);
         setWorkoutData(data);
       } catch (error) {
         console.error("Error loading workout data:", error);
@@ -117,7 +120,7 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadExerciseData = async () => {
       try {
-        const data = await getExerciseData(exerciseTimeline);
+        const data = await getExerciseData(selectedExercise, exerciseTimeline);
         setExerciseData(data);
       } catch (error) {
         console.error("Error loading exercise data:", error);
@@ -162,6 +165,8 @@ export default function StatisticsScreen() {
             <Text style={styles.title}>Workout</Text>
             <View style={styles.inputContainer}>
               <InputDropDown
+                value={selectedWorkout}
+                setValue={setSelectedWorkout}
                 placeholder={"Choose workout"}
                 searchOptions={workoutOptions}
                 isFocused={showWorkout}
@@ -194,6 +199,8 @@ export default function StatisticsScreen() {
             <Text style={styles.title}>Exercise</Text>
             <View style={styles.inputContainer}>
               <InputDropDown
+                value={selectedExercise}
+                setValue={setSelectedExercise}
                 placeholder={"Choose exercise"}
                 searchOptions={exerciseOptions}
                 isFocused={showExercise}

@@ -5,7 +5,7 @@ import { Timeline } from "@/interfaces/statistics";
 export function useStatistic() {
   const { jwt } = useAuthStore();
 
-  const getWorkouts = async (timeline: Timeline) => {
+  const getAllWorkouts = async (timeline: Timeline) => {
     try {
       const response = await fetch(
         `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/workout`,
@@ -31,7 +31,42 @@ export function useStatistic() {
     }
   };
 
-  const getExercises = async (timeline: Timeline) => {
+  const getSpecificWorkouts = async (
+    workoutName: String,
+    timeline: Timeline
+  ) => {
+    try {
+      const response = await fetch(
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/workout/specific`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + jwt,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            workoutName: workoutName,
+            timeline: timeline,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (data.success) {
+        return data.data; // Array of workouts, their exercises and sets
+      }
+      return null;
+    } catch (error) {
+      console.error("Error fetching workout data", error);
+      return null;
+    }
+  };
+
+  const getSpecificExercises = async (
+    exerciseName: String,
+    timeline: Timeline
+  ) => {
     try {
       const response = await fetch(
         `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/exercise`,
@@ -41,7 +76,10 @@ export function useStatistic() {
             Authorization: "Bearer " + jwt,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(timeline),
+          body: JSON.stringify({
+            exerciseName: exerciseName,
+            timeline: timeline,
+          }),
         }
       );
 
@@ -57,20 +95,20 @@ export function useStatistic() {
     }
   };
 
-  const getOverallData = async () => {
-    const data = getWorkouts("All");
+  const getOverallData = async (timeline: Timeline) => {
+    const data = getAllWorkouts(timeline);
 
     return null;
   };
 
-  const getWorkoutData = async (timeline: Timeline) => {
-    const data = getWorkouts(timeline);
+  const getWorkoutData = async (workoutName: String, timeline: Timeline) => {
+    const data = getSpecificWorkouts(workoutName, timeline);
 
     return null;
   };
 
-  const getExerciseData = async (timeline: Timeline) => {
-    const data = getExercises(timeline);
+  const getExerciseData = async (exerciseName: String, timeline: Timeline) => {
+    const data = getSpecificExercises(exerciseName, timeline);
 
     return null;
   };

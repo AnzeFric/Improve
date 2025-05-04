@@ -3,6 +3,7 @@ package com.anzefric.improve.service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,24 @@ public class StatisticService {
         }
 
         return exercises;
+    }
+
+    public List<Workout> getSpecificWorkoutByName(User user, String workoutName, Timeline timeline) {
+        List<Workout> workouts = getWorkoutsByUser(user, timeline);
+        
+        // Find the specific workouts
+        return workouts.stream()
+            .filter(workout -> workout.getName().equalsIgnoreCase(workoutName))
+            .collect(Collectors.toList());
+    }
+    
+    public List<Exercise> getSpecificExercisesByName(User user, String exerciseName, Timeline timeline) {
+        List<Exercise> exercises = getExercisesByUser(user, timeline);
+        
+        // Find the specific exercises
+        return exercises.stream()
+            .filter(exercise -> exercise.getName().equalsIgnoreCase(exerciseName))
+            .collect(Collectors.toList());
     }
 
     private Date[] getDateRange(Timeline timeline) {

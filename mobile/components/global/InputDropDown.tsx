@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import {
   Text,
   View,
@@ -12,24 +12,24 @@ import { Colors } from "@/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 
 interface Props {
+  value: string;
   placeholder: string;
   searchOptions: Array<string>;
   isFocused: boolean;
+  setValue: (value: string) => void;
   setIsFocused: (isFocused: boolean) => void;
   onPress: () => void;
 }
 
 export default function InputDropDown({
+  value,
   placeholder,
   searchOptions,
   isFocused,
+  setValue,
   setIsFocused,
   onPress,
 }: Props) {
-  const [value, setValue] = useState(
-    searchOptions[0].length > 0 ? searchOptions[0] : ""
-  );
-
   const textInputRef = useRef<TextInput>(null);
   const rotationAnimRef = useRef(new Animated.Value(0)).current;
 

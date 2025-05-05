@@ -10,7 +10,8 @@ import com.anzefric.improve.data.model.workout.Exercise;
 import com.anzefric.improve.data.model.workout.Workout;
 import com.anzefric.improve.data.response.ApiResponse;
 import com.anzefric.improve.data.response.ApiResponseException;
-import com.anzefric.improve.service.StatisticService;
+import com.anzefric.improve.service.ExerciseService;
+import com.anzefric.improve.service.WorkoutService;
 import com.anzefric.improve.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -26,14 +27,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/api/statistic")
 public class StatisticController {
     
-    private final StatisticService statisticService;
+    private final WorkoutService workoutService;
+
+    private final ExerciseService exerciseService;
 
     // Returns an array of all workouts from the authenticated user by the timeline
     @PostMapping("/workout")
     public ApiResponse<List<Workout>> getAllWorkoutsByUser(@RequestBody Timeline input) {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            List<Workout> workouts = statisticService.getWorkoutsByUser(authenticatedUser, input);
+            List<Workout> workouts = workoutService.getWorkoutsByUser(authenticatedUser, input);
             return ApiResponse.success(workouts);
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching user workouts: " + e.getMessage());
@@ -45,7 +48,7 @@ public class StatisticController {
     public ApiResponse<List<Workout>> getSpecificWorkoutByName(@RequestBody StatisticDto input) {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            List<Workout> workout = statisticService.getSpecificWorkoutByName(
+            List<Workout> workout = workoutService.getSpecificWorkoutByName(
                 authenticatedUser, 
                 input.getWorkoutName(), 
                 input.getTimeline()
@@ -61,7 +64,7 @@ public class StatisticController {
     public ApiResponse<List<Exercise>> getAllExercisesByUser(@RequestBody Timeline input) {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            List<Exercise> exercises = statisticService.getExercisesByUser(authenticatedUser, input);
+            List<Exercise> exercises = exerciseService.getExercisesByUser(authenticatedUser, input);
             return ApiResponse.success(exercises);
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching user exercises: " + e.getMessage());
@@ -73,7 +76,7 @@ public class StatisticController {
     public ApiResponse<List<Exercise>> getSpecificExercisesByName(@RequestBody StatisticDto input) {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            List<Exercise> exercises = statisticService.getSpecificExercisesByName(
+            List<Exercise> exercises = exerciseService.getSpecificExercisesByName(
                 authenticatedUser, 
                 input.getExerciseName(), 
                 input.getTimeline()

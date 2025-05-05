@@ -10,32 +10,15 @@ import org.springframework.stereotype.Service;
 import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.util.Timeline;
 import com.anzefric.improve.data.model.workout.Exercise;
-import com.anzefric.improve.data.model.workout.Workout;
 import com.anzefric.improve.repository.workout.ExerciseRepository;
-import com.anzefric.improve.repository.workout.WorkoutRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
-public class StatisticService {
-
-    private final WorkoutRepository workoutRepository;
-
+public class ExerciseService {
+    
     private final ExerciseRepository exerciseRepository;
-
-    public List<Workout> getWorkoutsByUser(User user, Timeline timeline) {
-        Date[] range = getDateRange(timeline);
-
-        List<Workout> workouts;
-        if (range == null) {
-            workouts = workoutRepository.findAllByUser(user);
-        } else {
-            workouts = workoutRepository.findAllByUserAndDateBetween(user, range[0], range[1]);
-        }
-
-        return workouts;
-    }
 
     public List<Exercise> getExercisesByUser(User user, Timeline timeline) {
         Date[] range = getDateRange(timeline);
@@ -48,15 +31,6 @@ public class StatisticService {
         }
 
         return exercises;
-    }
-
-    public List<Workout> getSpecificWorkoutByName(User user, String workoutName, Timeline timeline) {
-        List<Workout> workouts = getWorkoutsByUser(user, timeline);
-        
-        // Find the specific workouts
-        return workouts.stream()
-            .filter(workout -> workout.getName().equalsIgnoreCase(workoutName))
-            .collect(Collectors.toList());
     }
     
     public List<Exercise> getSpecificExercisesByName(User user, String exerciseName, Timeline timeline) {

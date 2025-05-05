@@ -49,30 +49,14 @@ const dataYear: Array<lineDataItem> = [
   { value: 0, label: "DEC" },
 ];
 
-const workoutOptions = [
-  "Pull day",
-  "Push day",
-  "Leg day",
-  "Upper body",
-  "Lower body",
-  "Full body",
-  "Biceps",
-  "Biceps",
-  "Biceps",
-];
-
-const exerciseOptions = [
-  "Biceps curl",
-  "Lat pulldown",
-  "Flat bench",
-  "Incline bench",
-  "Machine row",
-  "Cable row",
-  "Deadlift",
-];
-
 export default function StatisticsScreen() {
-  const { getOverallData, getWorkoutData, getExerciseData } = useStatistic();
+  const {
+    workoutOptions,
+    exerciseOptions,
+    getOverallData,
+    getWorkoutData,
+    getExerciseData,
+  } = useStatistic();
   const [overallTimeline, setOverallTimeline] = useState<Timeline>("Month");
   const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Month");
   const [exerciseTimeline, setExerciseTimeline] = useState<Timeline>("Month");

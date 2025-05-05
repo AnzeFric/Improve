@@ -2,10 +2,37 @@ import Config from "react-native-config";
 import useAuthStore from "@/stores/useAuthStore";
 import useWorkoutStore from "@/stores/useWorkoutStore";
 import { Workout, Exercise } from "@/interfaces/workout";
+import useStatisticStore from "@/stores/useStatisticStore";
 
 export function useWorkout() {
   const { jwt } = useAuthStore();
   const { lastestWorkout, setLatestWorkout } = useWorkoutStore();
+  const {
+    workoutOptions,
+    exerciseOptions,
+    setExerciseOptions,
+    setWorkoutOptions,
+  } = useStatisticStore();
+
+  function addWorkoutExerciseOptions(workout: Workout) {
+    let tempExerciseOptions = exerciseOptions;
+    let tempWorkoutOptions = workoutOptions;
+
+    const workoutName = workout.name;
+    if (!tempWorkoutOptions.includes(workoutName)) {
+      tempWorkoutOptions.push(workoutName);
+    }
+
+    workout.exercises.forEach((exercise: Exercise) => {
+      const exerciseName = exercise.name;
+      if (!tempExerciseOptions.includes(exerciseName)) {
+        tempExerciseOptions.push(exerciseName);
+      }
+    });
+
+    setWorkoutOptions(tempWorkoutOptions);
+    setExerciseOptions(tempExerciseOptions);
+  }
 
   const handleFinishWorkout = async (
     name: string,
@@ -34,6 +61,7 @@ export function useWorkout() {
       const data = await response.json();
 
       if (data.success) {
+        addWorkoutExerciseOptions(workout);
         setLatestWorkout(workout);
         return true;
       }

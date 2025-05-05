@@ -53,9 +53,10 @@ export default function StatisticsScreen() {
   const {
     workoutOptions,
     exerciseOptions,
-    getOverallData,
-    getWorkoutData,
-    getExerciseData,
+    getAllWorkouts,
+    getSpecificWorkouts,
+    getSpecificExercises,
+    getWorkoutExerciseOptions,
   } = useStatistic();
   const [overallTimeline, setOverallTimeline] = useState<Timeline>("Month");
   const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Month");
@@ -80,7 +81,11 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadOverallData = async () => {
       try {
-        const data = await getOverallData(overallTimeline);
+        const [optionsSuccess, data] = await Promise.all([
+          getWorkoutExerciseOptions(),
+          getAllWorkouts(overallTimeline),
+        ]);
+
         setOverallData(data);
       } catch (error) {
         console.error("Error loading overall data:", error);
@@ -92,7 +97,10 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadWorkoutData = async () => {
       try {
-        const data = await getWorkoutData(selectedWorkout, workoutTimeline);
+        const data = await getSpecificWorkouts(
+          selectedWorkout,
+          workoutTimeline
+        );
         setWorkoutData(data);
       } catch (error) {
         console.error("Error loading workout data:", error);
@@ -104,7 +112,10 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadExerciseData = async () => {
       try {
-        const data = await getExerciseData(selectedExercise, exerciseTimeline);
+        const data = await getSpecificExercises(
+          selectedExercise,
+          exerciseTimeline
+        );
         setExerciseData(data);
       } catch (error) {
         console.error("Error loading exercise data:", error);

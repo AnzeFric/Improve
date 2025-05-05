@@ -12,7 +12,7 @@ interface Props {
 const spacingValues = {
   Month: { width: 0.79, spacing: 0.17, fontSize: 14 },
   Year: { width: 0.79, spacing: 0.064, fontSize: 10 },
-  All: { width: 0.79, spacing: 0.064, fontSize: 10 },
+  All: { width: 0.79, spacing: 0.17, fontSize: 14 },
 };
 
 export default function Charts({ data, timePeriod }: Props) {

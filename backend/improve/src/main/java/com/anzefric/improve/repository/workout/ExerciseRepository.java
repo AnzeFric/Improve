@@ -22,4 +22,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
         @Param("start") Date start,
         @Param("end") Date end
     );
+
+    @Query("SELECT DISTINCT e.name FROM Exercise e WHERE e.workout.user = :user")
+    List<String> findDistinctExerciseNamesByUserId(@Param("user") User user);
 }

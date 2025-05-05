@@ -65,6 +65,9 @@ public class WorkoutService {
             .collect(Collectors.toList());
     }
 
+    public List<String> getUniqueWorkoutNamesByUser(User user) {
+        return workoutRepository.findDistinctWorkoutNamesByUserId(user);
+    }
     
     private Date[] getDateRange(Timeline timeline) {
         if (timeline == Timeline.All) {

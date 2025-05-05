@@ -42,6 +42,10 @@ public class ExerciseService {
             .collect(Collectors.toList());
     }
 
+    public List<String> getUniqueExerciseNamesByUser(User user) {
+        return exerciseRepository.findDistinctExerciseNamesByUserId(user);
+    }
+
     private Date[] getDateRange(Timeline timeline) {
         if (timeline == Timeline.All) {
             return null;

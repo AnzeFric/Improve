@@ -10,6 +10,7 @@ import com.anzefric.improve.data.model.workout.Exercise;
 import com.anzefric.improve.data.model.workout.Workout;
 import com.anzefric.improve.data.response.ApiResponse;
 import com.anzefric.improve.data.response.ApiResponseException;
+import com.anzefric.improve.data.response.WorkoutExerciseOptions;
 import com.anzefric.improve.service.ExerciseService;
 import com.anzefric.improve.service.WorkoutService;
 import com.anzefric.improve.util.SecurityUtils;
@@ -21,6 +22,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RequiredArgsConstructor
 @RestController
@@ -84,6 +86,23 @@ public class StatisticController {
             return ApiResponse.success(exercises);
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching specific exercises: " + e.getMessage());
+        }
+    }
+    
+    @GetMapping("/options")
+    public ApiResponse<WorkoutExerciseOptions> getWorkoutExerciseOptions() {
+        try {
+            User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
+            List<String> workoutOptions = workoutService.getUniqueWorkoutNamesByUser(authenticatedUser);
+            List<String> exerciseOptions = exerciseService.getUniqueExerciseNamesByUser(authenticatedUser);
+
+            WorkoutExerciseOptions options = new WorkoutExerciseOptions();
+            options.setWorkoutOptions(workoutOptions);
+            options.setExerciseOptions(exerciseOptions);
+
+            return ApiResponse.success(options);
+        } catch (Exception e) {
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching workout and exercise options: " + e.getMessage());
         }
     }
 }

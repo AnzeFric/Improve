@@ -3,21 +3,17 @@ package com.anzefric.improve.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.anzefric.improve.data.dto.StatisticDto;
+import com.anzefric.improve.data.dto.api.ApiResponse;
+import com.anzefric.improve.data.dto.api.ApiResponseException;
+import com.anzefric.improve.data.dto.statistic.StatisticDto;
+import com.anzefric.improve.data.dto.statistic.StatisticResponse;
+import com.anzefric.improve.data.dto.statistic.OptionsResponse;
 import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.util.Timeline;
-import com.anzefric.improve.data.model.workout.Exercise;
-import com.anzefric.improve.data.model.workout.Workout;
-import com.anzefric.improve.data.response.ApiResponse;
-import com.anzefric.improve.data.response.ApiResponseException;
-import com.anzefric.improve.data.response.WorkoutExerciseOptions;
-import com.anzefric.improve.service.ExerciseService;
-import com.anzefric.improve.service.WorkoutService;
+import com.anzefric.improve.service.StatisticService;
 import com.anzefric.improve.util.SecurityUtils;
 
 import lombok.RequiredArgsConstructor;
-
-import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,77 +25,46 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequestMapping("/api/statistic")
 public class StatisticController {
     
-    private final WorkoutService workoutService;
+    private final StatisticService statisticService;
 
-    private final ExerciseService exerciseService;
+    @PostMapping("/overall")
+    public ApiResponse<StatisticResponse> getOverallData(@RequestBody Timeline input) {
+        try {
+            User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
+            StatisticResponse data = statisticService.getOverallTimelineDataByUser(authenticatedUser, input);
+            return ApiResponse.success(data);
+        } catch (Exception e) {
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching overall data: " + e.getMessage());
+        }
+    }
 
-    // Returns an array of all workouts from the authenticated user by the timeline
     @PostMapping("/workout")
-    public ApiResponse<List<Workout>> getAllWorkoutsByUser(@RequestBody Timeline input) {
+    public ApiResponse<StatisticResponse> getWorkoutData(@RequestBody StatisticDto input) {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            List<Workout> workouts = workoutService.getWorkoutsByUser(authenticatedUser, input);
-            return ApiResponse.success(workouts);
+            StatisticResponse data = statisticService.getWorkoutTimelineDataByUser(authenticatedUser, input.getWorkoutName(), input.getTimeline());
+            return ApiResponse.success(data);
         } catch (Exception e) {
-            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching user workouts: " + e.getMessage());
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching workout data: " + e.getMessage());
         }
     }
 
-    // Returns a specific workout by name from the authenticated user by the timeline
-    @PostMapping("/workout/specific")
-    public ApiResponse<List<Workout>> getSpecificWorkoutByName(@RequestBody StatisticDto input) {
-        try {
-            User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            List<Workout> workout = workoutService.getSpecificWorkoutByName(
-                authenticatedUser, 
-                input.getWorkoutName(), 
-                input.getTimeline()
-            );
-            return ApiResponse.success(workout);
-        } catch (Exception e) {
-            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching specific workout: " + e.getMessage());
-        }
-    }
-
-    // Returns an array of all exercises from the authenticated user by the timeline
     @PostMapping("/exercise")
-    public ApiResponse<List<Exercise>> getAllExercisesByUser(@RequestBody Timeline input) {
+    public ApiResponse<StatisticResponse> getExerciseData(@RequestBody StatisticDto input) {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            List<Exercise> exercises = exerciseService.getExercisesByUser(authenticatedUser, input);
-            return ApiResponse.success(exercises);
+            StatisticResponse data = statisticService.getExerciseTimelineDataByUser(authenticatedUser, input.getExerciseName(), input.getTimeline());
+            return ApiResponse.success(data);
         } catch (Exception e) {
-            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching user exercises: " + e.getMessage());
-        }
-    }
-    
-    // Returns specific exercises by name from the authenticated user by the timeline
-    @PostMapping("/exercise/specific")
-    public ApiResponse<List<Exercise>> getSpecificExercisesByName(@RequestBody StatisticDto input) {
-        try {
-            User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            List<Exercise> exercises = exerciseService.getSpecificExercisesByName(
-                authenticatedUser, 
-                input.getExerciseName(), 
-                input.getTimeline()
-            );
-            return ApiResponse.success(exercises);
-        } catch (Exception e) {
-            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching specific exercises: " + e.getMessage());
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching exercise data: " + e.getMessage());
         }
     }
     
     @GetMapping("/options")
-    public ApiResponse<WorkoutExerciseOptions> getWorkoutExerciseOptions() {
+    public ApiResponse<OptionsResponse> getWorkoutExerciseOptions() {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            List<String> workoutOptions = workoutService.getUniqueWorkoutNamesByUser(authenticatedUser);
-            List<String> exerciseOptions = exerciseService.getUniqueExerciseNamesByUser(authenticatedUser);
-
-            WorkoutExerciseOptions options = new WorkoutExerciseOptions();
-            options.setWorkoutOptions(workoutOptions);
-            options.setExerciseOptions(exerciseOptions);
-
+            OptionsResponse options = statisticService.getWorkoutExerciseOptions(authenticatedUser);
             return ApiResponse.success(options);
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error fetching workout and exercise options: " + e.getMessage());

@@ -1,4 +1,4 @@
-package com.anzefric.improve.data.dto;
+package com.anzefric.improve.data.dto.statistic;
 
 import com.anzefric.improve.data.model.util.Timeline;
 

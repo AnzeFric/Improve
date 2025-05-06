@@ -1,11 +1,11 @@
 package com.anzefric.improve.controller;
 
-import com.anzefric.improve.data.dto.LoginUserDto;
-import com.anzefric.improve.data.dto.RegisterUserDto;
+import com.anzefric.improve.data.dto.api.ApiResponse;
+import com.anzefric.improve.data.dto.api.ApiResponseException;
+import com.anzefric.improve.data.dto.auth.LoginResponse;
+import com.anzefric.improve.data.dto.auth.LoginUserDto;
+import com.anzefric.improve.data.dto.auth.RegisterUserDto;
 import com.anzefric.improve.data.model.user.User;
-import com.anzefric.improve.data.response.ApiResponse;
-import com.anzefric.improve.data.response.ApiResponseException;
-import com.anzefric.improve.data.response.LoginResponse;
 import com.anzefric.improve.service.auth.AuthService;
 import com.anzefric.improve.service.auth.JwtService;
 

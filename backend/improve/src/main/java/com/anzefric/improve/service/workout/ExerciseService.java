@@ -1,4 +1,4 @@
-package com.anzefric.improve.service;
+package com.anzefric.improve.service.workout;
 
 import java.util.Calendar;
 import java.util.Date;

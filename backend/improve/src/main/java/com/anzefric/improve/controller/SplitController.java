@@ -3,10 +3,10 @@ package com.anzefric.improve.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.anzefric.improve.data.dto.api.ApiResponse;
+import com.anzefric.improve.data.dto.api.ApiResponseException;
 import com.anzefric.improve.data.model.Split;
 import com.anzefric.improve.data.model.user.User;
-import com.anzefric.improve.data.response.ApiResponse;
-import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.service.SplitService;
 import com.anzefric.improve.util.SecurityUtils;
 

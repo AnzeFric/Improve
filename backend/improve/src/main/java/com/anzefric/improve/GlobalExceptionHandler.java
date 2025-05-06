@@ -1,7 +1,5 @@
 package com.anzefric.improve;
 
-import com.anzefric.improve.data.response.ApiResponse;
-import com.anzefric.improve.data.response.ApiResponseException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 
@@ -13,6 +11,9 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import com.anzefric.improve.data.dto.api.ApiResponse;
+import com.anzefric.improve.data.dto.api.ApiResponseException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

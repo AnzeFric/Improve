@@ -1,7 +1,8 @@
 package com.anzefric.improve.util;
 
+import com.anzefric.improve.data.dto.api.ApiResponseException;
 import com.anzefric.improve.data.model.user.User;
-import com.anzefric.improve.data.response.ApiResponseException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

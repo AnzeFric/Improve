@@ -1,9 +1,9 @@
 package com.anzefric.improve.service.auth;
 
-import com.anzefric.improve.data.dto.LoginUserDto;
-import com.anzefric.improve.data.dto.RegisterUserDto;
+import com.anzefric.improve.data.dto.api.ApiResponseException;
+import com.anzefric.improve.data.dto.auth.LoginUserDto;
+import com.anzefric.improve.data.dto.auth.RegisterUserDto;
 import com.anzefric.improve.data.model.user.User;
-import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.repository.AuthRepository;
 
 import lombok.RequiredArgsConstructor;

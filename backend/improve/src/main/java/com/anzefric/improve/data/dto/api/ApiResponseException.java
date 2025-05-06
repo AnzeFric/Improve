@@ -1,4 +1,4 @@
-package com.anzefric.improve.data.response;
+package com.anzefric.improve.data.dto.api;
 
 import org.springframework.http.HttpStatus;
 

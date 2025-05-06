@@ -1,9 +1,9 @@
 package com.anzefric.improve.controller.user;
 
+import com.anzefric.improve.data.dto.api.ApiResponse;
+import com.anzefric.improve.data.dto.api.ApiResponseException;
 import com.anzefric.improve.data.model.user.User;
 import com.anzefric.improve.data.model.user.UserMetrics;
-import com.anzefric.improve.data.response.ApiResponse;
-import com.anzefric.improve.data.response.ApiResponseException;
 import com.anzefric.improve.service.user.UserMetricsService;
 import com.anzefric.improve.util.SecurityUtils;
 

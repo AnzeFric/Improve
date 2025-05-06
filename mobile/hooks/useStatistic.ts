@@ -15,7 +15,7 @@ export function useStatistic() {
   const getAllWorkouts = async (timeline: Timeline) => {
     try {
       const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/workout`,
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/overall`,
         {
           method: "POST",
           headers: {
@@ -29,7 +29,7 @@ export function useStatistic() {
       const data = await response.json();
 
       if (data.success) {
-        return data.data; // Array of workouts, their exercises and sets
+        return data.data;
       }
       return null;
     } catch (error) {
@@ -44,7 +44,7 @@ export function useStatistic() {
   ) => {
     try {
       const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/workout/specific`,
+        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/workout`,
         {
           method: "POST",
           headers: {
@@ -63,7 +63,7 @@ export function useStatistic() {
       return null; // TODO: remove
 
       if (data.success) {
-        return data.data; // Array of workouts, their exercises and sets
+        return data.data;
       }
       return null;
     } catch (error) {
@@ -97,7 +97,7 @@ export function useStatistic() {
       return null; // TODO: remove
 
       if (data.success) {
-        return data.data; // Array of exercises and their sets
+        return data.data;
       }
       return null;
     } catch (error) {

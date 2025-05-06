@@ -1,4 +1,4 @@
-package com.anzefric.improve.data.dto;
+package com.anzefric.improve.data.dto.auth;
 
 import lombok.Getter;
 import lombok.ToString;

@@ -1,4 +1,4 @@
-package com.anzefric.improve.data.response;
+package com.anzefric.improve.data.dto.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

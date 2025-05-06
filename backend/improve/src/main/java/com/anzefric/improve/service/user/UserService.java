@@ -14,6 +14,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    // TODO: don't delete. Only update as inactive, as email is a sensitive piece of data as per GDPR
     @Transactional
     public void deleteByEmail(String userEmail) {
         User foundUser = userRepository.findByEmailIgnoreCase(userEmail);

@@ -1,5 +1,6 @@
 package com.anzefric.improve.data.dto.statistic;
 
+import java.util.Date;
 import java.util.List;
 
 import com.anzefric.improve.data.model.workout.Exercise;
@@ -19,6 +20,6 @@ public class StatisticResponse {
     @ToString
     public static class TimelineData {
         private List<Exercise> exercises;
-        private String dateTo;   
+        private Date dateTo;   
     }
 }

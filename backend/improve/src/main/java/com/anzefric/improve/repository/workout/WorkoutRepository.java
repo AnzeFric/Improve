@@ -13,11 +13,10 @@ import com.anzefric.improve.data.model.workout.Workout;
 
 @Repository
 public interface WorkoutRepository extends JpaRepository<Workout, Long> {
-    Workout findByUser(User user);
     Workout findTopByUserOrderByDateDesc(User user);
     List<Workout> findAllByUser(User user);
     List<Workout> findAllByUserAndDateBetween(User user, Date start, Date end);
-
+    
     @Query("SELECT DISTINCT w.name FROM Workout w WHERE w.user = :user")
     List<String> findDistinctWorkoutNamesByUserId(@Param("user") User user);
 }

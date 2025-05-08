@@ -2,6 +2,8 @@ import Config from "react-native-config";
 import useAuthStore from "@/stores/useAuthStore";
 import { Timeline } from "@/interfaces/statistics";
 import useStatisticStore from "@/stores/useStatisticStore";
+import { lineDataItem } from "react-native-gifted-charts";
+import { Exercise, Set } from "@/interfaces/workout";
 
 export function useStatistic() {
   const { jwt } = useAuthStore();
@@ -60,8 +62,6 @@ export function useStatistic() {
 
       const data = await response.json();
 
-      return null; // TODO: remove
-
       if (data.success) {
         return data.data;
       }
@@ -93,8 +93,6 @@ export function useStatistic() {
       );
 
       const data = await response.json();
-
-      return null; // TODO: remove
 
       if (data.success) {
         return data.data;
@@ -133,12 +131,118 @@ export function useStatistic() {
     }
   };
 
+  function getMonthLabel(date: Date): string {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    return `${day}.${month}`;
+  }
+
+  function getYearLabel(date: Date): string {
+    const yearLabels = [
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AVG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
+    ];
+    const monthIndex = date.getMonth();
+    return yearLabels[monthIndex];
+  }
+
+  function getAllLabel(date: Date): string {
+    return "";
+  }
+
+  function getChartData(data: any, getLabel: (dataItem: any) => string) {
+    const chartData: Array<lineDataItem> = [];
+
+    data.forEach((dataItem: any) => {
+      const label = getLabel(dataItem);
+      let tempValue = 0;
+      dataItem.exercises.forEach((exercise: Exercise) => {
+        exercise.sets.forEach((set: Set) => {
+          tempValue += set.reps * set.weight;
+        });
+      });
+      chartData.push({ value: tempValue, label: label });
+    });
+
+    return chartData;
+  }
+
+  const getOverallData = async (timeline: Timeline) => {
+    const data = await getAllWorkouts(timeline);
+    let labelFun: (date: Date) => string;
+
+    switch (timeline) {
+      case "Month":
+        labelFun = getMonthLabel;
+        break;
+      case "Year":
+        labelFun = getYearLabel;
+        break;
+      case "All":
+        labelFun = getAllLabel;
+        break;
+    }
+
+    const chartData: Array<lineDataItem> = getChartData(data, labelFun);
+    return chartData;
+  };
+
+  const getWorkoutData = async (workoutName: String, timeline: Timeline) => {
+    const data = await getSpecificWorkouts(workoutName, timeline);
+    let labelFun: (date: Date) => string;
+
+    switch (timeline) {
+      case "Month":
+        labelFun = getMonthLabel;
+        break;
+      case "Year":
+        labelFun = getYearLabel;
+        break;
+      case "All":
+        labelFun = getAllLabel;
+        break;
+    }
+
+    const chartData: Array<lineDataItem> = getChartData(data, labelFun);
+    return chartData;
+  };
+
+  const getExerciseData = async (exerciseName: String, timeline: Timeline) => {
+    const data = await getSpecificExercises(exerciseName, timeline);
+    let labelFun: (date: Date) => string;
+
+    switch (timeline) {
+      case "Month":
+        labelFun = getMonthLabel;
+        break;
+      case "Year":
+        labelFun = getYearLabel;
+        break;
+      case "All":
+        labelFun = getAllLabel;
+        break;
+    }
+
+    const chartData: Array<lineDataItem> = getChartData(data, labelFun);
+    return chartData;
+  };
+
   return {
     workoutOptions,
     exerciseOptions,
-    getAllWorkouts,
-    getSpecificWorkouts,
-    getSpecificExercises,
+    getOverallData,
+    getWorkoutData,
+    getExerciseData,
     getWorkoutExerciseOptions,
   };
 }

@@ -16,46 +16,13 @@ import { lineDataItem } from "react-native-gifted-charts";
 import Charts from "@/components/statistics/Charts";
 import { useStatistic } from "@/hooks/useStatistic";
 
-const dataWeek: Array<lineDataItem> = [
-  { value: 0, label: "M" },
-  { value: 0, label: "T" },
-  { value: 0, label: "W" },
-  { value: 0, label: "T" },
-  { value: 0, label: "F" },
-  { value: 0, label: "S" },
-  { value: 0, label: "S" },
-];
-
-const dataMonth: Array<lineDataItem> = [
-  { value: 0, label: "1.4" },
-  { value: 0, label: "7.4" },
-  { value: 0, label: "14.4" },
-  { value: 0, label: "21.4" },
-  { value: 0, label: "28.4" },
-];
-
-const dataYear: Array<lineDataItem> = [
-  { value: 0, label: "JAN" },
-  { value: 0, label: "FEB" },
-  { value: 0, label: "MAR" },
-  { value: 0, label: "APR" },
-  { value: 0, label: "MAY" },
-  { value: 0, label: "JUN" },
-  { value: 0, label: "JUL" },
-  { value: 0, label: "AVG" },
-  { value: 0, label: "SEP" },
-  { value: 0, label: "OCT" },
-  { value: 0, label: "NOV" },
-  { value: 0, label: "DEC" },
-];
-
 export default function StatisticsScreen() {
   const {
     workoutOptions,
     exerciseOptions,
-    getAllWorkouts,
-    getSpecificWorkouts,
-    getSpecificExercises,
+    getOverallData,
+    getWorkoutData,
+    getExerciseData,
     getWorkoutExerciseOptions,
   } = useStatistic();
   const [overallTimeline, setOverallTimeline] = useState<Timeline>("Month");
@@ -81,11 +48,8 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadOverallData = async () => {
       try {
-        const [optionsSuccess, data] = await Promise.all([
-          getWorkoutExerciseOptions(),
-          getAllWorkouts(overallTimeline),
-        ]);
-
+        getWorkoutExerciseOptions();
+        const data = await getOverallData(overallTimeline);
         setOverallData(data);
       } catch (error) {
         console.error("Error loading overall data:", error);
@@ -97,10 +61,7 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadWorkoutData = async () => {
       try {
-        const data = await getSpecificWorkouts(
-          selectedWorkout,
-          workoutTimeline
-        );
+        const data = await getWorkoutData(selectedWorkout, workoutTimeline);
         setWorkoutData(data);
       } catch (error) {
         console.error("Error loading workout data:", error);
@@ -112,10 +73,7 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadExerciseData = async () => {
       try {
-        const data = await getSpecificExercises(
-          selectedExercise,
-          exerciseTimeline
-        );
+        const data = await getExerciseData(selectedExercise, exerciseTimeline);
         setExerciseData(data);
       } catch (error) {
         console.error("Error loading exercise data:", error);

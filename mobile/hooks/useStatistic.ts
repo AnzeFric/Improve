@@ -157,7 +157,7 @@ export function useStatistic() {
   }
 
   function getAllLabel(date: Date): string {
-    return "";
+    return `${date.getFullYear()}`;
   }
 
   function getChartData(data: any, getLabel: (dataItem: any) => string) {
@@ -189,7 +189,16 @@ export function useStatistic() {
         labelFun = getYearLabel;
         break;
       case "All":
-        labelFun = getAllLabel;
+        const oldestData: Date = data[0].dateTo;
+        const now = new Date();
+
+        if (oldestData.getFullYear() === now.getFullYear()) {
+          // Oldest data is in the same year
+          labelFun = getYearLabel;
+        } else {
+          // Oldest data is at least 2 years old, use years for labels
+          labelFun = getAllLabel;
+        }
         break;
     }
 

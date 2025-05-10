@@ -160,6 +160,31 @@ export function useStatistic() {
     return `${date.getFullYear()}`;
   }
 
+  function getLabelFunction(timeline: Timeline, oldestData: Date) {
+    let labelFun: (date: Date) => string;
+
+    switch (timeline) {
+      case "Month":
+        labelFun = getMonthLabel;
+        break;
+      case "Year":
+        labelFun = getYearLabel;
+        break;
+      case "All":
+        const now = new Date();
+
+        if (oldestData.getFullYear() === now.getFullYear()) {
+          // Oldest data is in the same year
+          labelFun = getYearLabel;
+        } else {
+          // Oldest data is at least 2 years old, use years for labels
+          labelFun = getAllLabel;
+        }
+        break;
+    }
+    return labelFun;
+  }
+
   function getChartData(data: any, getLabel: (dataItem: any) => string) {
     const chartData: Array<lineDataItem> = [];
 
@@ -179,69 +204,30 @@ export function useStatistic() {
 
   const getOverallData = async (timeline: Timeline) => {
     const data = await getAllWorkouts(timeline);
-    let labelFun: (date: Date) => string;
-
-    switch (timeline) {
-      case "Month":
-        labelFun = getMonthLabel;
-        break;
-      case "Year":
-        labelFun = getYearLabel;
-        break;
-      case "All":
-        const oldestData: Date = data[0].dateTo;
-        const now = new Date();
-
-        if (oldestData.getFullYear() === now.getFullYear()) {
-          // Oldest data is in the same year
-          labelFun = getYearLabel;
-        } else {
-          // Oldest data is at least 2 years old, use years for labels
-          labelFun = getAllLabel;
-        }
-        break;
-    }
-
+    let labelFun: (date: Date) => string = getLabelFunction(
+      timeline,
+      data[0].dateTo
+    );
     const chartData: Array<lineDataItem> = getChartData(data, labelFun);
     return chartData;
   };
 
   const getWorkoutData = async (workoutName: String, timeline: Timeline) => {
     const data = await getSpecificWorkouts(workoutName, timeline);
-    let labelFun: (date: Date) => string;
-
-    switch (timeline) {
-      case "Month":
-        labelFun = getMonthLabel;
-        break;
-      case "Year":
-        labelFun = getYearLabel;
-        break;
-      case "All":
-        labelFun = getAllLabel;
-        break;
-    }
-
+    let labelFun: (date: Date) => string = getLabelFunction(
+      timeline,
+      data[0].dateTo
+    );
     const chartData: Array<lineDataItem> = getChartData(data, labelFun);
     return chartData;
   };
 
   const getExerciseData = async (exerciseName: String, timeline: Timeline) => {
     const data = await getSpecificExercises(exerciseName, timeline);
-    let labelFun: (date: Date) => string;
-
-    switch (timeline) {
-      case "Month":
-        labelFun = getMonthLabel;
-        break;
-      case "Year":
-        labelFun = getYearLabel;
-        break;
-      case "All":
-        labelFun = getAllLabel;
-        break;
-    }
-
+    let labelFun: (date: Date) => string = getLabelFunction(
+      timeline,
+      data[0].dateTo
+    );
     const chartData: Array<lineDataItem> = getChartData(data, labelFun);
     return chartData;
   };

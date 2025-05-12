@@ -125,90 +125,112 @@ public class StatisticService {
     }
 
     private List<Date[]> getYearDateRange(Date now) {
-    List<Date[]> dateRange = new ArrayList<>();
-    
-    Calendar current = Calendar.getInstance();
-    current.add(Calendar.YEAR, -1);
-    
-    // Start from 12 months ago
-    for(int i = 0; i < 12; i++) {
-        Calendar monthStart = (Calendar) current.clone();
-        monthStart.add(Calendar.MONTH, i);
-        monthStart.set(Calendar.DAY_OF_MONTH, 1);
-        monthStart.set(Calendar.HOUR_OF_DAY, 0);
-        monthStart.set(Calendar.MINUTE, 0);
-        monthStart.set(Calendar.SECOND, 0);
-        monthStart.set(Calendar.MILLISECOND, 0);
+        List<Date[]> dateRange = new ArrayList<>();
         
-        Calendar monthEnd = (Calendar) monthStart.clone();
-        monthEnd.add(Calendar.MONTH, 1);
-        monthEnd.add(Calendar.MILLISECOND, 1);
+        Calendar current = Calendar.getInstance();
+        current.add(Calendar.YEAR, -1);
         
-        // Last month should end at current time
-        if (i == 11) {
-            monthEnd.setTime(now);
+        // Start from 12 months ago
+        for(int i = 0; i < 12; i++) {
+            Calendar monthStart = (Calendar) current.clone();
+            monthStart.add(Calendar.MONTH, i);
+            monthStart.set(Calendar.DAY_OF_MONTH, 1);
+            monthStart.set(Calendar.HOUR_OF_DAY, 0);
+            monthStart.set(Calendar.MINUTE, 0);
+            monthStart.set(Calendar.SECOND, 0);
+            monthStart.set(Calendar.MILLISECOND, 0);
+
+            Calendar monthEnd = (Calendar) monthStart.clone();
+            monthEnd.add(Calendar.MONTH, 1);
+            monthEnd.add(Calendar.MILLISECOND, 1);
+
+            // Last month should end at current time
+            if (i == 11) {
+                monthEnd.setTime(now);
+            }
+
+            dateRange.add(new Date[]{monthStart.getTime(), monthEnd.getTime()});
         }
-        
-        dateRange.add(new Date[]{monthStart.getTime(), monthEnd.getTime()});
+
+        return dateRange;
     }
-    
-    return dateRange;
-}
+
     private List<Date[]> getAllDateRange(User user, Date now) {
         List<Date[]> dateRange = new ArrayList<>();
-    
+
         Date oldestDate = exerciseService.getOldestExerciseDateByUser(user);
         Date newestDate = exerciseService.getNewestExerciseDateByUser(user);
-    
+
         if (oldestDate == null || newestDate == null) {
             return dateRange; // no data
         }
-    
+
         Calendar startCal = Calendar.getInstance();
         startCal.setTime(oldestDate);
         startCal.set(Calendar.DAY_OF_MONTH, 1);
-    
-        Calendar endCal = Calendar.getInstance();
-        endCal.setTime(newestDate);
-        endCal.set(Calendar.DAY_OF_MONTH, 1);
-    
-        int yearDiff = endCal.get(Calendar.YEAR) - startCal.get(Calendar.YEAR);
-        int monthDiff = yearDiff * 12 + endCal.get(Calendar.MONTH) - startCal.get(Calendar.MONTH);
-    
+        startCal.set(Calendar.HOUR_OF_DAY, 0);
+        startCal.set(Calendar.MINUTE, 0);
+        startCal.set(Calendar.SECOND, 0);
+        startCal.set(Calendar.MILLISECOND, 0);
+
+        Calendar nowCal = Calendar.getInstance();
+        nowCal.setTime(now);
+
+        // Calculate the difference in months/years
+        int yearDiff = nowCal.get(Calendar.YEAR) - startCal.get(Calendar.YEAR);
+        int monthDiff = yearDiff * 12 + nowCal.get(Calendar.MONTH) - startCal.get(Calendar.MONTH);
+
         if (monthDiff <= 12) {
-            // Month ranges
-            while (!startCal.after(endCal)) {
-                Calendar rangeStart = (Calendar) startCal.clone();
+            // Use monthly ranges
+            Calendar current = (Calendar) startCal.clone();
+
+            while (!current.after(nowCal)) {
+                Calendar rangeStart = (Calendar) current.clone();
                 rangeStart.set(Calendar.DAY_OF_MONTH, 1);
-    
+                rangeStart.set(Calendar.HOUR_OF_DAY, 0);
+                rangeStart.set(Calendar.MINUTE, 0);
+                rangeStart.set(Calendar.SECOND, 0);
+                rangeStart.set(Calendar.MILLISECOND, 0);
+
                 Calendar rangeEnd = (Calendar) rangeStart.clone();
-                rangeEnd.set(Calendar.DAY_OF_MONTH, rangeEnd.getActualMaximum(Calendar.DAY_OF_MONTH));
-    
+                rangeEnd.add(Calendar.MONTH, 1);
+                rangeEnd.add(Calendar.MILLISECOND, -1);
+
+                if (rangeEnd.after(nowCal)) {
+                    rangeEnd.setTime(now);
+                }
+
                 dateRange.add(new Date[]{rangeStart.getTime(), rangeEnd.getTime()});
-    
-                startCal.add(Calendar.MONTH, 1);
+                current.add(Calendar.MONTH, 1);
             }
         } else {
-            // Year ranges
-            startCal.set(Calendar.MONTH, 0); // January
-            endCal.set(Calendar.MONTH, 0);   // normalize to January for full years
-    
-            while (!startCal.after(endCal)) {
-                Calendar rangeStart = (Calendar) startCal.clone();
-                rangeStart.set(Calendar.DAY_OF_YEAR, 1);
-    
+            // Use yearly ranges
+            Calendar current = (Calendar) startCal.clone();
+            current.set(Calendar.MONTH, 0);  // January
+            current.set(Calendar.DAY_OF_MONTH, 1);
+            current.set(Calendar.HOUR_OF_DAY, 0);
+            current.set(Calendar.MINUTE, 0);
+            current.set(Calendar.SECOND, 0);
+            current.set(Calendar.MILLISECOND, 0);
+
+            while (!current.after(nowCal)) {
+                Calendar rangeStart = (Calendar) current.clone();
+
                 Calendar rangeEnd = (Calendar) rangeStart.clone();
-                rangeEnd.set(Calendar.MONTH, 11); // December
-                rangeEnd.set(Calendar.DAY_OF_MONTH, 31);
-    
+                rangeEnd.add(Calendar.YEAR, 1);
+                rangeEnd.add(Calendar.MILLISECOND, -1);
+
+                if (rangeEnd.after(nowCal)) {
+                    rangeEnd.setTime(now);
+                }
+
                 dateRange.add(new Date[]{rangeStart.getTime(), rangeEnd.getTime()});
-    
-                startCal.add(Calendar.YEAR, 1);
+                current.add(Calendar.YEAR, 1);
             }
         }
-    
+
         return dateRange;
-    }    
+    }
     
     private List<Date[]> getDateRange(User user, Timeline timeline) {
         List<Date[]> dateRange = null;

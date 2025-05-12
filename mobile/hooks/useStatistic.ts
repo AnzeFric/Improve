@@ -146,7 +146,7 @@ export function useStatistic() {
       "MAY",
       "JUN",
       "JUL",
-      "AVG",
+      "AUG",
       "SEP",
       "OCT",
       "NOV",

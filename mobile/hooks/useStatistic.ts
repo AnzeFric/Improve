@@ -31,8 +31,7 @@ export function useStatistic() {
       const data = await response.json();
 
       if (data.success) {
-        console.log(data, { depth: null });
-        return data.data;
+        return data.data.list;
       }
       return null;
     } catch (error) {
@@ -64,7 +63,7 @@ export function useStatistic() {
       const data = await response.json();
 
       if (data.success) {
-        return data.data;
+        return data.data.list;
       }
       return null;
     } catch (error) {
@@ -96,7 +95,7 @@ export function useStatistic() {
       const data = await response.json();
 
       if (data.success) {
-        return data.data;
+        return data.data.list;
       }
       return null;
     } catch (error) {
@@ -190,7 +189,8 @@ export function useStatistic() {
     const chartData: Array<lineDataItem> = [];
 
     data.forEach((dataItem: any) => {
-      const label = getLabel(dataItem);
+      const date = new Date(dataItem.dateTo);
+      const label = getLabel(date);
       let tempValue = 0;
       dataItem.exercises.forEach((exercise: Exercise) => {
         exercise.sets.forEach((set: Set) => {
@@ -206,9 +206,10 @@ export function useStatistic() {
   const getOverallData = async (timeline: Timeline) => {
     const data = await getAllWorkouts(timeline);
     if (data != null) {
+      const firstDate = new Date(data[0].dateTo);
       let labelFun: (date: Date) => string = getLabelFunction(
         timeline,
-        data[0].dateTo
+        firstDate
       );
       const chartData: Array<lineDataItem> = getChartData(data, labelFun);
       return chartData;
@@ -219,9 +220,10 @@ export function useStatistic() {
   const getWorkoutData = async (workoutName: String, timeline: Timeline) => {
     const data = await getSpecificWorkouts(workoutName, timeline);
     if (data != null) {
+      const firstDate = new Date(data[0].dateTo);
       let labelFun: (date: Date) => string = getLabelFunction(
         timeline,
-        data[0].dateTo
+        firstDate
       );
       const chartData: Array<lineDataItem> = getChartData(data, labelFun);
       return chartData;
@@ -232,9 +234,10 @@ export function useStatistic() {
   const getExerciseData = async (exerciseName: String, timeline: Timeline) => {
     const data = await getSpecificExercises(exerciseName, timeline);
     if (data != null) {
+      const firstDate = new Date(data[0].dateTo);
       let labelFun: (date: Date) => string = getLabelFunction(
         timeline,
-        data[0].dateTo
+        firstDate
       );
       const chartData: Array<lineDataItem> = getChartData(data, labelFun);
       return chartData;

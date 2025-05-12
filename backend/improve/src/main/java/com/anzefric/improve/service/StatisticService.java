@@ -102,17 +102,25 @@ public class StatisticService {
 
     private List<Date[]> getMonthDateRange(Calendar endCal, Date now) {
         List<Date[]> dateRange = new ArrayList<>();
-    
-        for (int i = 0; i < 4; i++) {
-            Calendar startCal = (Calendar) endCal.clone();
-            startCal.add(Calendar.DAY_OF_MONTH, -6); // 7-day range
-    
-            dateRange.add(new Date[]{startCal.getTime(), endCal.getTime()});
-    
-            // Move back another 7 days for the next week
-            endCal.add(Calendar.DAY_OF_MONTH, -7);
+        
+        // Start from 4 weeks ago
+        Calendar weekStart = Calendar.getInstance();
+        weekStart.setTime(now);
+        weekStart.add(Calendar.WEEK_OF_YEAR, -4);
+        
+        for(int i = 0; i < 4; i++) {
+            Calendar weekEnd = (Calendar) weekStart.clone();
+            weekEnd.add(Calendar.DAY_OF_MONTH, 7);
+
+            // Last week should end at current time
+            if (i == 3) {
+                weekEnd.setTime(now);
+            }
+
+            dateRange.add(new Date[]{weekStart.getTime(), weekEnd.getTime()});
+            weekStart.add(Calendar.WEEK_OF_YEAR, 1);
         }
-    
+
         return dateRange;
     }
 

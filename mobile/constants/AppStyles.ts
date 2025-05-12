@@ -21,6 +21,8 @@ export const AppStyles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 8,
     paddingHorizontal: 15,
+    borderWidth: 1,
+    borderColor: Colors.light.specialBlue,
   },
   buttonText: {
     fontSize: 16,

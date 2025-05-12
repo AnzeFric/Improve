@@ -206,10 +206,10 @@ export function useStatistic() {
   const getOverallData = async (timeline: Timeline) => {
     const data = await getAllWorkouts(timeline);
     if (data != null) {
-      const firstDate = new Date(data[0].dateTo);
+      const oldestData = new Date(data[0].dateTo);
       let labelFun: (date: Date) => string = getLabelFunction(
         timeline,
-        firstDate
+        oldestData
       );
       const chartData: Array<lineDataItem> = getChartData(data, labelFun);
       return chartData;
@@ -220,10 +220,10 @@ export function useStatistic() {
   const getWorkoutData = async (workoutName: String, timeline: Timeline) => {
     const data = await getSpecificWorkouts(workoutName, timeline);
     if (data != null) {
-      const firstDate = new Date(data[0].dateTo);
+      const oldestData = new Date(data[0].dateTo);
       let labelFun: (date: Date) => string = getLabelFunction(
         timeline,
-        firstDate
+        oldestData
       );
       const chartData: Array<lineDataItem> = getChartData(data, labelFun);
       return chartData;
@@ -234,10 +234,10 @@ export function useStatistic() {
   const getExerciseData = async (exerciseName: String, timeline: Timeline) => {
     const data = await getSpecificExercises(exerciseName, timeline);
     if (data != null) {
-      const firstDate = new Date(data[0].dateTo);
+      const oldestData = new Date(data[0].dateTo);
       let labelFun: (date: Date) => string = getLabelFunction(
         timeline,
-        firstDate
+        oldestData
       );
       const chartData: Array<lineDataItem> = getChartData(data, labelFun);
       return chartData;

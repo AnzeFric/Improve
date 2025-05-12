@@ -13,7 +13,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class StatisticResponse {
-    private List<TimelineData> data;
+    private List<TimelineData> list;
 
     @Getter
     @Setter

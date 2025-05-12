@@ -30,6 +30,8 @@ public class StatisticService {
     @Transactional
     public StatisticResponse getOverallTimelineDataByUser(User user, Timeline timeline) {
         StatisticResponse data = new StatisticResponse();
+        List<TimelineData> tempList = new ArrayList<>();
+
         List<Date[]> dateRanges = getDateRange(user, timeline);
 
         for (Date[] date : dateRanges) {
@@ -39,14 +41,17 @@ public class StatisticService {
             timelineData.setExercises(exercises);
             timelineData.setDateTo(date[1]);
 
-            data.getData().add(timelineData);
+            tempList.add(timelineData);
         }
+        data.setList(tempList);
 
         return data;
     }
 
     public StatisticResponse getExerciseTimelineDataByUser(User user, String exerciseName, Timeline timeline) {
         StatisticResponse data = new StatisticResponse();
+        List<TimelineData> tempList = new ArrayList<>();
+
         List<Date[]> dateRanges = getDateRange(user, timeline);
 
         for (Date[] date : dateRanges) {
@@ -56,14 +61,17 @@ public class StatisticService {
             timelineData.setExercises(exercises);
             timelineData.setDateTo(date[1]);
 
-            data.getData().add(timelineData);
-        }
+            tempList.add(timelineData);
+        }        
+        data.setList(tempList);
 
         return data;
     }
 
     public StatisticResponse getWorkoutTimelineDataByUser(User user, String workoutName, Timeline timeline) {
         StatisticResponse data = new StatisticResponse();
+        List<TimelineData> tempList = new ArrayList<>();
+        
         List<Date[]> dateRanges = getDateRange(user, timeline);
     
         for (Date[] date : dateRanges) {
@@ -73,9 +81,10 @@ public class StatisticService {
             timelineData.setExercises(exercises);
             timelineData.setDateTo(date[1]);
     
-            data.getData().add(timelineData);
+           tempList.add(timelineData);
         }
-    
+        data.setList(tempList);
+
         return data;
     }    
 

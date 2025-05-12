@@ -3,6 +3,7 @@ package com.anzefric.improve.repository.workout;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -24,10 +25,10 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
     );
 
     @Query("SELECT e.workout.date FROM Exercise e WHERE e.workout.user = :user ORDER BY e.workout.date DESC")
-    Date findLatestWorkoutDateByUser(@Param("user") User user);
-    
+    List<Date> findLatestWorkoutDateByUser(@Param("user") User user, Pageable pageable);
+
     @Query("SELECT e.workout.date FROM Exercise e WHERE e.workout.user = :user ORDER BY e.workout.date ASC")
-    Date findEarliestWorkoutDateByUser(@Param("user") User user);    
+    List<Date> findEarliestWorkoutDateByUser(@Param("user") User user, Pageable pageable);
 
     @Query("SELECT DISTINCT e.name FROM Exercise e WHERE e.workout.user = :user")
     List<String> findDistinctExerciseNamesByUserId(@Param("user") User user);

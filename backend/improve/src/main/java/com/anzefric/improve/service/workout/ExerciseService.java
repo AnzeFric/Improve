@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.anzefric.improve.data.model.user.User;
@@ -31,13 +32,16 @@ public class ExerciseService {
             .collect(Collectors.toList()); 
     }
 
+    public Date getNewestExerciseDateByUser(User user) {
+        List<Date> results = exerciseRepository.findLatestWorkoutDateByUser(user, PageRequest.of(0, 1));
+        return results.isEmpty() ? null : results.get(0);
+    }
+    
     public Date getOldestExerciseDateByUser(User user) {
-        return exerciseRepository.findEarliestWorkoutDateByUser(user);
+        List<Date> results = exerciseRepository.findEarliestWorkoutDateByUser(user, PageRequest.of(0, 1));
+        return results.isEmpty() ? null : results.get(0);
     }
 
-    public Date getNewestExerciseDateByUser(User user) {
-        return exerciseRepository.findLatestWorkoutDateByUser(user);
-    }
     
     public List<String> getUniqueExerciseNamesByUser(User user) {
         return exerciseRepository.findDistinctExerciseNamesByUserId(user);

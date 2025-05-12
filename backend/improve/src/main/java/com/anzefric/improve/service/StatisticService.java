@@ -100,7 +100,7 @@ public class StatisticService {
         return options;
     }
 
-    private List<Date[]> getMonthDateRange(Calendar endCal, Date now) {
+    private List<Date[]> getMonthDateRange(Date now) {
         List<Date[]> dateRange = new ArrayList<>();
         
         // Start from 4 weeks ago
@@ -124,22 +124,36 @@ public class StatisticService {
         return dateRange;
     }
 
-    private List<Date[]> getYearDateRange(Calendar endCal, Date now) {
-        List<Date[]> dateRange = new ArrayList<>();
+    private List<Date[]> getYearDateRange(Date now) {
+    List<Date[]> dateRange = new ArrayList<>();
     
-        for (int i = 0; i < 12; i++) {
-            Calendar startCal = (Calendar) endCal.clone();
-            startCal.add(Calendar.DAY_OF_MONTH, -6); // 7-day range
+    Calendar current = Calendar.getInstance();
+    current.add(Calendar.YEAR, -1);
     
-            dateRange.add(new Date[]{startCal.getTime(), endCal.getTime()});
-    
-            // Move back another 7 days for the next week
-            endCal.add(Calendar.DAY_OF_MONTH, -7);
+    // Start from 12 months ago
+    for(int i = 0; i < 12; i++) {
+        Calendar monthStart = (Calendar) current.clone();
+        monthStart.add(Calendar.MONTH, i);
+        monthStart.set(Calendar.DAY_OF_MONTH, 1);
+        monthStart.set(Calendar.HOUR_OF_DAY, 0);
+        monthStart.set(Calendar.MINUTE, 0);
+        monthStart.set(Calendar.SECOND, 0);
+        monthStart.set(Calendar.MILLISECOND, 0);
+        
+        Calendar monthEnd = (Calendar) monthStart.clone();
+        monthEnd.add(Calendar.MONTH, 1);
+        monthEnd.add(Calendar.MILLISECOND, 1);
+        
+        // Last month should end at current time
+        if (i == 11) {
+            monthEnd.setTime(now);
         }
-    
-        return dateRange;
+        
+        dateRange.add(new Date[]{monthStart.getTime(), monthEnd.getTime()});
     }
-
+    
+    return dateRange;
+}
     private List<Date[]> getAllDateRange(User user, Date now) {
         List<Date[]> dateRange = new ArrayList<>();
     
@@ -198,17 +212,14 @@ public class StatisticService {
     
     private List<Date[]> getDateRange(User user, Timeline timeline) {
         List<Date[]> dateRange = null;
-
         Date now = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
 
         switch (timeline) {
             case Month:
-                dateRange = getMonthDateRange(calendar, now);
+                dateRange = getMonthDateRange(now);
                 break;
             case Year:
-                dateRange = getYearDateRange(calendar, now);
+                dateRange = getYearDateRange(now);
                 break;
             case All:
                 dateRange = getAllDateRange(user, now);

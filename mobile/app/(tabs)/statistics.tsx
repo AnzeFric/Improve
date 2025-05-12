@@ -48,7 +48,6 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadOverallData = async () => {
       try {
-        getWorkoutExerciseOptions();
         const data = await getOverallData(overallTimeline);
         setOverallData(data);
       } catch (error) {
@@ -61,6 +60,7 @@ export default function StatisticsScreen() {
   useEffect(() => {
     const loadWorkoutData = async () => {
       try {
+        getWorkoutExerciseOptions();
         const data = await getWorkoutData(selectedWorkout, workoutTimeline);
         setWorkoutData(data);
       } catch (error) {
@@ -68,11 +68,12 @@ export default function StatisticsScreen() {
       }
     };
     loadWorkoutData();
-  }, [workoutTimeline]);
+  }, [selectedWorkout, workoutTimeline]);
 
   useEffect(() => {
     const loadExerciseData = async () => {
       try {
+        getWorkoutExerciseOptions();
         const data = await getExerciseData(selectedExercise, exerciseTimeline);
         setExerciseData(data);
       } catch (error) {
@@ -80,7 +81,7 @@ export default function StatisticsScreen() {
       }
     };
     loadExerciseData();
-  }, [exerciseTimeline]);
+  }, [selectedExercise, exerciseTimeline]);
 
   const handleUnFocus = () => {
     setShowWorkout(false);

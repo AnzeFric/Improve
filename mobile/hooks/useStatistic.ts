@@ -31,6 +31,7 @@ export function useStatistic() {
       const data = await response.json();
 
       if (data.success) {
+        console.log(data, { depth: null });
         return data.data;
       }
       return null;
@@ -204,32 +205,41 @@ export function useStatistic() {
 
   const getOverallData = async (timeline: Timeline) => {
     const data = await getAllWorkouts(timeline);
-    let labelFun: (date: Date) => string = getLabelFunction(
-      timeline,
-      data[0].dateTo
-    );
-    const chartData: Array<lineDataItem> = getChartData(data, labelFun);
-    return chartData;
+    if (data != null) {
+      let labelFun: (date: Date) => string = getLabelFunction(
+        timeline,
+        data[0].dateTo
+      );
+      const chartData: Array<lineDataItem> = getChartData(data, labelFun);
+      return chartData;
+    }
+    return [];
   };
 
   const getWorkoutData = async (workoutName: String, timeline: Timeline) => {
     const data = await getSpecificWorkouts(workoutName, timeline);
-    let labelFun: (date: Date) => string = getLabelFunction(
-      timeline,
-      data[0].dateTo
-    );
-    const chartData: Array<lineDataItem> = getChartData(data, labelFun);
-    return chartData;
+    if (data != null) {
+      let labelFun: (date: Date) => string = getLabelFunction(
+        timeline,
+        data[0].dateTo
+      );
+      const chartData: Array<lineDataItem> = getChartData(data, labelFun);
+      return chartData;
+    }
+    return [];
   };
 
   const getExerciseData = async (exerciseName: String, timeline: Timeline) => {
     const data = await getSpecificExercises(exerciseName, timeline);
-    let labelFun: (date: Date) => string = getLabelFunction(
-      timeline,
-      data[0].dateTo
-    );
-    const chartData: Array<lineDataItem> = getChartData(data, labelFun);
-    return chartData;
+    if (data != null) {
+      let labelFun: (date: Date) => string = getLabelFunction(
+        timeline,
+        data[0].dateTo
+      );
+      const chartData: Array<lineDataItem> = getChartData(data, labelFun);
+      return chartData;
+    }
+    return [];
   };
 
   return {

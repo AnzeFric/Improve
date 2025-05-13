@@ -31,6 +31,7 @@ export function useStatistic() {
       const data = await response.json();
 
       if (data.success) {
+        console.log(data.data.list, { depth: null });
         return data.data.list;
       }
       return null;
@@ -157,7 +158,7 @@ export function useStatistic() {
   }
 
   function getAllLabel(date: Date): string {
-    return `${date.getFullYear()}`;
+    return `${date.getUTCFullYear()}`;
   }
 
   function getLabelFunction(timeline: Timeline, oldestData: Date) {

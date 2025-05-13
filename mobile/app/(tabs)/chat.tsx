@@ -13,16 +13,47 @@ import AiItem from "@/components/chat/AiItem";
 import PatchyBackground from "@/components/global/PatchyBackground";
 import DisplayChatLog from "@/components/chat/DisplayChatLog";
 import { AppStyles } from "@/constants/AppStyles";
+import OpenAI from "openai";
+import Config from "react-native-config";
+import { ChatItem } from "@/interfaces/chat";
 
 export default function ChatScreen() {
   const [value, setValue] = useState("");
-  const [chats, setChats] = useState<Array<string>>([]);
+  const [chats, setChats] = useState<Array<ChatItem>>([]);
 
   const scrollRef = useRef<ScrollView>(null);
 
-  const handleSendChat = () => {
-    setChats([...chats, value]);
+  const client = new OpenAI({
+    apiKey: Config.OPENAI_API_KEY,
+  });
+
+  const handleSendChat = async () => {
+    const promptValue = value;
     setValue("");
+
+    const newUserPrompt: ChatItem = { chatType: "User", text: promptValue };
+    setChats([...chats, newUserPrompt]);
+
+    try {
+      const response = await client.responses.create({
+        model: "gpt-4o",
+        input: promptValue,
+      });
+
+      const newAiResponse: ChatItem = {
+        chatType: "Ai",
+        text: response.output_text,
+      };
+      setChats([...chats, newAiResponse]);
+    } catch (error) {
+      console.error("Error getting AI response:", error);
+
+      const errorResponse: ChatItem = {
+        chatType: "Ai",
+        text: "Sorry, I couldn't process your request. Please try again.",
+      };
+      setChats([...chats, errorResponse]);
+    }
     scrollRef.current?.scrollToEnd({ animated: true });
   };
 

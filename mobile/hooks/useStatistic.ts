@@ -31,7 +31,6 @@ export function useStatistic() {
       const data = await response.json();
 
       if (data.success) {
-        console.log(data.data.list, { depth: null });
         return data.data.list;
       }
       return null;

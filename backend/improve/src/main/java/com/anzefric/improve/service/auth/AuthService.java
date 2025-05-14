@@ -8,8 +8,6 @@ import com.anzefric.improve.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,9 +27,8 @@ public class AuthService {
     
     @Transactional
     public User register(RegisterUserDto input) {
-        Optional<User> foundUser = userRepository.findByEmailIgnoreCase(input.getEmail());
-        if (foundUser.isPresent() && foundUser.get().isEnabled()) {
-            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "User with this email already exists.");
+        if (userRepository.findByEmailIgnoreCase(input.getEmail()).isPresent()) {
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "User with this email already exists");
         }
 
         User user = new User();

@@ -10,5 +10,4 @@ import com.anzefric.improve.data.model.user.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailIgnoreCase(String email);
-    Optional<User> findByEmailIgnoreCaseAndIsEnabledTrue(String email);
 }

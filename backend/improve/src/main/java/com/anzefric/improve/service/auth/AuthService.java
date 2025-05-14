@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,10 +24,12 @@ public class AuthService {
     private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
+
+    private final AuthenticationManager authenticationManager;
     
     @Transactional
     public User register(RegisterUserDto input) {
-        Optional<User> foundUser = userRepository.findByEmailIgnoreCaseAndIsEnabledTrue(input.getEmail());
+        Optional<User> foundUser = userRepository.findByEmailIgnoreCase(input.getEmail());
         if (foundUser.isPresent() && foundUser.get().isEnabled()) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "User with this email already exists.");
         }
@@ -41,13 +45,13 @@ public class AuthService {
 
     @Transactional
     public User login(LoginUserDto input) {
-        User user =  userRepository.findByEmailIgnoreCaseAndIsEnabledTrue(input.getEmail())
-            .orElseThrow(() -> new ApiResponseException(HttpStatus.BAD_REQUEST, "Invalid email or password."));
+        authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                input.getEmail(),
+                input.getPassword()
+            )
+        );
 
-        if(!passwordEncoder.matches(input.getPassword(), user.getPassword())) {
-            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Invalid email or password.");
-        }
-
-        return user;
+        return userRepository.findByEmailIgnoreCase(input.getEmail()).orElseThrow();
     }
 }

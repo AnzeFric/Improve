@@ -47,7 +47,7 @@ public class User implements UserDetails {
 
     @Email
     @NonNull
-    @Column(nullable = false, length = DataLengths.L_128)
+    @Column(unique = true, nullable = false, length = DataLengths.L_128)
     @Size(min = DataLengths.L_4, max = DataLengths.L_128)
     private String email;
 

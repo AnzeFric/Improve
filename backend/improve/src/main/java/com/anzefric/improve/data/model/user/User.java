@@ -23,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 @Setter
 @ToString
+@org.hibernate.annotations.SQLRestriction("is_enabled=true")
 @Table(name = "users")
 public class User implements UserDetails {
     @Id

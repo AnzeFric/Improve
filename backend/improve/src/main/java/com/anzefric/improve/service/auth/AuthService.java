@@ -8,6 +8,8 @@ import com.anzefric.improve.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Date;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +31,22 @@ public class AuthService {
     public User register(RegisterUserDto input) {
         if (userRepository.findByEmailIgnoreCase(input.getEmail()).isPresent()) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "User with this email already exists");
+        }
+
+        // Check for soft deleted user -> isEnabled == false
+        User existingUser = userRepository.findByEmailIgnoreCaseIncludingDeleted(input.getEmail());
+        
+        if (existingUser != null) {
+            // User found, reactivate
+            existingUser.setIsEnabled(true);
+            existingUser.setPassword(passwordEncoder.encode(input.getPassword()));
+            existingUser.setFirstName(input.getFirstName());
+            existingUser.setLastName(input.getLastName());
+            
+            existingUser.getStreak().setStartStreak(new Date());
+            existingUser.getStreak().setLastCheckIn(new Date());
+            
+            return userRepository.save(existingUser);
         }
 
         User user = new User();

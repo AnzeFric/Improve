@@ -1,8 +1,9 @@
-import Config from "react-native-config";
+import { Alert } from "react-native";
 import { useState, useCallback } from "react";
 import useAuthStore from "@/stores/useAuthStore";
+import BetterFetch from "@/constants/BetterFetch";
+import { API_BASE_URL } from "@/constants/Config";
 import { router, useFocusEffect } from "expo-router";
-import { resetAllStores } from "@/constants/Utils";
 
 export function useAuth() {
   const {
@@ -35,57 +36,52 @@ export function useAuth() {
 
   const handleRegister = async () => {
     try {
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/auth/register`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password,
-          }),
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/auth/register`,
+        "POST",
+        JSON.stringify({
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+        })
       );
 
-      if (response.ok) {
+      if (response) {
         router.push("/(auth)/login");
+      } else {
+        Alert.alert(
+          "Error",
+          "Make sure all the fields are filled and confirm password matches."
+        );
       }
     } catch (error) {
-      console.error("Register error:", error);
+      console.error("Error while registering: ", error);
     }
   };
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/auth/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: email,
-            password: password,
-          }),
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/auth/login`,
+        "POST",
+        JSON.stringify({
+          email: email,
+          password: password,
+        })
       );
 
-      const data = await response.json();
-
-      if (data.success) {
-        setJwt(data.data.token);
-        setExpiresIn(data.data.expiresIn);
+      if (response) {
+        setJwt(response.token);
+        setExpiresIn(response.expiresIn);
         setIsLoggined(true);
 
         router.push("/(tabs)/home");
+      } else {
+        Alert.alert("Error", "Invalid email or password.");
       }
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Error while logging in: ", error);
     }
   };
 
@@ -97,18 +93,18 @@ export function useAuth() {
   return {
     isLoggined,
     isFirstLogin,
-    setIsFirstLogin,
     firstName,
-    setFirstName,
     lastName,
-    setLastName,
     email,
-    setEmail,
     password,
-    setPassword,
     confirmPassword,
-    setConfirmPassword,
     secureText,
+    setIsFirstLogin,
+    setFirstName,
+    setLastName,
+    setEmail,
+    setPassword,
+    setConfirmPassword,
     setSecureText,
     handleRegister,
     handleLogin,

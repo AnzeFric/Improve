@@ -1,10 +1,9 @@
-import Config from "react-native-config";
 import { UserMetrics } from "@/interfaces/user";
-import useAuthStore from "@/stores/useAuthStore";
+import BetterFetch from "@/constants/BetterFetch";
+import { API_BASE_URL } from "@/constants/Config";
 import useUserMetricsStore from "@/stores/useUserMetricsStore";
 
 export function useUserMetrics() {
-  const { jwt } = useAuthStore();
   const { userMetrics, setUserMetrics } = useUserMetricsStore();
 
   const saveUserMetrics = async (
@@ -23,26 +22,18 @@ export function useUserMetrics() {
         height: height,
       };
 
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/create`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newUserMetrics),
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/user-metrics/create`,
+        "POST",
+        JSON.stringify(newUserMetrics)
       );
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response) {
         setUserMetrics(newUserMetrics);
         return true;
       }
 
-      console.log("Failed to save user metrics: ", response.status);
+      console.log("Failed to save user metrics");
       return false;
     } catch (error) {
       console.error("Error saving user metrics: ", error);
@@ -52,30 +43,24 @@ export function useUserMetrics() {
 
   const getUserMetrics = async () => {
     try {
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/user-metrics/`,
+        "GET",
+        undefined
       );
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response) {
         const userMetrics: UserMetrics = {
-          age: data.data.age || null,
-          weight: data.data.weight,
-          height: data.data.height,
+          age: response.age || null,
+          weight: response.weight,
+          height: response.height,
         };
 
         setUserMetrics(userMetrics);
         return userMetrics;
       }
-      console.log("Failed to fetch user metrics: ", response.status);
+
+      console.log("Failed to fetch user metrics");
       return null;
     } catch (error) {
       console.error("Error fetching user metrics: ", error);
@@ -85,23 +70,17 @@ export function useUserMetrics() {
 
   const deleteUserMetrics = async () => {
     try {
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/delete`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/user-metrics/delete`,
+        "DELETE",
+        undefined
       );
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response) {
         return true;
       }
-      console.log("Failed to delete user metrics: ", response.status);
+
+      console.log("Failed to delete user metrics");
       return false;
     } catch (error) {
       console.error("Error deleting user metrics: ", error);
@@ -125,26 +104,18 @@ export function useUserMetrics() {
         height: height,
       };
 
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/user-metrics/update`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedUserMetrics),
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/user-metrics/update`,
+        "PUT",
+        JSON.stringify(updatedUserMetrics)
       );
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response) {
         setUserMetrics(updatedUserMetrics);
         return true;
       }
 
-      console.log("Failed to update user metrics: ", response.status);
+      console.log("Failed to update user metrics");
       return false;
     } catch (error) {
       console.error("Error updating user metrics: ", error);

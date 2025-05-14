@@ -1,30 +1,24 @@
-import Config from "react-native-config";
-import useAuthStore from "@/stores/useAuthStore";
+import BetterFetch from "@/constants/BetterFetch";
+import { API_BASE_URL } from "@/constants/Config";
 import useStreakStore from "@/stores/useStreakStore";
 
 export function useStreak() {
-  const { jwt } = useAuthStore();
   const { lastCheckIn, startStreak, setLastCheckIn, setStartStreak } =
     useStreakStore();
 
   const getStreakData = async () => {
     try {
-      const resposne = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/streak/`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/streak/`,
+        "GET",
+        undefined
       );
 
-      const data = await resposne.json();
-
-      if (data.success) {
-        setStartStreak(data.data.startStreak);
-        setLastCheckIn(data.data.lastCheckIn);
+      if (response) {
+        setStartStreak(response.startStreak);
+        setLastCheckIn(response.lastCheckIn);
+      } else {
+        console.log("Failed to fetch streak");
       }
     } catch (error) {
       console.error("Error fetching streak: ", error);
@@ -36,33 +30,27 @@ export function useStreak() {
     lastCheckIn: Date | null
   ) => {
     try {
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/streak/update`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            startStreak: startStreak,
-            lastCheckIn: lastCheckIn,
-          }),
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/streak/update`,
+        "POST",
+        JSON.stringify({
+          startStreak: startStreak,
+          lastCheckIn: lastCheckIn,
+        })
       );
 
-      const data = await response.json();
-
-      if (data.success) {
+      if (response) {
         if (startStreak) {
           setStartStreak(startStreak);
         }
         if (lastCheckIn) {
           setLastCheckIn(lastCheckIn);
         }
+      } else {
+        console.log("Failed to update streak and last check in");
       }
     } catch (error) {
-      console.error("Error updating streak last check in: ", error);
+      console.error("Error updating streak and last check in: ", error);
     }
   };
 

@@ -40,11 +40,7 @@ export default function ModalSetSplit({
 
   const handleConfirm = () => {
     if (selectedSplit === "Custom") {
-      onSelectSplit(
-        "Custom",
-        selectedIntensity || "Intermediate",
-        customSplitDays
-      );
+      onSelectSplit("Custom", "Custom", customSplitDays);
     } else if (selectedSplit && selectedIntensity) {
       onSelectSplit(selectedSplit, selectedIntensity);
     }
@@ -141,7 +137,10 @@ export default function ModalSetSplit({
           <View style={styles.buttonContainer}>
             {currentStep === "custom" || currentStep === "intensity" ? (
               <TouchableOpacity
-                style={[AppStyles.button, { backgroundColor: "#f0f0f0" }]}
+                style={[
+                  AppStyles.button,
+                  { backgroundColor: "#f0f0f0", borderColor: "#f0f0f0" },
+                ]}
                 onPress={handleBack}
               >
                 <Text style={[AppStyles.buttonText, { color: "#666" }]}>

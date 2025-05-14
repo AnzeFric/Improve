@@ -30,7 +30,7 @@ export function useSplit() {
 
     if (trainingDays) {
       setSplitTraingingDays(trainingDays);
-      setSplitIntensity("");
+      setSplitIntensity(intensity);
     } else {
       setSplitIntensity(intensity);
 

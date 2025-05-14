@@ -1,12 +1,11 @@
-import Config from "react-native-config";
-import useAuthStore from "@/stores/useAuthStore";
+import BetterFetch from "@/constants/BetterFetch";
+import { API_BASE_URL } from "@/constants/Config";
 import { Timeline } from "@/interfaces/statistics";
 import useStatisticStore from "@/stores/useStatisticStore";
 import { lineDataItem } from "react-native-gifted-charts";
 import { Exercise, Set } from "@/interfaces/workout";
 
 export function useStatistic() {
-  const { jwt } = useAuthStore();
   const {
     workoutOptions,
     exerciseOptions,
@@ -16,26 +15,20 @@ export function useStatistic() {
 
   const getAllWorkouts = async (timeline: Timeline) => {
     try {
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/overall`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(timeline),
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/statistic/overall`,
+        "POST",
+        JSON.stringify(timeline)
       );
 
-      const data = await response.json();
-
-      if (data.success) {
-        return data.data.list;
+      if (response) {
+        return response.list;
       }
+
+      console.log("Failed to fetch overall data");
       return null;
     } catch (error) {
-      console.error("Error fetching workout data", error);
+      console.error("Error fetching overall data:", error);
       return null;
     }
   };
@@ -45,29 +38,23 @@ export function useStatistic() {
     timeline: Timeline
   ) => {
     try {
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/workout`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            workoutName: workoutName,
-            timeline: timeline,
-          }),
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/statistic/workout`,
+        "POST",
+        JSON.stringify({
+          workoutName: workoutName,
+          timeline: timeline,
+        })
       );
 
-      const data = await response.json();
-
-      if (data.success) {
-        return data.data.list;
+      if (response) {
+        return response.list;
       }
+
+      console.log("Failed to fetch workout data");
       return null;
     } catch (error) {
-      console.error("Error fetching workout data", error);
+      console.error("Error fetching workout data:", error);
       return null;
     }
   };
@@ -77,56 +64,45 @@ export function useStatistic() {
     timeline: Timeline
   ) => {
     try {
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/exercise`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            exerciseName: exerciseName,
-            timeline: timeline,
-          }),
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/statistic/exercise`,
+        "POST",
+        JSON.stringify({
+          exerciseName: exerciseName,
+          timeline: timeline,
+        })
       );
 
-      const data = await response.json();
-
-      if (data.success) {
-        return data.data.list;
+      if (response) {
+        return response.list;
       }
+
+      console.log("Failed to fetch exercise data");
       return null;
     } catch (error) {
-      console.error("Error fetching exercise data", error);
+      console.error("Error fetching exercise data:", error);
       return null;
     }
   };
 
   const getWorkoutExerciseOptions = async () => {
     try {
-      const response = await fetch(
-        `http://${Config.API_DEVELOPMENT_IP}:${Config.API_PORT}/api/statistic/options`,
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + jwt,
-            "Content-Type": "application/json",
-          },
-        }
+      const response = await BetterFetch(
+        `${API_BASE_URL}/statistic/options`,
+        "GET",
+        undefined
       );
 
-      const data = await response.json();
-
-      if (data.success) {
-        setWorkoutOptions(data.data.workoutOptions);
-        setExerciseOptions(data.data.exerciseOptions);
+      if (response) {
+        setWorkoutOptions(response.workoutOptions);
+        setExerciseOptions(response.exerciseOptions);
         return true;
       }
+
+      console.log("Failed to fetch workout and exercise options");
       return false;
     } catch (error) {
-      console.error("Error fetching workout and exercise options", error);
+      console.error("Error fetching workout and exercise options:", error);
       return false;
     }
   };

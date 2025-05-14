@@ -4,13 +4,13 @@ import com.anzefric.improve.data.dto.api.ApiResponseException;
 import com.anzefric.improve.data.dto.auth.LoginUserDto;
 import com.anzefric.improve.data.dto.auth.RegisterUserDto;
 import com.anzefric.improve.data.model.user.User;
-import com.anzefric.improve.repository.AuthRepository;
+import com.anzefric.improve.repository.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Optional;
+
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,14 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthService {
 
-    private final AuthRepository authRepository;
+    private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
     
     @Transactional
     public User register(RegisterUserDto input) {
-        if (authRepository.findByEmailIgnoreCase(input.getEmail()).isPresent()) {
-            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "User with this email already exists");
+        Optional<User> foundUser = userRepository.findByEmailIgnoreCase(input.getEmail());
+        if (foundUser.isPresent() && foundUser.get().isEnabled()) {
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "User with this email already exists.");
         }
 
         User user = new User();
@@ -35,18 +36,18 @@ public class AuthService {
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
         
-        return authRepository.save(user);
+        return userRepository.save(user);
     }
 
     @Transactional
     public User login(LoginUserDto input) {
-        authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                input.getEmail(),
-                input.getPassword()
-            )
-        );
+        User user =  userRepository.findByEmailIgnoreCaseAndIsEnabledTrue(input.getEmail())
+            .orElseThrow(() -> new ApiResponseException(HttpStatus.BAD_REQUEST, "Invalid email or password."));
 
-        return authRepository.findByEmailIgnoreCase(input.getEmail()).orElseThrow();
+        if(!passwordEncoder.matches(input.getPassword(), user.getPassword())) {
+            throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Invalid email or password.");
+        }
+
+        return user;
     }
 }

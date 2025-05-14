@@ -1,6 +1,5 @@
 package com.anzefric.improve.config;
 
-import com.anzefric.improve.repository.AuthRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,17 +10,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.anzefric.improve.repository.user.UserRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Configuration
 public class ApplicationConfiguration {
-    private final AuthRepository authRepository;
 
-    public ApplicationConfiguration(AuthRepository authRepository) {
-        this.authRepository = authRepository;
-    }
+    private final UserRepository userRepository;
 
     @Bean
     UserDetailsService userDetailsService() {
-        return email -> authRepository.findByEmailIgnoreCase(email)
+        return email -> userRepository.findByEmailIgnoreCaseAndIsEnabledTrue(email)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 

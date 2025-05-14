@@ -29,10 +29,10 @@ public class UserController {
     }
     
     @DeleteMapping("/delete")
-    public ApiResponse<String> deleteUser() {
+    public ApiResponse<String> deactivateUser() {
         try {
             User authenticatedUser = SecurityUtils.getCurrentAuthenticatedUser();
-            userService.deleteByEmail(authenticatedUser.getEmail());
+            userService.deactivateUser(authenticatedUser);
             return ApiResponse.success("User deleted successfully.");
         } catch (Exception e) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "Error deleting user: " + e.getMessage());

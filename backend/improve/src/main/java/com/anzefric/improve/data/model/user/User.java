@@ -57,6 +57,10 @@ public class User implements UserDetails {
     @Size(min = DataLengths.L_4, max = DataLengths.L_128)
     private String password;
 
+    @NonNull
+    @Column(name = "is_enabled", nullable = false)
+    private Boolean isEnabled;
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Workout> workout;
@@ -71,10 +75,11 @@ public class User implements UserDetails {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Streak streak;
-
+    
     public User() {
         super();
         this.userUuid = UUID.randomUUID();
+        this.isEnabled = true;
         this.streak = Streak.builder()
                            .startStreak(new Date())
                            .lastCheckIn(new Date())
@@ -109,6 +114,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isEnabled;
     }
 }

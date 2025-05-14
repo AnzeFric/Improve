@@ -5,6 +5,8 @@ import io.jsonwebtoken.security.SignatureException;
 
 import java.util.Map;
 
+import javax.security.auth.login.AccountNotFoundException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -24,14 +26,16 @@ public class GlobalExceptionHandler {
         AccountStatusException.class, new ExceptionDetails("The account is locked", HttpStatus.UNAUTHORIZED),
         AccessDeniedException.class, new ExceptionDetails("You are not authorized to access this resource", HttpStatus.FORBIDDEN),
         SignatureException.class, new ExceptionDetails("The JWT signature is invalid", HttpStatus.FORBIDDEN),
-        ExpiredJwtException.class, new ExceptionDetails("The JWT token has expired", HttpStatus.FORBIDDEN)
+        ExpiredJwtException.class, new ExceptionDetails("The JWT token has expired", HttpStatus.FORBIDDEN),
+        AccountNotFoundException.class, new ExceptionDetails("Accout does not exist", HttpStatus.NOT_FOUND)
     );
 
     @ExceptionHandler({
         AccountStatusException.class,
         AccessDeniedException.class,
         SignatureException.class,
-        ExpiredJwtException.class
+        ExpiredJwtException.class,
+        AccountNotFoundException.class
     })
     public ResponseEntity<ApiResponse<String>> handleSecurityException(Exception exception) {
         exception.printStackTrace();

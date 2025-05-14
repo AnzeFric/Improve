@@ -25,7 +25,7 @@ public class AuthService {
     
     @Transactional
     public User register(RegisterUserDto input) {
-        Optional<User> foundUser = userRepository.findByEmailIgnoreCase(input.getEmail());
+        Optional<User> foundUser = userRepository.findByEmailIgnoreCaseAndIsEnabledTrue(input.getEmail());
         if (foundUser.isPresent() && foundUser.get().isEnabled()) {
             throw new ApiResponseException(HttpStatus.BAD_REQUEST, "User with this email already exists.");
         }

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
@@ -19,10 +20,17 @@ import EditButton from "@/components/global/buttons/EditButton";
 import CircleCheckButton from "@/components/global/buttons/CircleCheckButton";
 import { useWorkout } from "@/hooks/useWorkout";
 import { AppStyles } from "@/constants/AppStyles";
+import { useStatistic } from "@/hooks/useStatistic";
 
 export default function NewWorkoutScreen() {
   const { workoutTitle } = useLocalSearchParams();
   const { handleFinishWorkout } = useWorkout();
+  const {
+    exerciseOptions,
+    workoutOptions,
+    setExerciseOptions,
+    setWorkoutOptions,
+  } = useStatistic();
   const [exerciseTitle, setExerciseTitle] = useState("");
   const [exerciseIndex, setExerciseIndex] = useState(-1);
   const [isEditing, setIsEditing] = useState(false);
@@ -76,15 +84,33 @@ export default function NewWorkoutScreen() {
     return false;
   };
 
-  const finishWorkout = () => {
+  const updateWorkoutExerciseOptions = (name: string) => {
+    const newWorkoutOptions = [...workoutOptions, name];
+    let newExerciseOptions = exerciseOptions;
+
+    exercises.forEach((exercise) => {
+      newExerciseOptions.push(exercise.name);
+    });
+
+    setWorkoutOptions(newWorkoutOptions);
+    setExerciseOptions(newExerciseOptions);
+  };
+
+  const finishWorkout = async () => {
     const name = String(workoutTitle);
     const date = new Date();
 
-    handleFinishWorkout(name, date, exercises).then((response) => {
-      if (response) {
-        router.back();
-      }
-    });
+    const response = await handleFinishWorkout(name, date, exercises);
+
+    if (response) {
+      updateWorkoutExerciseOptions(name);
+      router.back();
+    } else {
+      Alert.alert(
+        "Error",
+        "Workout has failed to save. Please try again later."
+      );
+    }
   };
 
   return (

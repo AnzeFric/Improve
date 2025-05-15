@@ -228,5 +228,7 @@ export function useStatistic() {
     getWorkoutData,
     getExerciseData,
     getWorkoutExerciseOptions,
+    setWorkoutOptions,
+    setExerciseOptions,
   };
 }

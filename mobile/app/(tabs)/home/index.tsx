@@ -11,6 +11,7 @@ import { useSplit } from "@/hooks/useSplit";
 import { useStreak } from "@/hooks/useStreak";
 import { useWorkout } from "@/hooks/useWorkout";
 import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
+import { useStatistic } from "@/hooks/useStatistic";
 
 export default function HomeScreen() {
   const { firstName, getUser } = useUser();
@@ -20,6 +21,7 @@ export default function HomeScreen() {
   const { lastestWorkout, getLatestWorkout } = useWorkout();
   const { checkForNextTrainingDay, saveSplit, getCurrentTrainingDay } =
     useSplit();
+  const { workoutOptions, getWorkoutExerciseOptions } = useStatistic();
 
   useEffect(() => {
     const checkForWorkout = async () => {
@@ -37,9 +39,14 @@ export default function HomeScreen() {
     };
 
     const fetchUser = async () => {
-      await getUser().then(() => {
+      const response = await getUser();
+      if (response) {
         updateAndSaveStreak();
-      });
+
+        if (workoutOptions.length <= 0) {
+          getWorkoutExerciseOptions();
+        }
+      }
     };
 
     fetchUser();

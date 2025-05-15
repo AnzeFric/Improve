@@ -18,11 +18,14 @@ export function useUser() {
       if (response) {
         setFirstName(response.firstName);
         setLastName(response.lastName);
-      } else {
-        console.log("Failed to get user");
+        return true;
       }
+
+      console.log("Failed to get user");
+      return false;
     } catch (error) {
       console.error("Error fetching user: ", error);
+      return false;
     }
   };
 

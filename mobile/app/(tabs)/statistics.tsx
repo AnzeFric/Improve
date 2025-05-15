@@ -23,7 +23,6 @@ export default function StatisticsScreen() {
     getOverallData,
     getWorkoutData,
     getExerciseData,
-    getWorkoutExerciseOptions,
   } = useStatistic();
   const [overallTimeline, setOverallTimeline] = useState<Timeline>("Month");
   const [workoutTimeline, setWorkoutTimeline] = useState<Timeline>("Month");
@@ -62,7 +61,6 @@ export default function StatisticsScreen() {
     const loadWorkoutData = async () => {
       try {
         setWorkoutData(null);
-        await getWorkoutExerciseOptions();
         const data = await getWorkoutData(selectedWorkout, workoutTimeline);
         setWorkoutData(data);
       } catch (error) {
@@ -76,7 +74,6 @@ export default function StatisticsScreen() {
     const loadExerciseData = async () => {
       try {
         setExerciseData(null);
-        await getWorkoutExerciseOptions();
         const data = await getExerciseData(selectedExercise, exerciseTimeline);
         setExerciseData(data);
       } catch (error) {

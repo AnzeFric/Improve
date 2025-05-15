@@ -6,11 +6,9 @@ interface AuthStore {
   jwt: string | null;
   expiresIn: number;
   isLoggined: boolean;
-  isFirstLogin: boolean;
   setJwt: (jwt: string | null) => void;
   setExpiresIn: (expiresIn: number) => void;
   setIsLoggined: (isLoggined: boolean) => void;
-  setIsFirstLogin: (isFirstLogin: boolean) => void;
   reset: () => void;
 }
 
@@ -18,7 +16,6 @@ const initialState = {
   jwt: null,
   expiresIn: 0,
   isLoggined: false,
-  isFirstLogin: true,
 };
 
 const useAuthStore = create(
@@ -33,9 +30,6 @@ const useAuthStore = create(
       },
       setIsLoggined: (isLoggined: boolean) => {
         set({ isLoggined: isLoggined });
-      },
-      setIsFirstLogin: (isFirstLogin: boolean) => {
-        set({ isFirstLogin: isFirstLogin });
       },
       reset: async () => {
         set(() => ({ ...initialState }));

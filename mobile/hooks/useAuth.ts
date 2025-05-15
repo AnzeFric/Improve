@@ -6,14 +6,7 @@ import { API_BASE_URL } from "@/constants/Config";
 import { router, useFocusEffect } from "expo-router";
 
 export function useAuth() {
-  const {
-    isLoggined,
-    isFirstLogin,
-    setJwt,
-    setExpiresIn,
-    setIsLoggined,
-    setIsFirstLogin,
-  } = useAuthStore();
+  const { isLoggined, setJwt, setExpiresIn, setIsLoggined } = useAuthStore();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -92,14 +85,12 @@ export function useAuth() {
 
   return {
     isLoggined,
-    isFirstLogin,
     firstName,
     lastName,
     email,
     password,
     confirmPassword,
     secureText,
-    setIsFirstLogin,
     setFirstName,
     setLastName,
     setEmail,

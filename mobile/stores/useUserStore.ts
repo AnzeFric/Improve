@@ -5,14 +5,17 @@ import { persist, createJSONStorage } from "zustand/middleware";
 interface UserStore {
   firstName: string;
   lastName: string;
+  firstLogin: boolean;
   setFirstName: (firstName: string) => void;
   setLastName: (lastName: string) => void;
+  setFirstLogin: (firstLogin: boolean) => void;
   reset: () => void;
 }
 
 const initialState = {
   firstName: "",
   lastName: "",
+  firstLogin: true,
 };
 
 const useUserStore = create(
@@ -27,6 +30,11 @@ const useUserStore = create(
       setLastName: (lastName: string) => {
         set({
           lastName: lastName,
+        });
+      },
+      setFirstLogin: (firstLogin: boolean) => {
+        set({
+          firstLogin: firstLogin,
         });
       },
       reset: async () => {

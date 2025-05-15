@@ -1,65 +1,68 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import TitleRow from "@/components/global/TitleRow";
 import StartNewWorkout from "@/components/home/home/StartNewWorkout";
 import DailyStreak from "@/components/home/home/DailyStreak";
 import MostRecentWorkout from "@/components/home/home/MostRecentWorkout/MostRecentWorkout";
+import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
 import MenuButton from "@/components/global/buttons/MenuButton";
 import { useUser } from "@/hooks/useUser";
+import { useStatistic } from "@/hooks/useStatistic";
+import { useWorkout } from "@/hooks/useWorkout";
+import { useStreak } from "@/hooks/useStreak";
 import { useAuth } from "@/hooks/useAuth";
 import { useSplit } from "@/hooks/useSplit";
-import { useStreak } from "@/hooks/useStreak";
-import { useWorkout } from "@/hooks/useWorkout";
-import ModalSetSplit from "@/components/home/home/ModalSetSplit/ModalSetSplit";
-import { useStatistic } from "@/hooks/useStatistic";
 
 export default function HomeScreen() {
-  const { firstName, getUser } = useUser();
-  const { isFirstLogin, setIsFirstLogin } = useAuth();
-  const { getStreakData, getDays, updateDayStreak } = useStreak();
-  const [dayStreak, setDayStreak] = useState(0);
+  const { firstName, firstLogin, getUser, setFirstLogin } = useUser();
+  const { getWorkoutExerciseOptions } = useStatistic();
   const { lastestWorkout, getLatestWorkout } = useWorkout();
+  const { getStreakData, getDays, updateDayStreak } = useStreak();
+  const { handleLogout } = useAuth();
   const { checkForNextTrainingDay, saveSplit, getCurrentTrainingDay } =
     useSplit();
-  const { workoutOptions, getWorkoutExerciseOptions } = useStatistic();
+
+  const [dayStreak, setDayStreak] = useState(0);
 
   useEffect(() => {
-    const checkForWorkout = async () => {
-      if (!lastestWorkout) {
-        await getLatestWorkout();
-      }
-    };
+    const initializeUser = async () => {
+      try {
+        if (!firstName) return;
 
-    const updateAndSaveStreak = async () => {
-      await getStreakData();
-      await updateDayStreak().then(() => {
-        let days = getDays();
+        const user = await getUser();
+        if (!user) return;
+
+        const promises = Promise.allSettled([
+          checkForNextTrainingDay(),
+          getLatestWorkout(),
+          getWorkoutExerciseOptions(),
+        ]);
+
+        await getStreakData().then(() => updateDayStreak());
+
+        const days = getDays();
         setDayStreak(days);
-      });
-    };
 
-    const fetchUser = async () => {
-      const response = await getUser();
-      if (response) {
-        updateAndSaveStreak();
-
-        if (workoutOptions.length <= 0) {
-          getWorkoutExerciseOptions();
-        }
+        await promises;
+      } catch (error) {
+        console.error("Error initializing user data:", error);
+        Alert.alert(
+          "Error",
+          "An error occured while loading data. Please login again"
+        );
+        handleLogout();
       }
     };
 
-    fetchUser();
-    checkForNextTrainingDay();
-    checkForWorkout();
-  }, [firstName]); // Firstname cannot be changed by user. New firstname === new user
+    initializeUser();
+  }, [firstName]);
 
   const handleSelectSplit = (
     name: string,
     intensity: string,
     customTrainingDays: Array<string> | undefined
   ) => {
-    setIsFirstLogin(false);
+    setFirstLogin(false);
 
     if (customTrainingDays) {
       saveSplit(name, intensity, customTrainingDays);
@@ -89,8 +92,8 @@ export default function HomeScreen() {
         </View>
       </ScrollView>
       <ModalSetSplit
-        isVisible={isFirstLogin}
-        setIsVisible={() => setIsFirstLogin(false)}
+        isVisible={firstLogin}
+        setIsVisible={() => setFirstLogin(false)}
         onSelectSplit={handleSelectSplit}
       />
     </View>

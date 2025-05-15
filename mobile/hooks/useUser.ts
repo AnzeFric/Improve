@@ -5,7 +5,14 @@ import { API_BASE_URL } from "@/constants/Config";
 import { resetAllStores } from "@/constants/Utils";
 
 export function useUser() {
-  const { firstName, lastName, setFirstName, setLastName } = useUserStore();
+  const {
+    firstName,
+    lastName,
+    firstLogin,
+    setFirstName,
+    setLastName,
+    setFirstLogin,
+  } = useUserStore();
 
   const getUser = async () => {
     try {
@@ -51,7 +58,9 @@ export function useUser() {
   return {
     firstName,
     lastName,
+    firstLogin,
     getUser,
     deleteUser,
+    setFirstLogin,
   };
 }

@@ -143,7 +143,10 @@ export default function ModalUserMetricsCreate({
               <TouchableOpacity
                 style={[
                   AppStyles.button,
-                  { backgroundColor: Colors.light.destructiveRed },
+                  {
+                    backgroundColor: Colors.light.destructiveRed,
+                    borderColor: Colors.light.destructiveRed,
+                  },
                 ]}
                 onPress={() => setIsVisible(false)}
               >

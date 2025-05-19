@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 @Setter
 @ToString
-@org.hibernate.annotations.SQLRestriction("is_enabled=true")
+@org.hibernate.annotations.SQLRestriction("enabled=true")
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
@@ -59,8 +59,8 @@ public class User implements UserDetails {
     private String password;
 
     @NonNull
-    @Column(name = "is_enabled", nullable = false)
-    private Boolean isEnabled;
+    @Column(name = "enabled", nullable = false)
+    private Boolean enabled;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -80,7 +80,7 @@ public class User implements UserDetails {
     public User() {
         super();
         this.userUuid = UUID.randomUUID();
-        this.isEnabled = true;
+        this.enabled = true;
         this.streak = Streak.builder()
                            .startStreak(new Date())
                            .lastCheckIn(new Date())
@@ -115,6 +115,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return isEnabled;
+        return enabled;
     }
 }

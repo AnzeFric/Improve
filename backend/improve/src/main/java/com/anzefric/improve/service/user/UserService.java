@@ -14,7 +14,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public void deactivateUser(User user) {
-        user.setIsEnabled(false);
+        user.setEnabled(false);
         userRepository.save(user);
     }
 }

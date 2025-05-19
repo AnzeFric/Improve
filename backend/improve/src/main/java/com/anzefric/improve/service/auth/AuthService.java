@@ -38,7 +38,7 @@ public class AuthService {
         
         if (existingUser != null) {
             // User found, reactivate
-            existingUser.setIsEnabled(true);
+            existingUser.setEnabled(true);
             existingUser.setPassword(passwordEncoder.encode(input.getPassword()));
             existingUser.setFirstName(input.getFirstName());
             existingUser.setLastName(input.getLastName());

@@ -6,7 +6,15 @@ import { API_BASE_URL } from "@/constants/Config";
 import { router, useFocusEffect } from "expo-router";
 
 export function useAuth() {
-  const { isLoggined, setJwt, setExpiresIn, setIsLoggined } = useAuthStore();
+  const {
+    isLoggined,
+    issued,
+    expiresIn,
+    setJwt,
+    setExpiresIn,
+    setIssued,
+    setIsLoggined,
+  } = useAuthStore();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -67,6 +75,7 @@ export function useAuth() {
       if (response) {
         setJwt(response.token);
         setExpiresIn(response.expiresIn);
+        setIssued(response.issued);
         setIsLoggined(true);
 
         router.push("/(tabs)/home");
@@ -84,6 +93,8 @@ export function useAuth() {
   };
 
   return {
+    issued,
+    expiresIn,
     isLoggined,
     firstName,
     lastName,

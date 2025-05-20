@@ -1,5 +1,4 @@
 import useAuthStore from "@/stores/useAuthStore";
-import { router } from "expo-router";
 
 const BetterFetch = async (
   url: string,
@@ -27,19 +26,6 @@ const BetterFetch = async (
 
     if (data.success) {
       return data.data;
-    }
-
-    const errorMessage = data.data || data.message || "Unknown error";
-
-    console.log("Error occured: ", errorMessage);
-
-    if (
-      typeof errorMessage === "string" &&
-      errorMessage.includes("JWT expired")
-    ) {
-      useAuthStore.getState().reset();
-      router.replace("/(auth)/login");
-      return null;
     }
 
     return null;

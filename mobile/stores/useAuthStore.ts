@@ -5,9 +5,11 @@ import { persist, createJSONStorage } from "zustand/middleware";
 interface AuthStore {
   jwt: string | null;
   expiresIn: number;
+  issued: Date | null;
   isLoggined: boolean;
   setJwt: (jwt: string | null) => void;
   setExpiresIn: (expiresIn: number) => void;
+  setIssued: (issued: Date) => void;
   setIsLoggined: (isLoggined: boolean) => void;
   reset: () => void;
 }
@@ -15,6 +17,7 @@ interface AuthStore {
 const initialState = {
   jwt: null,
   expiresIn: 0,
+  issued: null,
   isLoggined: false,
 };
 
@@ -27,6 +30,9 @@ const useAuthStore = create(
       },
       setExpiresIn: (expiresIn: number) => {
         set({ expiresIn: expiresIn });
+      },
+      setIssued: (issued: Date | null) => {
+        set({ issued: issued });
       },
       setIsLoggined: (isLoggined: boolean) => {
         set({ isLoggined: isLoggined });

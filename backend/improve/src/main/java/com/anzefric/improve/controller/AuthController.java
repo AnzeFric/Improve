@@ -11,6 +11,8 @@ import com.anzefric.improve.service.auth.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.Date;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -44,7 +46,8 @@ public class AuthController {
 
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.setToken(jwtToken);
-            loginResponse.setExpiresIn(jwtService.getExpirationTime());
+            loginResponse.setExpiresIn(jwtService.getExpirationTime()); // 1 week in ms
+            loginResponse.setIssued(new Date());
             
             return ApiResponse.success(loginResponse);
         } catch (Exception e) {

@@ -8,11 +8,9 @@ import { router, useFocusEffect } from "expo-router";
 export function useAuth() {
   const {
     isLoggined,
-    issued,
-    expiresIn,
+    expiredTimestamp,
     setJwt,
-    setExpiresIn,
-    setIssued,
+    setExpiredTimestamp,
     setIsLoggined,
   } = useAuthStore();
   const [firstName, setFirstName] = useState("");
@@ -73,9 +71,11 @@ export function useAuth() {
       );
 
       if (response) {
-        setJwt(response.token);
-        setExpiresIn(response.expiresIn);
-        setIssued(response.issued);
+        const jwt = response;
+        const decodedJwt = decodeJWT(jwt);
+
+        setJwt(jwt);
+        setExpiredTimestamp(decodedJwt.exp);
         setIsLoggined(true);
 
         router.push("/(tabs)/home");
@@ -89,12 +89,26 @@ export function useAuth() {
 
   const handleLogout = () => {
     useAuthStore.getState().reset();
-    router.replace("/(auth)/login"); // Using replace to prevent returning with hardware back button
+    router.replace("/(auth)/login");
   };
 
+  function decodeJWT(token: string) {
+    const parts = token.split(".");
+    if (parts.length !== 3) {
+      console.error("Invalid JWT format");
+      return;
+    }
+
+    const payload = parts[1];
+    const decodedPayload = JSON.parse(
+      atob(payload.replace(/-/g, "+").replace(/_/g, "/"))
+    );
+
+    return decodedPayload;
+  }
+
   return {
-    issued,
-    expiresIn,
+    expiredTimestamp,
     isLoggined,
     firstName,
     lastName,

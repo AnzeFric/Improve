@@ -46,7 +46,7 @@ export function useUser() {
 
       if (response) {
         resetAllStores();
-        router.replace("/(auth)/login"); // Using replace to prevent returning with hardware back button
+        router.replace("/(auth)/login");
       } else {
         console.log("Failed to delete user");
       }

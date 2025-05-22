@@ -4,29 +4,39 @@ import { useState, useEffect } from "react";
 import LoadingScreen from "@/components/global/LoadingScreen";
 
 export default function EntryScreen() {
-  const { issued, expiresIn, isLoggined, handleLogout } = useAuth();
+  const { expiredTimestamp, isLoggined, handleLogout } = useAuth();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // issued is only set if loggined
-    if (issued) {
-      const now = new Date();
-      const issuedDate = new Date(issued);
-      const msDifference = now.getTime() - issuedDate.getTime();
+    const initialize = async () => {
+      try {
+        if (isLoggined) {
+          const now = Date.now();
+          const tokenExpiresAt = new Date(expiredTimestamp * 1000);
+          const timeRemaining = tokenExpiresAt.getTime() - now;
+          const threshold = 4 * 24 * 60 * 60 * 1000; // 4 days
 
-      // If more than half the token time has been used up
-      if (msDifference > expiresIn / 2) {
-        handleLogout();
+          if (timeRemaining < threshold) {
+            handleLogout();
+            setLoading(false);
+            return;
+          }
+        }
         setLoading(false);
-        return;
+      } catch (error) {
+        console.error("Initialization error:", error);
+        setLoading(false);
       }
-    }
-    setLoading(false);
+    };
+
+    initialize();
   }, []);
 
-  return loading ? (
-    <LoadingScreen />
-  ) : isLoggined ? (
+  if (loading) {
+    return <LoadingScreen />;
+  }
+
+  return isLoggined ? (
     <Redirect href={"/(tabs)/home"} />
   ) : (
     <Redirect href={"/(auth)/login"} />
